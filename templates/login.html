@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>[onshow.title]</title>
+    <link rel="icon" href="[onshow.icon]">
+    <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
+    <script type="text/javascript" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="loginDev"style="float: left;">
+
+    </div>
+    <div class="loginDev" style="background-color:white; float: right;">
+        <div class="content" id="centered">
+            <div class="directive" id="centered">
+
+            </div>
+            <div class="directive" id="buttons">
+                <button onclick="login()">LOGIN</button> <button onclick="register()">REGISTER</button>
+            </div>
+            <div class="directive" id="login">
+
+                <form action="login.php" method="POST" id="centered">
+                    USERNAME: <input type="text" name="usr"><br><br>
+                    PASSWORD: <input type="password" name="pwd"><br>
+                    <input type="submit" value="login"> 
+                </form>
+                <button onclick="showButtons()">BACK</button>
+            </div>
+            <div class="directive" id="register">
+
+                    <form action="register.php" method="POST" id="centered">
+                        USERNAME: <input type="text" name="usrReg"><br><br>
+                        EMAIL: <input type="email" name="usrEmail"><br><br>
+                        PASSWORD: <input type="password" name="pwd"><br><br>
+                        RE-ENTER: <input type="password" name="pwdTwo"><br>
+                        <input type="submit" value="Register">
+                    </form>
+                    <button onclick="showButtons()">BACK</button>
+                </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
