@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>[onshow.title]</title>
+    <link rel="icon" href="[onshow.icon]">
+    <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
+    <script type="text/javascript" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="loginDiv"style="float: left;">
+
+    </div>
+    <div class="loginDiv" style="background-color:white; float: right;">
+        <div class="content" id="centered">
+            <div class="directive" id="centered">
+            </div>
+            <script>checkerror();</script><div class="errormsg" id="error"><p>[onshow.error]</p></div><script>fadeTarget("error");</script>
+            <div class="directive" id="buttons">
+                <button onclick="login()">LOGIN</button> <button onclick="register()">REGISTER</button>
+            </div>
+            <div class="directive" id="login">
+                <form action="login.php" method="POST" id="centered">
+                    <div class="identifier"> USERNAME: </div><div class="textbox"><input type="text" name="usr" required></div><br><br>
+                    <div class="identifier"> PASSWORD: </div><div class="textbox"><input type="password" name="pwd" required></div><br>
+                    <input type="submit" value="login"> 
+                </form>
+                <button onclick="showButtons()">BACK</button>
+            </div>
+            <div class="directive" id="register">
+                    <form action="register.php" method="POST" id="centered">
+                        <div class="identifier">USERNAME: </div><div class="textbox"><input type="text" name="usrReg" required></div><br><br>
+                        <div class="identifier">EMAIL: </div><div class="textbox"><input type="email" name="usrEmail" required></div><br><br>
+                        <div class="identifier">PASSWORD: </div><div class="textbox"><input type="password" name="pwd" required></div><br><br>
+                        <div class="identifier">RE-ENTER: </div><div class="textbox"><input type="password" name="pwdTwo" required></div><br>
+                        <input type="submit" value="Register">
+                    </form>
+                    <button onclick="showButtons()">BACK</button>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
