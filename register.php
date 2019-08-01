@@ -11,6 +11,10 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $error = "";
 
+// if(isset($_SESSION['username']))
+// {
+//     header("location: home.php");
+// }
 
 $usr = $_POST['usrReg'];
 $pwd = $_POST['pwd'];
@@ -24,9 +28,9 @@ if($pwd == $_POST['pwdTwo'])
     }
     $sqlquery = "SELECT title, email FROM users";
     $result = mysqli_query($mysqli, $sqlquery);
-    if(mysqli_num_rows($results) > 0)
+    if(mysqli_num_rows($result) > 0)
     {
-        $data = mysqli_fetch($result);
+        $data = mysqli_fetch_assoc($result);
         if($email != $data['email'])
         {
             if($usr != $data['title'])
@@ -46,8 +50,11 @@ if($pwd == $_POST['pwdTwo'])
     }
     else{
         $hash = password_hash($pwd, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (title, email, pwd) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "')";
+        //echo $hash;
+        $sql = "INSERT INTO users (title, email, pwd) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "');";
+        mysqli_query($mysqli, $sql);
         $_SESSION['error'] = "You are now Registered, please sign in :)";
+        $_SESSION['username'] = $usr;
         header("location: index.php");
     }   
 }

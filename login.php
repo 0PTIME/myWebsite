@@ -8,6 +8,11 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $error = "";
 
+// if(isset($_SESSION['username']))
+// {
+//     header("location: home.php");
+// }
+
 $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
@@ -19,7 +24,7 @@ $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
     {
         if($usr != $data['title'])
         {
-            
+
         }
         else {
             $_SESSION['error'] = "ERROR: This username is already taken :(";
