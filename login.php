@@ -15,31 +15,56 @@ if(isset($_SESSION['username']))
 }
 else {
     $_SESSION['error'] = "You were timed out... please log back in!";
-    header("location: login.html");
+    header("location: index.php");
+}
+
+$usr = $_POST['usr'];
+$pwd = $_POST['pwd'];
+if(checkEmail($usr)){
+    $email = $usr;
 }
 
 $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
-    if (!$mysqli) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    $sqlquery = "SELECT title, email FROM users";
-    $result = mysqli_query($mysqli, $sqlquery);
-    $data = mysqli_fetch($result);
-    if($email != $data['email'])
+if (!$mysqli) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sqlquery = "SELECT title, email FROM users";
+$result = mysqli_query($mysqli, $sqlquery);
+if(mysqli_num_rows($result) == 1 )
+{
+    $data = mysqli_fetch_assoc($result);
+    if($email == $data['email'])
     {
-        if($usr != $data['title'])
-        {
+        if (password_verify($pwd, $data['pwd'])){
+            $_SESSION['username'] = $usr;
+            header("location: home.php");
+        }
+    }
+    else if($usr == $data['title'])
+    {
+        if (password_verify($pwd, $data['pwd'])){
+            $_SESSION['username'] = $usr;
+            header("location: home.php");
+        }       
+    }
+}
+else{
+    $_SESSION['error'] = "Huge fucking mistakes man";
+    header("location: index.php");
+}
 
-        }
-        else {
-            $_SESSION['error'] = "ERROR: This username is already taken :(";
-            header("location: index.php");
-        }
+
+
+function checkEmail($email) {
+    $find1 = strpos($email, '@');
+    $find2 = strpos($email, '.');
+    if($find1 !== false && $find2 !== false && $find2 > $find1){
+        return true;
     }
     else {
-        $_SESSION['error'] = "ERROR: This email is already registered in out systems :(";
-        header("location: index.php");
+        return false;
     }
-
+}
+    
 header("location: home.php");
 ?>

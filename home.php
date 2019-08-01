@@ -1,5 +1,6 @@
 <?php
 include_once('tbs_class.php');
+session_set_cookie_params(7200);
 session_start();
 
 $tbs = new clsTinyButStrong;
@@ -11,13 +12,10 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $error = "";
 
-if(isset($_SESSION['username']))
+if(!isset($_SESSION['username']))
 {
-    header("location: home.php");
-}
-else {
     $_SESSION['error'] = "You were timed out... please log back in!";
-    header("location: login.html");
+    header("location: index.php");
 }
 
 $tbs->Show();

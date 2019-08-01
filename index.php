@@ -18,7 +18,6 @@ if(isset($_SESSION['username']))
 }
 else {
     $_SESSION['error'] = "You were timed out... please log back in!";
-    header("location: login.html");
 }
 
 $tbs->Show();

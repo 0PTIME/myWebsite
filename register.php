@@ -18,12 +18,13 @@ if(isset($_SESSION['username']))
 }
 else {
     $_SESSION['error'] = "You were timed out... please log back in!";
-    header("location: login.html");
+    header("location: index.php");
 }
 
 
 $usr = $_POST['usrReg'];
 $pwd = $_POST['pwd'];
+
 $email = $_POST['usrEmail'];
 
 if($pwd == $_POST['pwdTwo'])
@@ -68,7 +69,6 @@ else {
     $_SESSION['error'] = "ERROR: Your passwords didn't match :(";
     header("location: index.php");
 }
-
 
 
 
