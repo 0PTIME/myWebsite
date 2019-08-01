@@ -11,6 +11,14 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $error = "";
 
+if(isset($_SESSION['username']))
+{
+    header("location: home.php");
+}
+else {
+    $_SESSION['error'] = "You were timed out... please log back in!";
+    header("location: login.html");
+}
 
 $tbs->Show();
 ?>
