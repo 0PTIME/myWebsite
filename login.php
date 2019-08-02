@@ -38,32 +38,41 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
     }
     $sqlquery = "SELECT title, email, pwd FROM users WHERE title='" . $usr . "'";
     $result = mysqli_query($mysqli, $sqlquery);
-    if(mysqli_num_rows($result) > 1 )
+    if(mysqli_num_rows($result) == 1)
     {
         $data = mysqli_fetch_assoc($result);
-        print_r($data);
         if($email == $data['email'])
         {
             if (password_verify($pwd, $data['pwd'])){
                 $_SESSION['username'] = $data['title'];
                 header("location: home.php");
             }
+            else{
+                $errors['credentials'] = "Invalid Credentials...";
+                $_SESSION['errors'] = $errors;
+                header("location: index.php");
+            }
         }
-        else if($usr == $data['title'])
+        elseif($usr == $data['title'])
         {
-            echo "user yaes";
             if (password_verify($pwd, $data['pwd'])){
                 $_SESSION['username'] = $data['title'];
                 header("location: home.php");
-            }       
-        }
-        else{
-            $errors['credentials'] = "Invalid Credentials...";
-            $_SESSION['errors'] = $errors;
-            header("location: index.php");
+            }
+            else{
+                $errors['credentials'] = "Invalid Credentials...";
+                $_SESSION['errors'] = $errors;
+                header("location: index.php");
+            }     
         }
     }
+    elseif(mysqli_num_rows($result) == 0){
+        $errors['dberror'] = "There is no account with the submitted credentials";
+        $_SESSION['errors'] = $errors;
+        header("location: index.php");
+    }
     else{
+        echo mysqli_num_rows($result);
         $errors['critical'] = "Huge fucking mistakes man";
         $_SESSION['errors'] = $errors;
         header("location: index.php");

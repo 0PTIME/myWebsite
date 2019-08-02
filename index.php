@@ -17,25 +17,24 @@ if(isset($_SESSION['username']))
 {
     header("location: home.php");
 }
-elseif ($_SESSION['error'] == "Please log back in!"){
-    $sessionERR = "none";
-}
 else{
-    $_SESSION['error'] = "Please log back in!";
+    array_push($errors['sessionERR'], "Please log in...");
 }
-if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
-else { $sessionERR = "none"; }
 
-if(isset($errors['UNKOWN'])) { $error = $errors['UNKOWN']; } else { $error = "none"; logout(); }
-if(isset($errors['title'])) { $error = $errors['title']; } else { $error = "none"; logout(); }
-if(isset($errors['success'])) { $error = $errors['success']; } else { $error = "none"; logout(); }
-if(isset($errors['passwords'])) { $error = $errors['passwords']; } else { $error = "none"; logout(); }
-if(isset($errors['email'])) { $error = $errors['email']; } else { $error = "none"; logout(); }
-if(isset($errors['credentials'])) { $error = $errors['credentials']; }  else { $error = "none"; logout(); }
-if(isset($errors['critical'])) { $error = $errors['critical']; } else { $error = "none"; logout(); }
-if(isset($errors['hahah'])) { $error = $errors['hahah']; } else { $error = "none"; logout(); }
 
-print_r($errors);
+foreach($errors as $key => $value)
+{
+    if(isset($errors[$key])) { $error = $errors[$key]; logout(); }
+}
+// if(isset($errors['UNKOWN'])) { $error = $errors['UNKOWN']; logout(); }
+// if(isset($errors['title'])) { $error = $errors['title']; logout(); }
+// if(isset($errors['success'])) { $error = $errors['success']; logout(); }
+// if(isset($errors['passwords'])) { $error = $errors['passwords']; logout(); }
+// if(isset($errors['email'])) { $error = $errors['email']; logout(); }
+// if(isset($errors['credentials'])) { $error = $errors['credentials']; logout(); }
+// if(isset($errors['critical'])) { $error = $errors['critical']; logout(); }
+// if(isset($errors['hahah'])) { $error = $errors['hahah']; logout(); }
+// if(isset($errors['dberror'])) { $error = $errors['dberror']; logout(); }
 echo $error;
 
 $tbs->Show();

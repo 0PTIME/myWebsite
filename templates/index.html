@@ -18,20 +18,17 @@
         <div class="content" id="centered">
             <div class="directive" id="centered">
             </div>
-            [onshow; block=begin; when [var.sessionERR] != 'none']
-            <div class="errormsg" id="error"><p>[onshow.sessionERR]</p></div><script>fadeTarget("error");</script>
-            [onshow; block=end;]
             [onshow; block=begin; when [var.error] != 'none']
             <div class="errormsg" id="errorTwo"><p>[onshow.error]</p></div><script>fadeTarget("errorTwo");</script>
             [onshow; block=end;]
             <div class="directive" id="buttons">
-                <button onclick="login()">LOGIN</button> <button onclick="register()">REGISTER</button>
+                <button class="fancyButton" onclick="login()">LOGIN</button> <button class="fancyButton" onclick="register()">REGISTER</button>
             </div>
             <div class="directive" id="login">
                 <form action="login.php" method="POST" id="centered">
                     <div class="identifier"> USERNAME: </div><div class="textbox"><input type="text" name="usr" required></div><br><br>
-                    <div class="identifier"> PASSWORD: </div><div class="textbox"><input type="password" name="pwd" required></div><br>
-                    <input type="submit" value="login"> 
+                    <div class="identifier"> PASSWORD: </div><div class="textbox"><input type="password" name="pwd" required><input type="submit" value="login"></div>
+                    
                 </form>
                 <button onclick="showButtons()">BACK</button>
             </div>
@@ -40,8 +37,7 @@
                         <div class="identifier">USERNAME: </div><div class="textbox"><input type="text" name="usrReg" required></div><br><br>
                         <div class="identifier">EMAIL: </div><div class="textbox"><input type="email" name="usrEmail" required></div><br><br>
                         <div class="identifier">PASSWORD: </div><div class="textbox"><input type="password" name="pwd" required></div><br><br>
-                        <div class="identifier">RE-ENTER: </div><div class="textbox"><input type="password" name="pwdTwo" required></div><br>
-                        <input type="submit" value="Register">
+                        <div class="identifier">RE-ENTER: </div><div class="textbox"><input type="password" name="pwdTwo" required><input type="submit" value="Register"></div>
                     </form>
                     <button onclick="showButtons()">BACK</button>
                 </div>

@@ -26,22 +26,25 @@ else{
 if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
 else { $sessionERR = "none"; }
 
-if(isset($_POST['usrReg']) && isset($_POST['pwd'])){
+if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) && isset($_POST['pwdTwo'])){
     $usr = $_POST['usrReg'];
     $pwd = $_POST['pwd'];
     $email = $_POST['usrEmail'];
 
     if($pwd == $_POST['pwdTwo'])
     {        
+        echo $pwd;
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
         $sqlquery = "SELECT title, email FROM users WHERE title='" . $usr . "'";
         $result = mysqli_query($mysqli, $sqlquery);
+        echo "<br>" . mysqli_num_rows($result) . "<br>";
         if(mysqli_num_rows($result) > 0)
         {
             $data = mysqli_fetch_assoc($result);
+            print_r($data);
             if($email != $data['email'])
             {
                 if($usr != $data['title'])
@@ -53,7 +56,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd'])){
                 else {
                     $errors['title'] = "ERROR: This username is already taken :(";
                     $_SESSION['errors'] = $errors;
-                    ("location: index.php");
+                    header("location: index.php");
                 }
             }
             else {
@@ -79,14 +82,10 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd'])){
     }
 }
 else{
-    $errors['hahah'] = "Not Logged in, please log in below";
+    $errors['hahah'] = "Please Enter all the fields";
     $_SESSION['errors'] = $errors;
     header("location: index.php");
 }
-
-
-
-
 
 
 ?>
