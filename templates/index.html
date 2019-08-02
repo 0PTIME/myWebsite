@@ -18,7 +18,12 @@
         <div class="content" id="centered">
             <div class="directive" id="centered">
             </div>
-            <script>checkerror();</script><div class="errormsg" id="error"><p>[onshow.error]</p></div><script>fadeTarget("error");</script>
+            [onshow; block=begin; when [var.sessionERR] != 'none']
+            <div class="errormsg" id="error"><p>[onshow.sessionERR]</p></div><script>fadeTarget("error");</script>
+            [onshow; block=end;]
+            [onshow; block=begin; when [var.error] != 'none']
+            <div class="errormsg" id="errorTwo"><p>[onshow.error]</p></div><script>fadeTarget("errorTwo");</script>
+            [onshow; block=end;]
             <div class="directive" id="buttons">
                 <button onclick="login()">LOGIN</button> <button onclick="register()">REGISTER</button>
             </div>

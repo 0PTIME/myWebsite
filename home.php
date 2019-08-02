@@ -8,13 +8,13 @@ $tbs->LoadTemplate('templates/home.html');
 
 $icon = "icon.png";
 $style = "style.css";
-$title = "Yapper. Speak, Shake, Fetch.";
+$title = "Yapper. Go Home";
 $font = "Play&display=swap";
 $error = "";
 
 if(!isset($_SESSION['username']))
 {
-    $_SESSION['error'] = "You were timed out... please log back in!";
+    $_SESSION['error'] = "Please log back in!";
     header("location: index.php");
 }
 

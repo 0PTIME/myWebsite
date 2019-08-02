@@ -37,19 +37,13 @@ function fadeTarget(target){
         }
     }, 20);
 }
-function checkerror(){
-    if([onshow.error] == "")
+function checkerror(error){
+    if(error == "")
     {
-        var errorpwd = document.getElementById("errorpwd");
-        // var errortitle = document.getElementById("errortitle");
-        // var erroremail = document.getElementById("erroremail")
+        var errorpwd = document.getElementById("error");
         errorpwd.style.display = "none";
-        // errortitle.style.display = "none";
-        // erroremail.style.display = "none";
     }
-    else{
+    if(error != ""){
         errorpwd.style.display = "block";
-        // errortitle.style.display = "none";
-        // erroremail.style.display = "none";
     }
 }

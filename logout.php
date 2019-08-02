@@ -7,9 +7,11 @@ $icon = "icon.png";
 $style = "style.css";
 $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
-$error = "";
+$error = "none";
 
-unset($_SESSION['username']);
+
+session_unset();
+session_destroy();
 header("location: index.php");
 
 ?>

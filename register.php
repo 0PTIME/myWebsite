@@ -4,22 +4,24 @@ session_set_cookie_params(7200);
 session_start();
 
 $tbs = new clsTinyButStrong;
-$tbs->LoadTemplate('templates/register.html');
+$tbs->LoadTemplate('templates/index.html');
 
 $icon = "icon.png";
 $style = "style.css";
 $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
-$error = "";
+$error = "none";
 
 if(isset($_SESSION['username']))
 {
     header("location: home.php");
 }
 else {
-    $_SESSION['error'] = "You were timed out... please log back in!";
+    $_SESSION['error'] = "Please log back in!";
     header("location: index.php");
 }
+if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
+else { $sessionERR = "none"; }
 
 
 $usr = $_POST['usrReg'];
@@ -42,17 +44,17 @@ if($pwd == $_POST['pwdTwo'])
         {
             if($usr != $data['title'])
             {
-                $_SESSION['error'] = "ERROR: UNKOWN ERROR :(";
-                header("location: index.php");
+                $error = "ERROR: UNKOWN ERROR :(";
+                $tbs->Show();
             }
             else {
-                $_SESSION['error'] = "ERROR: This username is already taken :(";
-                header("location: index.php");
+                $error = "ERROR: This username is already taken :(";
+                $tbs->Show();
             }
         }
         else {
-            $_SESSION['error'] = "ERROR: This email is already registered in our systems :(";
-            header("location: index.php");
+            $error = "ERROR: This email is already registered in our systems :(";
+            $tbs->Show();
         }
     }
     else{
@@ -60,15 +62,17 @@ if($pwd == $_POST['pwdTwo'])
         //echo $hash;
         $sql = "INSERT INTO users (title, email, pwd) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "');";
         mysqli_query($mysqli, $sql);
-        $_SESSION['error'] = "You are now Registered, please sign in :)";
-        $_SESSION['username'] = $usr;
-        header("location: index.php");
+        $error = "You are now Registered, please sign in :)";
+        // $_SESSION['username'] = $data['title'];
+        // header("location: index.php");
     }   
 }
 else {
-    $_SESSION['error'] = "ERROR: Your passwords didn't match :(";
-    header("location: index.php");
+    $error = "ERROR: Your passwords didn't match :(";
+    $tbs->Show();
 }
+
+$sessionERR = "none";
 
 
 
