@@ -1,5 +1,6 @@
 <?php
 include_once('tbs_class.php');
+include_once('variousfunctions.php');
 session_set_cookie_params(7200);
 session_start();
 

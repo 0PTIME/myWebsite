@@ -1,5 +1,6 @@
 <?php
 include_once('tbs_class.php');
+include_once('variousfunctions.php');
 session_set_cookie_params(7200);
 session_start();
 
@@ -10,7 +11,7 @@ $style = "style.css";
 $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $errors = $_SESSION['errors'];
-$error = "";
+$error = "none";
 
 if(isset($_SESSION['username']))
 {
@@ -25,14 +26,17 @@ else{
 if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
 else { $sessionERR = "none"; }
 
-if(isset($errors['UNKOWN'])) $error = $errors['UNKOWN'];
-if(isset($errors['title'])) $error = $errors['title'];
-if(isset($errors['success']))$error = $errors['success'];
-if(isset($errors['passwords']))$error = $errors['passwords'];
-if(isset($errors['email']))$error = $errors['email'];
-if(isset($errors['credentials']))$error = $errors['credentials'];
-if(isset($errors['critical']))$error = $errors['critical'];
-if(isset($errors['hahah']))$error = $errors['hahah'];
+if(isset($errors['UNKOWN'])) { $error = $errors['UNKOWN']; } else { $error = "none"; logout(); }
+if(isset($errors['title'])) { $error = $errors['title']; } else { $error = "none"; logout(); }
+if(isset($errors['success'])) { $error = $errors['success']; } else { $error = "none"; logout(); }
+if(isset($errors['passwords'])) { $error = $errors['passwords']; } else { $error = "none"; logout(); }
+if(isset($errors['email'])) { $error = $errors['email']; } else { $error = "none"; logout(); }
+if(isset($errors['credentials'])) { $error = $errors['credentials']; }  else { $error = "none"; logout(); }
+if(isset($errors['critical'])) { $error = $errors['critical']; } else { $error = "none"; logout(); }
+if(isset($errors['hahah'])) { $error = $errors['hahah']; } else { $error = "none"; logout(); }
+
+print_r($errors);
+echo $error;
 
 $tbs->Show();
 ?>

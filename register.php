@@ -1,5 +1,6 @@
 <?php
 include_once('tbs_class.php');
+include_once('variousfunctions.php');
 session_set_cookie_params(7200);
 session_start();
 
@@ -25,14 +26,13 @@ else{
 if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
 else { $sessionERR = "none"; }
 
-if(isset($_POST['usr']) && isset($_POST['pwd'])){
+if(isset($_POST['usrReg']) && isset($_POST['pwd'])){
     $usr = $_POST['usrReg'];
     $pwd = $_POST['pwd'];
     $email = $_POST['usrEmail'];
 
     if($pwd == $_POST['pwdTwo'])
-    {
-        
+    {        
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
@@ -42,12 +42,10 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
         if(mysqli_num_rows($result) > 0)
         {
             $data = mysqli_fetch_assoc($result);
-            print_r($data);
             if($email != $data['email'])
             {
                 if($usr != $data['title'])
                 {
-                    echo $usr;
                     $errors['UNKOWN'] = "ERROR: UNKOWN ERROR :(";
                     $_SESSION['errors'] = $errors;
                     header("location: index.php");
@@ -76,13 +74,12 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
     }
     else {
         $errors['passwords'] = "ERROR: Your passwords didn't match :(";
-        print_r($errors);
         $_SESSION['errors'] = $errors;
-        //header("location: index.php");
+        header("location: index.php");
     }
 }
 else{
-    $errors['hahah'] = "You think I'm that dumb????";
+    $errors['hahah'] = "Not Logged in, please log in below";
     $_SESSION['errors'] = $errors;
     header("location: index.php");
 }

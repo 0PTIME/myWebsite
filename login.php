@@ -1,5 +1,6 @@
 <?php
 include_once('tbs_class.php');
+include_once('variousfunctions.php');
 session_set_cookie_params(7200);
 session_start();
 
@@ -37,9 +38,8 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
     }
     $sqlquery = "SELECT title, email, pwd FROM users WHERE title='" . $usr . "'";
     $result = mysqli_query($mysqli, $sqlquery);
-    if(mysqli_num_rows($result) == 1 )
+    if(mysqli_num_rows($result) > 1 )
     {
-        echo "the query works :)";
         $data = mysqli_fetch_assoc($result);
         print_r($data);
         if($email == $data['email'])
@@ -70,23 +70,11 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
     }
 }
 else{
-    $errors['hahah'] = "You think I'm that dumb????";
+    $errors['hahah'] = "Not Logged in, please log in below";
     $_SESSION['errors'] = $errors;
     header("location: index.php");
 }
 
-
-
-function checkEmail($email) {
-    $find1 = strpos($email, '@');
-    $find2 = strpos($email, '.');
-    if($find1 !== false && $find2 !== false && $find2 > $find1){
-        return true;
-    }
-    else {
-        return false;
-    }
-}
     
 
 ?>
