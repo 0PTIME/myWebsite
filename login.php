@@ -16,54 +16,63 @@ if(isset($_SESSION['username']))
 {
     header("location: home.php");
 }
-else {
+elseif($_SESSION['error'] == "Please log back in!"){
+    $sessionERR = "none";
+}
+else{
     $_SESSION['error'] = "Please log back in!";
-    header("location: index.php");
 }
 if(isset($_SESSION['error'])) { $sessionERR = $_SESSION['error']; }
 else { $sessionERR = "none"; }
 
-$usr = $_POST['usr'];
-$pwd = $_POST['pwd'];
-if(checkEmail($usr)){
-    $email = $usr;
-}
-
-$mysqli = mysqli_connect("localhost", "website", "data", "website_users");
-if (!$mysqli) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-$sqlquery = "SELECT title, email FROM users";
-$result = mysqli_query($mysqli, $sqlquery);
-if(mysqli_num_rows($result) == 1 )
-{
-    echo "the query works :)";
-    $data = mysqli_fetch_assoc($result);
-    print_r($data);
-    if($email == $data['email'])
+if(isset($_POST['usr']) && isset($_POST['pwd'])){
+    $usr = $_POST['usr'];
+    $pwd = $_POST['pwd'];
+    if(checkEmail($usr)){
+        $email = $usr;
+    }
+    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $sqlquery = "SELECT title, email, pwd FROM users WHERE title='" . $usr . "'";
+    $result = mysqli_query($mysqli, $sqlquery);
+    if(mysqli_num_rows($result) == 1 )
     {
-        if (password_verify($pwd, $data['pwd'])){
-            $_SESSION['username'] = $data['title'];
-            echo "You are now logged in via email";
-            //header("location: home.php");
+        echo "the query works :)";
+        $data = mysqli_fetch_assoc($result);
+        print_r($data);
+        if($email == $data['email'])
+        {
+            if (password_verify($pwd, $data['pwd'])){
+                $_SESSION['username'] = $data['title'];
+                header("location: home.php");
+            }
+        }
+        else if($usr == $data['title'])
+        {
+            echo "user yaes";
+            if (password_verify($pwd, $data['pwd'])){
+                $_SESSION['username'] = $data['title'];
+                header("location: home.php");
+            }       
+        }
+        else{
+            $errors['credentials'] = "Invalid Credentials...";
+            $_SESSION['errors'] = $errors;
+            header("location: index.php");
         }
     }
-    else if($usr == $data['title'])
-    {
-        if (password_verify($pwd, $data['pwd'])){
-            $_SESSION['username'] = $data['title'];
-            echo "You are now logged in via username";
-            //header("location: home.php");
-        }       
-    }
     else{
-        $error = "Invalid Credentials...";
-        $tbs->Show();
+        $errors['critical'] = "Huge fucking mistakes man";
+        $_SESSION['errors'] = $errors;
+        header("location: index.php");
     }
 }
 else{
-    $error = "Huge fucking mistakes man";
-    $tbs->Show();
+    $errors['hahah'] = "You think I'm that dumb????";
+    $_SESSION['errors'] = $errors;
+    header("location: index.php");
 }
 
 
@@ -79,5 +88,5 @@ function checkEmail($email) {
     }
 }
     
-$sessionERR = "none";
+
 ?>
