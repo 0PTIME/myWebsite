@@ -73,7 +73,8 @@ div{
     border-radius: 8px;
 }
 .fancyButton {
-    margin-top: 10%;
+    width: 30%;
+    height: 25px;
 }
 
 

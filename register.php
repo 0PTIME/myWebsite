@@ -32,8 +32,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
     $email = $_POST['usrEmail'];
 
     if($pwd == $_POST['pwdTwo'])
-    {        
-        echo $pwd;
+    {
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
@@ -41,39 +40,45 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
         $sqlquery = "SELECT title, email FROM users WHERE title='" . $usr . "'";
         $result = mysqli_query($mysqli, $sqlquery);
         echo "<br>" . mysqli_num_rows($result) . "<br>";
-        if(mysqli_num_rows($result) > 0)
+        if(mysqli_num_rows($result) == 0)
         {
-            $data = mysqli_fetch_assoc($result);
-            print_r($data);
-            if($email != $data['email'])
-            {
-                if($usr != $data['title'])
-                {
-                    $errors['UNKOWN'] = "ERROR: UNKOWN ERROR :(";
-                    $_SESSION['errors'] = $errors;
-                    header("location: index.php");
-                }
-                else {
-                    $errors['title'] = "ERROR: This username is already taken :(";
-                    $_SESSION['errors'] = $errors;
-                    header("location: index.php");
-                }
-            }
-            else {
-                $errors['email'] = "ERROR: This email is already registered in our systems :(";
-                $_SESSION['errors'] = $errors;
-                header("location: index.php");
-            }
-        }
-        else{
             $hash = password_hash($pwd, PASSWORD_DEFAULT);        
             $sql = "INSERT INTO users (title, email, pwd) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "');";
             mysqli_query($mysqli, $sql);
             $errors['success'] = "You are now Registered, please sign in :)";
             $_SESSION['errors'] = $errors;
-            $_SESSION['username'] = $data['title'];
+            $_SESSION['username'] = $usr;
             header("location: index.php");
-        }   
+            $data = mysqli_fetch_assoc($result);
+            print_r($data);
+        }
+        elseif(mysqli_num_rows($result) == 1)
+        {
+            if($email == $data['email'])
+            {
+                $errors['email'] = "ERROR: This email is already registered in our systems :(";
+                $_SESSION['errors'] = $errors;
+                header("location: index.php");
+            }
+            if($usr == $data['title'])
+            {
+                $errors['title'] = "ERROR: This username is already taken :(";
+                $_SESSION['errors'] = $errors;
+                header("location: index.php");
+            }
+            else
+            {
+                $errors['UNKOWN'] = "ERROR: UNKOWN ERROR :(";
+                $_SESSION['errors'] = $errors;
+                header("location: index.php");
+            }
+        }
+        else
+        {
+            $errors['UNKOWN'] = "ERROR: Too many rows :(";
+            $_SESSION['errors'] = $errors;
+            header("location: index.php");
+        } 
     }
     else {
         $errors['passwords'] = "ERROR: Your passwords didn't match :(";
@@ -81,7 +86,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
         header("location: index.php");
     }
 }
-else{
+else {
     $errors['hahah'] = "Please Enter all the fields";
     $_SESSION['errors'] = $errors;
     header("location: index.php");
