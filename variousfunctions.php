@@ -20,6 +20,28 @@ function checkEmail($email) {
         return false;
     }
 }
+function getTags($tweet){
+    $id = strpos($tweet, '#');
+    if($id == false) { return null; }
+    else{
+        $tags = "";
+        $char = str_split($tweet);
+        $len = count($char);    
+        for($i = 0; $i < $len; $i++){
+            if($char[$i] == '#'){
+                while($char[$i] != " ")
+                {
+                    $tags = $tags . $char[$i];
+                    $i++;
+                }
+            }
+            $tags = $tags + ".";
+        }
+
+    }
+    return $tags;
+
+}
 
 
 

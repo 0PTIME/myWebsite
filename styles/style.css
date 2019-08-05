@@ -77,6 +77,17 @@ div{
     width: 30%;
     height: 25px;
 }
+.feedLeft{
+    width: 30%;
+    height: 100%;
+    display: inline-block;
+    text-align: right;
+}
+.feed {
+    width: 600px;
+    height: 100%;
+    display: inline-block;
+}
 
 
 

@@ -8,11 +8,28 @@
     <link rel="icon" href="[onshow.icon]">
     <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
+    <script type="text/javascript" src="js/scripts.js"></script>
 </head>
 <body>
-    <form action="logout.php"><button>LOGOUT</button></form>
+    <div class="feedLeft">
+        <form action="logout.php"><button>LOGOUT</button></form>
+        <button onclick="darkMode()">LIGHTSWITCH</button>
+    
+        <h1>HEY, [onshow.username] ツ</h1>
 
-    <h1>HEY, [onshow.username] ツ</h1>
+    </div>
+    <div class="feed">
+        <div class="makeYap">
+            <form action="yap.php" method="POST">
+                <input type="text" class="yapContent" name="yap">
+                <input type="submit" value="Yap">
+            </form>
+        </div>
+
+    </div>
+    <div class="feedRight">
+
+    </div>
     
 </body>
 </html>

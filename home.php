@@ -11,7 +11,7 @@ $icon = "icon.png";
 $style = "style.css";
 $title = "Yapper. Go Home";
 $font = "Play&display=swap";
-$error = "";
+$error = "none";
 /******** SCUFFED WAY OF KEEPING THE USER LOGGED IN ************/
 if(!isset($_SESSION['username']))
 {
