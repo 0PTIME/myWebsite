@@ -6,16 +6,17 @@ session_start();
 
 $tbs = new clsTinyButStrong;
 $tbs->LoadTemplate('templates/home.html');
-
+/******** VARIABLES FOR TBS ************/
 $icon = "icon.png";
 $style = "style.css";
 $title = "Yapper. Go Home";
 $font = "Play&display=swap";
 $error = "";
-
+/******** SCUFFED WAY OF KEEPING THE USER LOGGED IN ************/
 if(!isset($_SESSION['username']))
 {
-    $_SESSION['error'] = "Please log back in!";
+    $errors['timeout'] = "Please log in...";
+    $_SESSION['errors'] = $errors;
     header("location: index.php");
 }
 

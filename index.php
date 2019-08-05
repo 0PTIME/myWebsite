@@ -6,35 +6,27 @@ session_start();
 
 $tbs = new clsTinyButStrong;
 $tbs->LoadTemplate('templates/index.html');
+/******** VARIABLES FOR TBS ************/
 $icon = "icon.png";
 $style = "style.css";
 $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $errors = $_SESSION['errors'];
 $error = "none";
-
+/******** SCUFFED WAY OF KEEPING THE USER LOGGED IN ************/
 if(isset($_SESSION['username']))
 {
     header("location: home.php");
 }
-else{
-    array_push($errors['sessionERR'], "Please log in...");
-}
+// else{
+//     array_push($errors['sessionERR'], "Please log in...");
+// }
 
-
+// run a loop that checks if there are any errors and if there are any set it to a local variable
 foreach($errors as $key => $value)
 {
     if(isset($errors[$key])) { $error = $errors[$key]; logout(); }
 }
-// if(isset($errors['UNKOWN'])) { $error = $errors['UNKOWN']; logout(); }
-// if(isset($errors['title'])) { $error = $errors['title']; logout(); }
-// if(isset($errors['success'])) { $error = $errors['success']; logout(); }
-// if(isset($errors['passwords'])) { $error = $errors['passwords']; logout(); }
-// if(isset($errors['email'])) { $error = $errors['email']; logout(); }
-// if(isset($errors['credentials'])) { $error = $errors['credentials']; logout(); }
-// if(isset($errors['critical'])) { $error = $errors['critical']; logout(); }
-// if(isset($errors['hahah'])) { $error = $errors['hahah']; logout(); }
-// if(isset($errors['dberror'])) { $error = $errors['dberror']; logout(); }
 echo $error;
 
 $tbs->Show();
