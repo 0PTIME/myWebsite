@@ -26,12 +26,12 @@ div{
     display: inline-block;
 }
 .content {
-    width: 80%;
-    height: 90%;
     margin-top: 5%;
     margin-bottom: 5%;
     margin-right: 10%;
     margin-left: 10%;
+    width: 80%;
+    height: 90%;
     border: 3px solid rgb(55, 55, 235);
     border-radius: 9px;
 }
@@ -59,16 +59,17 @@ div{
     text-align: left;
 }
 .errormsg {
+    display: block;
     margin: 2%;
     margin-right: 15%;
     margin-left: 15%;    
     width: 70%;
-    height: 20px;
+    height: 2vh;
     text-align: center;
     background-color: red;
     font: bold;
     text-transform: uppercase;
-    font-size: 17px;
+    font-size: 14px;
     border: 1px solid black;
     border-radius: 8px;
 }
@@ -83,12 +84,10 @@ div{
 
 
 #error{
-    display: none;
     opacity: 1;
 }
 #errorTwo{
-    opacity: 2;
-    display: none;
+    opacity: 1;
 }
 #centered{
     margin: 5%;

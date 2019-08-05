@@ -18,6 +18,7 @@ if(!isset($_SESSION['username']))
     $errors['timeout'] = "Please log in...";
     $_SESSION['errors'] = $errors;
     header("location: index.php");
+    exit();
 }
 
 $username = $_SESSION['username'];

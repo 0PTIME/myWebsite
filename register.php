@@ -17,6 +17,7 @@ $error = "none";
 if(isset($_SESSION['username']))
 {
     header("location: home.php");
+    exit();    
 }
 
 // checks if all the data from post has been gathered
@@ -24,10 +25,11 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
     // sets some local variables
     $usr = $_POST['usrReg'];
     $pwd = $_POST['pwd'];
+    $pwdTwo = $_POST['pwdTwo'];
     $email = $_POST['usrEmail'];
 
     // first checks if the passwords match before proceeding
-    if($pwd == $_POST['pwdTwo'])
+    if($pwd == $pwdTwo)
     {
         // connect to the database and fail if connection fails
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
@@ -44,9 +46,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
             $sql = "INSERT INTO users (title, email, pwd) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "');";
             mysqli_query($mysqli, $sql);
             $errors['success'] = "You are now Registered, please sign in :)";
-            $_SESSION['errors'] = $errors;
             $_SESSION['username'] = $usr;
-            header("location: index.php");
         }
         // if there is a result from the query check what error to return to the user
         elseif(mysqli_num_rows($result) == 1)
@@ -57,42 +57,33 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
             if($email == $data['email'])
             {
                 $errors['email'] = "ERROR: This email is already registered in our systems :(";
-                $_SESSION['errors'] = $errors;
-                header("location: index.php");
             }
             // test if the username they added is in the database
             elseif($usr == $data['title'])
             {
                 $errors['title'] = "ERROR: This username is already taken :(";
-                $_SESSION['errors'] = $errors;
-                header("location: index.php");
             }
             // if something else went wrong then fuck man
             elseif($usr != $data['title'] && $email != $data['email'])
             {
                 $errors['UNKOWN'] = "ERROR: UNKNOWN ERROR :(";
-                $_SESSION['errors'] = $errors;
-                header("location: index.php");
             }
         }
         else // error msg for if the query had more that 1 row
         {
-            $errors['badquery'] = "ERROR: Too many rows :(";
-            $_SESSION['errors'] = $errors;
-            header("location: index.php");
+            $errors['badquery'] = "ERROR: Bad stuff be a happen'n :(";
         }
     }
     else { // error msg for if the passwords that they entered didn't match eachother
-        $errors['passwords'] = "ERROR: Your passwords didn't match :(";
-        $_SESSION['errors'] = $errors;
-        header("location: index.php");
+        $errors['pwderror'] = "ERROR: Your passwords didn't match :(";
     }
 }
 else { // error msg for is they either didn't enter all the field or they went to the wrong url
     $errors['hahah'] = "Please Login or Register below";
-    $_SESSION['errors'] = $errors;
-    header("location: index.php");
 }
+
+$_SESSION['errors'] = $errors;
+header("location: index.php");
 
 // debugging tools
 // echo "the query result: ";

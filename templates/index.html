@@ -18,7 +18,7 @@
         <div class="content" id="centered">
             <div class="directive" id="centered">
             </div>
-            [onshow; block=begin; when [var.error] != 'none']
+            [onshow; block=begin; when [var.iserror] == 1]
             <div class="errormsg" id="errorTwo"><p>[onshow.error]</p></div><script>fadeTarget("errorTwo");</script>
             [onshow; block=end;]
             <div class="directive" id="buttons">

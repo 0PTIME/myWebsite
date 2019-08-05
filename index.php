@@ -17,6 +17,7 @@ $error = "none";
 if(isset($_SESSION['username']))
 {
     header("location: home.php");
+    exit();
 }
 // else{
 //     array_push($errors['sessionERR'], "Please log in...");
@@ -27,7 +28,14 @@ foreach($errors as $key => $value)
 {
     if(isset($errors[$key])) { $error = $errors[$key]; logout(); }
 }
-echo $error;
 
+if($error != 'none')
+{
+    $iserror = true;
+}
+else
+{
+    $iserror = false;
+}
 $tbs->Show();
 ?>

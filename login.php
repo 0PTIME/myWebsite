@@ -16,6 +16,7 @@ $error = "none";
 if(isset($_SESSION['username']))
 {
     header("location: home.php");
+    exit();
 }
 
 // checks if all the fields were entered
@@ -51,8 +52,6 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
                 }
                 else{
                     $errors['credentials'] = "Invalid Credentials...";
-                    $_SESSION['errors'] = $errors;
-                    header("location: index.php");
                 }
             }
         }
@@ -67,8 +66,6 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
                 }
                 else{
                     $errors['credentials'] = "Invalid Credentials...";
-                    $_SESSION['errors'] = $errors;
-                    header("location: index.php");
                 } 
             }
 
@@ -76,21 +73,17 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
     } //  error msg for if the query pulls no results meaning that the username and password is no in the system
     elseif(mysqli_num_rows($result) == 0){
         $errors['dberror'] = "There is no account with the entered credentials";
-        $_SESSION['errors'] = $errors;
-        header("location: index.php");
     } 
     else{ // error msg for if there is more than 1 row which there should never be
-        echo mysqli_num_rows($result);
         $errors['critical'] = "Huge fucking mistakes man";
-        $_SESSION['errors'] = $errors;
-        header("location: index.php");
     }
 }
 else{
     $errors['hahah'] = "Please Login or Register below";
-    $_SESSION['errors'] = $errors;
-    header("location: index.php");
 }
+
+$_SESSION['errors'] = $errors;
+header("location: index.php");
 
     
 
