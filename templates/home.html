@@ -16,6 +16,9 @@
         <button onclick="darkMode()">LIGHTSWITCH</button>
     
         <h1>HEY, [onshow.username] ツ</h1>
+        <p class="info">[onshow.description]</p>
+        <p class="info">Account Creation: [onshow.dateAdded]</p>
+        <p class="info">followers [onshow.followers]</p>
 
     </div>
     <div class="feed">
@@ -25,10 +28,15 @@
                 <input type="submit" value="Yap">
             </form>
         </div>
+        <div class="homesearch">
+                <form action="search.php" method="GET">
+                    <input type="text" class="searchBar" name="keyword">
+                    <input type="submit" value="Search">
+                </form>
+            </div>
 
     </div>
     <div class="feedRight">
-
     </div>
     
 </body>

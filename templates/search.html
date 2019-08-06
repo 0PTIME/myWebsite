@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>[onshow.title]</title>
+    <link rel="icon" href="[onshow.icon]">
+    <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
+    <script type="text/javascript" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="feedLeft">
+        <form action="logout.php"><button>LOGOUT</button></form>
+        <form action="home.php"><button>HOME</button></form>
+        <button onclick="darkMode()">LIGHTSWITCH</button>
+    
+        <h1>HEY, [onshow.username] ツ</h1>
+
+    </div>
+    <div class="feed">
+        <div class="searchedFor">
+            <p>'[onshow.search]'</p>
+            [onshow; block=begin; when [var.searchisuser] == 1]
+            <div class="searchedUser">
+                <p class="info">[onshow.searchedUser]</p>
+                <p class="info">[onshow.searchedDescription]</p>
+                <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
+                <p class="info">followers [onshow.searchedFollowers]</p>
+                <form action="follow.php" method="GET"><input type="submit" name="keyword" value="[onshow.searchedUser]"></button></form>
+            
+            </div>
+            [onshow; block=end;]
+            [onshow; block=begin; when [var.searchisuser] == 0]
+            <div class="searchedUser">
+                    <p class="info">I haven't built anything other than user searches yet :)</p>
+            
+            </div>
+            [onshow; block=end;]
+        </div>
+
+    </div>
+    <div class="feedRight">
+    </div>
+    
+</body>
+</html>

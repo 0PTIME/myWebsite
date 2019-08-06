@@ -16,11 +16,12 @@ if(isset($_POST['yap'])){
     $usr = $_SESSION['username'];
     $tweet = $_POST['yap'];
     $tags = getTags($tweet);
-    $mysqli = mysqli_connect("localhost", "tweets", "tweets", "tweets");
+    $ats = getAts($tweet);
+    $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER");
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $sql = "INSERT INTO tweets (ID, content, tags) VALUES ('" . $usr . "', '" . $tweet . "', '" . $tags . "');";
+    $sql = "INSERT INTO tweets (ID, content, tags, ats) VALUES ('" . $usr . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "');";
     mysqli_query($mysqli, $sql);
 }
 

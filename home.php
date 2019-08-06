@@ -20,8 +20,23 @@ if(!isset($_SESSION['username']))
     header("location: index.php");
     exit();
 }
+else {
+    $username = $_SESSION['username'];
+    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $sqlquery = "SELECT title, date_added, description, followers FROM users WHERE title='" . $username . "'";
+    $result = mysqli_query($mysqli, $sqlquery);
+    if(mysqli_num_rows($result) == 1){
+        $data = mysqli_fetch_assoc($result);
+        $description = $data['description'];
+        if($description == NULL){ $description = "This User has no set Description"; }
+        $followers = $data['followers'];
+        $dateAdded = $data['date_added'];
+    }
+}
 
-$username = $_SESSION['username'];
 
 $tbs->Show();
 ?>
