@@ -48,11 +48,11 @@ function checkerror(error){
     }
 }
 function darkMode(){
-    if(document.body.style.background === "#1da1f2"){
+    if(document.body.style.background == "#1da1f2"){
         document.body.style.background = "#1a1e2e";
         document.body.style.color = "#c7d2ff";
     }
-    if(document.body.style.background === "#1a1e2e"){
+    if(document.body.style.background == "#1a1e2e"){
         document.body.style.background = "#1da1f2";
         document.body.style.color = "black";
     }

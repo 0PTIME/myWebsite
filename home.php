@@ -31,7 +31,7 @@ else {
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
         $description = $data['description'];
-        if($description == NULL){ $description = "This User has no set Description"; }
+        if($description == NULL){ $description = ":)"; }
         $followers = $data['followers'];
         $dateAdded = $data['date_added'];
     }

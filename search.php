@@ -28,7 +28,7 @@ if(isset($_GET['keyword'])){
     $char = str_split($search);
     if($char[0] == '#'){
         $searchisuser = false;
-        
+        $search = "I haven't added the functionality of searching for tags";
     }
     else {
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
@@ -43,7 +43,7 @@ if(isset($_GET['keyword'])){
             $data = mysqli_fetch_assoc($result);
             $searchedUser = $data['title'];
             $searchedDescription = $data['description'];
-            if($searchedDescription == NULL){ $searchedDescription = "This User has no set Description"; }
+            if($searchedDescription == NULL){ $searchedDescription = ":)"; }
             $searchedFollowers = $data['followers'];
             $searchedDateAdded = $data['date_added'];
         }

@@ -20,30 +20,36 @@ if(isset($_GET['keyword'])){
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $sqlqueryfollow = "SELECT follows FROM users WHERE title='" . $username . "'";
+    $sqlqueryaddFollow = "SELECT follows FROM users WHERE title='" . $username . "'";
     $sqlqueryupdateCount = "SELECT followers FROM users WHERE title='" . $search . "'";
-    $resultFollow = mysqli_query($mysqli, $sqlqueryfollow);
+    $resultFollow = mysqli_query($mysqli, $sqlqueryaddFollow);
     $resultUpdate = mysqli_query($mysqli, $sqlqueryupdateCount);
     if(mysqli_num_rows($resultFollow) == 1 && mysqli_num_rows($resultUpdate))
     {
         $data = mysqli_fetch_assoc($resultFollow);
-        $dataTwo = mysqli_fetch_assoc($resultUpdate);
+        $dataTwo = mysqli_fetch_assoc($resultUpdate);        
         $currentFollows = $data['follows'];
-        $currentFollowerCount = $data['followers'];
+        $currentFollowerCount = $dataTwo['followers'];
         if(checkFollows($currentFollows, $search)){
-            $follows = addFollow($currentFollows, $search);
+            $currentFollows = addFollow($currentFollows, $search);
             $currentFollowerCount += 1;
         }
         else{
-            $follows = remFollow($currentFollows, $search);
+            $currentFollows = remFollow($currentFollows, $search);
             $currentFollowerCount -= 1;
         }
-        $queryFollow = "UPDATE user SET follows='" . $follows . "' WHERE title='" . $username . "'";
-        $queryUpdate = "UPDATE user SET followers='" . $currentFollowerCount . "' WHERE title='" . $search . "'";
+        echo $currentFollowerCount;
+        echo $currentFollows;
+
+        $queryFollow = "UPDATE users SET follows='" . $currentFollows . "' WHERE title='" . $username . "'";
+        $queryUpdate = "UPDATE users SET followers='" . $currentFollowerCount . "' WHERE title='" . $search . "'";
+        echo $queryUpdate;
+        echo $queryFollow;
         mysqli_query($mysqli, $queryFollow);
         mysqli_query($mysqli, $queryUpdate);
-    }        
-    //header("location: search.php?keyword=" . $search);
+    }       
+    header("location: search.php?keyword=" . $search);
+    exit();
 }
-//header("location: home.php");
+header("location: home.php");
 ?>

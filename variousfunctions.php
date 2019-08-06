@@ -64,7 +64,7 @@ function getAts($tweet){
     }
 }
 function addFollow($currentFollows, $adding){
-    if($currentFollows == NULL){
+    if(!isset($currentFollows)){
         $currentFollows = $adding . ".";
     }
     else{
@@ -78,8 +78,11 @@ function remFollow($currentFollows, $remmoving){
     }
     return $currentFollows;
 }
-function checkFollow($currentFollows, $check){
-    if(strpos($currentFollows, $check) != false){ return false; }
+function checkFollows($currentFollows, $check){
+    if(isset($currentFollows)){
+        if(strpos($currentFollows, $check) != true){ return true; }
+        else { return false; }
+    }
     else { return true; }
 }
 
