@@ -17,13 +17,17 @@ if(isset($_POST['yap'])){
     $tweet = $_POST['yap'];
     $tags = getTags($tweet);
     $ats = getAts($tweet);
+    $identifier = uniqid("tweet");
     $likes = 0;
     $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER");
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $sql = "INSERT INTO tweets (ID, content, tags, ats, likes) VALUES ('" . $usr . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "');";
+    $sql = "INSERT INTO tweets (ID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
     mysqli_query($mysqli, $sql);
+    if($ats != ""){
+        notifiyMentions($ats, $identifier);
+    }
 }
 
 

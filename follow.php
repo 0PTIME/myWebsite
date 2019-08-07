@@ -25,7 +25,7 @@ if(isset($_GET['keyword'])){
         $sqlqueryupdateCount = "SELECT followers FROM users WHERE title='" . $search . "'";
         $resultFollow = mysqli_query($mysqli, $sqlqueryaddFollow);
         $resultUpdate = mysqli_query($mysqli, $sqlqueryupdateCount);
-        if(mysqli_num_rows($resultFollow) == 1 && mysqli_num_rows($resultUpdate))
+        if(mysqli_num_rows($resultFollow) == 1 && mysqli_num_rows($resultUpdate) == 1)
         {
             $data = mysqli_fetch_assoc($resultFollow);
             $dataTwo = mysqli_fetch_assoc($resultUpdate);        

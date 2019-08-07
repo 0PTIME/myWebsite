@@ -91,6 +91,40 @@ function checkFollows($currentFollows, $check){
     else { return true; }
     
 }
+function notifyMentions($ats, $identifier){
+    $mentions = explode('.', $ats);
+    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    foreach($mentions as $mention){
+        $sqlqueryNotify = "SELECT title  FROM users WHERE title='" . $mention . "'";
+        $result = mysqli_query($mysqli, $sqlqueryNotify);
+        if(mysqli_num_rows($result) == 1){
+            $notifications = getNotifications($mention);
+            if($notifications != "error"){
+                $notifications = $notifications . $identifier . ".";
+                $queryAddNotification = "UPDATE users SET notifications='" . $notifications . "' WHERE title='" . $mention . "'";
+                mysqli_query($mysqli, $queryAddNotification);
+            }
+        }
+    }
+}
+function getNotifications($user){
+    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $sqlqueryNotify = "SELECT title, notifications  FROM users WHERE title='" . $user . "'";
+    $result = mysqli_query($mysqli, $sqlqueryNotify);
+    if(mysqli_num_rows($result) == 1){
+        $data = mysqli_fetch_assoc($result);
+        $notifications = $data['notifications'];
+        if($notifications = NULL){ $notifications = ""; }
+        return $notifications;
+    }
+    else { return "error"; }
+}
 
 
 
