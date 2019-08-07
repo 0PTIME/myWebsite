@@ -64,6 +64,7 @@ function getAts($tweet){
     }
 }
 function addFollow($currentFollows, $adding){
+    echo $currentFollows . "<br>";
     if(!isset($currentFollows)){
         $currentFollows = $adding . ".";
     }
@@ -73,17 +74,22 @@ function addFollow($currentFollows, $adding){
     return $currentFollows;
 }
 function remFollow($currentFollows, $remmoving){
-    if(strpos($currentFollows, $remmoving) != false) {
-        $currentFollows = preg_replace($remmoving . ".", "", $currentFollows);
+    $newFollows = "";
+    if(strpos($currentFollows, $remmoving) !== false) {
+        $arrayFollows = explode('.', $currentFollows);
+        $dump = array_search($remmoving, $arrayFollows);
+        unset($arrayFollows[$dump]);
+        $newFollows = implode('.', $arrayFollows);
     }
-    return $currentFollows;
+    return $newFollows;
 }
 function checkFollows($currentFollows, $check){
     if(isset($currentFollows)){
-        if(strpos($currentFollows, $check) != true){ return true; }
-        else { return false; }
+        if(strpos($currentFollows, $check) !== false){ return false; }
+        else { return true; }
     }
     else { return true; }
+    
 }
 
 
