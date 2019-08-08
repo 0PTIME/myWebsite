@@ -48,13 +48,16 @@ else {
     $queryFollows = implode("', '", $myFollows);
     $now = date('Y-m-d G:i:s');
     $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
-    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $now . "' AND '" . $monthago . "'";
+    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
     $queryResults = mysqli_query($mysqli, $queryTweets);
-    if(mysqli_num_rows($queryResults) > 0){
-        while($tweet = mysqli_fetch_assoc($queryResults)){
-            $tbs->MergeBlock('blk1', $tweet);
-        }
-    }
+    $tweet = mysqli_fetch_assoc($queryResults);
+    echo $tweet;
+    // if(mysqli_num_rows($queryResults) > 0){
+    //     while($tweet = mysqli_fetch_assoc($queryResults)){
+    //         // $tbs->MergeBlock('blk1', $tweet);
+    //         print_r($tweet);
+    //     }
+    // }
 
 
     
