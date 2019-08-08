@@ -45,8 +45,8 @@ $description = $_SESSION['description'];
 if($description == NULL){ $description = ":)"; }
 $followers = $_SESSION['followers'];
 $dateAdded = $_SESSION['datecreated'];
-$myFollows = $_SESSION['myFollows'];
-$myNotifications = $_SESSION['myNotifications'];
+$myFollows = trim($_SESSION['myFollows']);
+$myNotifications = trim($_SESSION['myNotifications']);
 
 /****** logic for pulling your twitter feed and displaying multiple tweets *******/
 $myFollows = explode('.', $myFollows);
@@ -56,6 +56,7 @@ $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
 $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
 $queryResults = mysqli_query($mysqli, $queryTweets);
 $tweet = mysqli_fetch_assoc($queryResults);
+
 // if(mysqli_num_rows($queryResults) > 0){
 //     while($tweet = mysqli_fetch_assoc($queryResults)){
 //         // $tbs->MergeBlock('blk1', $tweet);

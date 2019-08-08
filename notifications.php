@@ -26,19 +26,19 @@ $description = $_SESSION['description'];
 if($description == NULL){ $description = ":)"; }
 $followers = $_SESSION['followers'];
 $dateAdded = $_SESSION['datecreated'];
-$myFollows = $_SESSION['myFollows'];
-$myNotifications = $_SESSION['myNotifications'];
+$myFollows = trim($_SESSION['myFollows']);
+$myNotifications = trim($_SESSION['myNotifications']);
 
 /****** logic for pulling your twitter notifications and displaying multiple tweets *******/
-$mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+$mysqli = mysqli_connect("localhost", "website", "data", "YAPPER");
 if (!$mysqli) {
     die("Connection failed: " . mysqli_connect_error());
 }
 $myNotifications = explode(' ', $myNotifications);
-$queryNotification = implode("', '", $myFollows);
+$queryNotification = implode("', '", $myNotifications);
 $now = date('Y-m-d G:i:s');
 $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
-$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM users WHERE uniqueid IN ('" . $queryNotification . "')";
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $queryNotification . "')";
 $queryResults = mysqli_query($mysqli, $queryTweets);
 $tweet = mysqli_fetch_assoc($queryResults);
 // if(mysqli_num_rows($queryResults) > 0){

@@ -39,14 +39,14 @@ if(isset($_GET['keyword'])){
             $currentFollowerCount = $dataTwo['followers'];
             // calls a function that returns true if it finds that the person you are trying to follow, you already follow and vice versa
             if(checkFollows($currentFollows, $search)){
-                // calls a function to add the person you are trying to follow to your follows list and increments their follower count by one
-                $currentFollows = addFollow($currentFollows, $search);
-                $currentFollowerCount += 1;
-            }
-            else{
                 // calls the remove follow function which removes a given follow from a list of follows and decrements their follower count
                 $currentFollows = remFollow($currentFollows, $search);
                 $currentFollowerCount -= 1;
+            }
+            else{
+                // calls a function to add the person you are trying to follow to your follows list and increments their follower count by one
+                $currentFollows = addFollow($currentFollows, $search);
+                $currentFollowerCount += 1;
             }
             // queries to push the changes to the database
             $queryFollow = "UPDATE users SET follows='" . $currentFollows . "' WHERE title='" . $username . "'";
