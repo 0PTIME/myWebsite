@@ -13,7 +13,7 @@ function logout(){
 function unLog(){
     session_unset();
     session_destroy();
-    header("location: index.php");
+    header("location: index");
 }
 function checkEmail($email) {
     $find1 = strpos($email, '@');
@@ -26,8 +26,7 @@ function checkEmail($email) {
     }
 }
 function getTags($tweet){
-    $id = strpos($tweet, '#');
-    if($id == false) { return null; }
+    if(strpos($tweet, '#') != false) { return null; }
     else{
         $tags = "";
         $words = explode(' ', $tweet);
@@ -37,27 +36,24 @@ function getTags($tweet){
             if($char[0] == '#'){
                 $tag = $words[$i];
                 $tag = preg_replace("/[^a-zA-Z0-9]+/", "", $tag);
-                if($tags != "") { $tags = $tags . "." . $tag; }                
-                else { $tags = $tag; }
+                $tags = $tags . $tag . ".";
             }
         }
         return $tags;
     }
 }
 function getAts($tweet){
-    $id = strpos($tweet, '@');
-    if($id == false) { return null; }
+    if(strpos($tweet, '@') != false) { return null; }
     else{
         $tags = "";
         $words = explode(' ', $tweet);
-        $len = count($words);    
+        $len = count($words);   
         for($i = 0; $i < $len; $i++){
             $char = str_split($words[$i]);
             if($char[0] == '@'){
                 $tag = $words[$i];
                 $tag = preg_replace("/[^a-zA-Z0-9]+/", "", $tag);
-                if($tags != "") { $tags = $tags . "." . $tag; }                
-                else { $tags = $tag; }
+                $tags = $tags . $tag . ".";
             }
         }
         return $tags;
@@ -103,7 +99,7 @@ function notifyMentions($ats, $identifier){
         if(mysqli_num_rows($result) == 1){
             $notifications = getNotifications($mention);
             if($notifications != "error"){
-                $notifications = $notifications . $identifier . ".";
+                $notifications = $notifications . $identifier . " ";
                 $queryAddNotification = "UPDATE users SET notifications='" . $notifications . "' WHERE title='" . $mention . "'";
                 mysqli_query($mysqli, $queryAddNotification);
             }
@@ -120,7 +116,7 @@ function getNotifications($user){
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
         $notifications = $data['notifications'];
-        if($notifications = NULL){ $notifications = ""; }
+        if($notifications == NULL){ $notifications = ""; }
         return $notifications;
     }
     else { return "error"; }

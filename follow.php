@@ -46,13 +46,13 @@ if(isset($_GET['keyword'])){
             mysqli_query($mysqli, $queryFollow);
             mysqli_query($mysqli, $queryUpdate);
         }       
-        header("location: search.php?keyword=" . $search);
+        header("location: search?keyword=" . $search);
         exit();
     }
     else{
-        header("location: search.php?keyword=" . $search);
+        header("location: search?keyword=" . $search);
         exit();
     }
 }
-header("location: home.php");
+header("location: home");
 ?>

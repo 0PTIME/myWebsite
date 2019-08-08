@@ -16,7 +16,7 @@ $error = "none";
 /******** SCUFFED WAY OF KEEPING THE USER LOGGED IN ************/
 if(isset($_SESSION['username']))
 {
-    header("location: home.php");
+    header("location: home");
     exit();    
 }
 
@@ -82,7 +82,7 @@ else { // error msg for is they either didn't enter all the field or they went t
 }
 
 $_SESSION['errors'] = $errors;
-header("location: index.php");
+header("location: index");
 
 // debugging tools
 // echo "the query result: ";

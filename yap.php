@@ -17,7 +17,7 @@ if(isset($_POST['yap'])){
     $tweet = $_POST['yap'];
     $tags = getTags($tweet);
     $ats = getAts($tweet);
-    $identifier = uniqid("tweet");
+    $identifier = uniqid("tweet", true);
     $likes = 0;
     $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER");
     if (!$mysqli) {
@@ -26,11 +26,11 @@ if(isset($_POST['yap'])){
     $sql = "INSERT INTO tweets (ID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
     mysqli_query($mysqli, $sql);
     if($ats != ""){
-        notifiyMentions($ats, $identifier);
+        notifyMentions($ats, $identifier);
     }
 }
 
 
 
-header("location: index.php");
+header("location: index");
 

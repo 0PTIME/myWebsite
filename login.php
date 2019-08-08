@@ -48,7 +48,7 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
                 // if the password passes the hash check, logs in the user else error out
                 if (password_verify($pwd, $data['pwd'])){
                     $_SESSION['username'] = $data['title'];
-                    header("location: home.php");
+                    header("location: home");
                 }
                 else{
                     $errors['credentials'] = "Invalid Credentials...";
@@ -62,7 +62,7 @@ if(isset($_POST['usr']) && isset($_POST['pwd'])){
             if($usr == $data['title']){
                 if (password_verify($pwd, $data['pwd'])){
                     $_SESSION['username'] = $data['title'];
-                    header("location: home.php");
+                    header("location: home");
                 }
                 else{
                     $errors['credentials'] = "Invalid Credentials...";

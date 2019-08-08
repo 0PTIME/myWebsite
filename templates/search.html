@@ -12,15 +12,24 @@
 </head>
 <body>
     <div class="feedLeft">
-        
-        <form action="logout.php"><button>LOGOUT</button></form>
-        <form action="home.php"><button>HOME</button></form>
+        <form action="logout"><button>LOGOUT</button></form>
+        <form action="home"><button>HOME</button></form>
         <button onclick="darkMode()">LIGHTSWITCH</button>
     
         <h1>HEY, [onshow.username] ツ</h1>
+        <p class="info">[onshow.description]</p>
+        <p class="info">Account Creation: [onshow.dateAdded]</p>
+        <p class="info">followers [onshow.followers]</p>
+        <form action="notifications"><button>NOTIFICATIONS</button></form>
 
     </div>
     <div class="feed">
+        <div class="homesearch">
+            <form action="search" method="GET">
+                <input type="text" class="searchBar" name="keyword" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
         <div class="searchedFor">
             <p>'[onshow.search]'</p>
             [onshow; block=begin; when [var.searchisuser] == 1]
@@ -29,7 +38,7 @@
                 <p class="info">[onshow.searchedDescription]</p>
                 <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
                 <p class="info">followers [onshow.searchedFollowers]</p>
-                <form action="follow.php" method="GET"><input type="submit" name="keyword" value="[onshow.searchedUser]"></button></form>
+                <form action="follow" method="GET"><input type="submit" name="keyword" value="[onshow.searchedUser]"></button></form>
             
             </div>
             [onshow; block=end;]

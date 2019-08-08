@@ -17,7 +17,7 @@ if(!isset($_SESSION['username']))
 {
     $errors['timeout'] = "Please log in...";
     $_SESSION['errors'] = $errors;
-    header("location: index.php");
+    header("location: index");
     exit();
 }
 $username = $_SESSION['username'];
@@ -55,15 +55,10 @@ else{
     $search = "you didn't search anything";
     $searchisuser = false;
 }
-// echo $search;
-// $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
-// if (!$mysqli) {
-//     die("Connection failed: " . mysqli_connect_error());
-// }
-// $sqlquery = "SELECT title, date_added, description, followers FROM users WHERE title='" . $keyword . "'";
-// $result = mysqli_query($mysqli, $sqlquery);
-// echo $sqlquery;
-// echo mysqli_num_rows($result)
+$description = $_SESSION['description'];
+if($description == NULL){ $description = ":)"; }
+$followers = $_SESSION['followers'];
+$dateAdded = $_SESSION['datecreated'];
 
 $tbs->Show();
 ?>

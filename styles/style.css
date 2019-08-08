@@ -11,7 +11,6 @@ html{
 }
 body{
 	background-color: #1da1f2;
-
 	width: 100%;
 	height: 100%;
 }
@@ -78,15 +77,66 @@ div{
     height: 25px;
 }
 .feedLeft{
-    width: 30%;
+    width: calc(48vw - 300px);
     height: 100%;
     display: inline-block;
     text-align: right;
 }
+.feedRight{
+    width: calc(48vw - 300px);
+    height: 100%;
+    display: inline-block;
+    text-align: left;
+}
 .feed {
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    background-color: #1a1e2e;
+    color: white;
     width: 600px;
     height: 100%;
     display: inline-block;
+}
+.tweetContent {
+    color: white;
+    margin: 2%;
+    width: 96%;
+    height: 200px;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: #1a1e2e;
+}
+.yapContent {
+    color: white;
+    margin: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    width: 92%;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: #1a1e2e;
+}
+.tweetHeader{
+    margin: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    width: 92%;
+    height: 10%;
+}
+.tweetBody{
+    margin: 1%;
+    padding-right: 2%;
+    padding-left: 2%;
+    width: 94%;
+    height: 55%;
+}
+.tweetFooter{
+    margin: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    width: 92%;
+    height: 15%;
 }
 
 

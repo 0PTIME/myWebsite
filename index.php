@@ -16,7 +16,7 @@ $error = "none";
 /******** SCUFFED WAY OF KEEPING THE USER LOGGED IN ************/
 if(isset($_SESSION['username']))
 {
-    header("location: home.php");
+    header("location: home");
     exit();
 }
 // else{

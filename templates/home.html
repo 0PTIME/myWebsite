@@ -19,24 +19,41 @@
         <p class="info">[onshow.description]</p>
         <p class="info">Account Creation: [onshow.dateAdded]</p>
         <p class="info">followers [onshow.followers]</p>
+        <form action="notifications.php"><button>NOTIFICATIONS</button></form>
 
     </div>
     <div class="feed">
         <div class="makeYap">
-            <form action="yap.php" method="POST">
-                <input type="text" class="yapContent" name="yap">
-                <input type="submit" value="Yap">
+            <form action="yap" method="POST">
+                <p style="text-align: center;">Tweet something!</p>
+                <input type="text" class="yapContent" name="yap" autocomplete="off" required>
+                <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
             </form>
+            
         </div>
-        <div class="homesearch">
-                <form action="search.php" method="GET">
-                    <input type="text" class="searchBar" name="keyword">
-                    <input type="submit" value="Search">
-                </form>
-            </div>
+        [onshow; block=begin; when [var.tweetOne] == 1]
+        <div class="tweetContent">
+            <div class="tweetHeader">
 
+            </div>
+            <div class="tweetBody">
+
+            </div>
+            <div class="tweetFooter">
+                
+            </div>
+            
+        </div>
+        [onshow; block=end;]
+        
     </div>
     <div class="feedRight">
+        <div class="homesearch">
+            <form action="search" method="GET">
+                <input type="text" class="searchBar" name="keyword" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
     </div>
     
 </body>

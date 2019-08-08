@@ -17,7 +17,7 @@ if(!isset($_SESSION['username']))
 {
     $errors['timeout'] = "Please log in...";
     $_SESSION['errors'] = $errors;
-    header("location: index.php");
+    header("location: index");
     exit();
 }
 else {
@@ -30,12 +30,24 @@ else {
     $result = mysqli_query($mysqli, $sqlquery);
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
-        $description = $data['description'];
+        $_SESSION['description'] = $data['description'];
         if($description == NULL){ $description = ":)"; }
-        $followers = $data['followers'];
-        $dateAdded = $data['date_added'];
+        $_SESSION['followers'] = $data['followers'];
+        $_SESSION['datecreated'] = $data['date_added'];
+        
     }
+    $description = $_SESSION['description'];
+    if($description == NULL){ $description = ":)"; }
+    $followers = $_SESSION['followers'];
+    $dateAdded = $_SESSION['datecreated'];
+
+    
+    $tweetOne = true;
+    $oneUser = "me";
+    $oneContent = "testing";    
 }
+
+
 
 
 $tbs->Show();
