@@ -11,6 +11,14 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $errors = $_SESSION['errors'];
 $error = "none";
+if(!isset($_SESSION['username']))
+{
+    $errors['timeout'] = "Please log in...";
+    $_SESSION['errors'] = $errors;
+    header("location: index");
+    exit();
+}
+$username = $_SESSION['username'];
 
 if(isset($_POST['yap'])){
     $usr = $_SESSION['username'];

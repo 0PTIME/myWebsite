@@ -26,7 +26,7 @@ else {
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $sqlquery = "SELECT title, date_added, description, followers FROM users WHERE title='" . $username . "'";
+    $sqlquery = "SELECT title, date_added, description, follows, followers FROM users WHERE title='" . $username . "'";
     $result = mysqli_query($mysqli, $sqlquery);
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
@@ -34,12 +34,28 @@ else {
         if($description == NULL){ $description = ":)"; }
         $_SESSION['followers'] = $data['followers'];
         $_SESSION['datecreated'] = $data['date_added'];
+        $_SESSION['myFollows'] = $data['follows'];
         
     }
     $description = $_SESSION['description'];
     if($description == NULL){ $description = ":)"; }
     $followers = $_SESSION['followers'];
     $dateAdded = $_SESSION['datecreated'];
+    $myFollows = $_SESSION['myFollows'];
+
+    $myFollows = explode('.', $myFollows);
+    unset($myFollows[(count($myFollows) - 1)]);
+    $queryFollows = implode("', '", $myFollows);
+    $now = date('Y-m-d G:i:s');
+    $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $now . "' AND '" . $monthago . "'";
+    $queryResults = mysqli_query($mysqli, $queryTweets);
+    if(mysqli_num_rows($queryResults) > 0){
+        while($tweet = mysqli_fetch_assoc($queryResults)){
+            $tbs->MergeBlock('blk1', $tweet);
+        }
+    }
+
 
     
     $tweetOne = true;
