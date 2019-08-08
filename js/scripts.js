@@ -1,3 +1,4 @@
+// function to show the buttons and hide the login and register forms
 function showButtons(){
     var buttons = document.getElementById("buttons");
     var register = document.getElementById("register");
@@ -6,6 +7,7 @@ function showButtons(){
     register.style.display = "none";
     login.style.display = "none";
 }
+// function to show the login form and hide the register form and buttons
 function login(){
     var buttons = document.getElementById("buttons");
     var register = document.getElementById("register");
@@ -14,6 +16,7 @@ function login(){
     register.style.display = "none";
     login.style.display = "block";
 }
+// function to show the register form and hide the login form and buttons
 function register(){
     var buttons = document.getElementById("buttons");
     var register = document.getElementById("register");
@@ -22,6 +25,7 @@ function register(){
     register.style.display = "block";
     login.style.display = "none";
 }
+// takes an html id and fades it into oblivion
 function fadeTarget(target){
     var fadeElement = document.getElementById(target);
     var curve = .00001;
@@ -37,6 +41,7 @@ function fadeTarget(target){
         }
     }, 20);
 }
+// function that is not working or in use
 function checkerror(error){
     if(error == "")
     {
@@ -47,6 +52,7 @@ function checkerror(error){
         errorpwd.style.display = "block";
     }
 }
+// non functioning function that should determine if the background is light or dark and then flip it
 function darkMode(){
     if(document.body.style.backgroundColor == "#1da1f2"){
         document.body.style.background = "#1a1e2e";

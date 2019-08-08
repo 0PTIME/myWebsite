@@ -21,6 +21,7 @@ if(!isset($_SESSION['username']))
     exit();
 }
 else {
+    // sets the username and sets a bunch of their information to the session variable
     $username = $_SESSION['username'];
     $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
     if (!$mysqli) {
@@ -37,34 +38,34 @@ else {
         $_SESSION['myFollows'] = $data['follows'];
         
     }
-    $description = $_SESSION['description'];
-    if($description == NULL){ $description = ":)"; }
-    $followers = $_SESSION['followers'];
-    $dateAdded = $_SESSION['datecreated'];
-    $myFollows = $_SESSION['myFollows'];
-
-    $myFollows = explode('.', $myFollows);
-    unset($myFollows[(count($myFollows) - 1)]);
-    $queryFollows = implode("', '", $myFollows);
-    $now = date('Y-m-d G:i:s');
-    $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
-    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
-    $queryResults = mysqli_query($mysqli, $queryTweets);
-    $tweet = mysqli_fetch_assoc($queryResults);
-    echo $tweet;
-    // if(mysqli_num_rows($queryResults) > 0){
-    //     while($tweet = mysqli_fetch_assoc($queryResults)){
-    //         // $tbs->MergeBlock('blk1', $tweet);
-    //         print_r($tweet);
-    //     }
-    // }
-
-
-    
-    $tweetOne = true;
-    $oneUser = "me";
-    $oneContent = "testing";    
 }
+// bunch of variables that tbs uses to display your information wherever you go
+$description = $_SESSION['description'];
+if($description == NULL){ $description = ":)"; }
+$followers = $_SESSION['followers'];
+$dateAdded = $_SESSION['datecreated'];
+$myFollows = $_SESSION['myFollows'];
+
+/****** logic for pulling your twitter feed and displaying multiple tweets *******/
+$myFollows = explode('.', $myFollows);
+$queryFollows = implode("', '", $myFollows);
+$now = date('Y-m-d G:i:s');
+$monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+$queryResults = mysqli_query($mysqli, $queryTweets);
+// $tweet = mysqli_fetch_assoc($queryResults);
+// if(mysqli_num_rows($queryResults) > 0){
+//     while($tweet = mysqli_fetch_assoc($queryResults)){
+//         // $tbs->MergeBlock('blk1', $tweet);
+//         print_r($tweet);
+//     }
+// }
+
+
+
+$tweetOne = true;
+$oneUser = "me";
+$oneContent = "testing";    
 
 
 

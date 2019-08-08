@@ -28,7 +28,7 @@ foreach($errors as $key => $value)
 {
     if(isset($errors[$key])) { $error = $errors[$key]; logout(); }
 }
-
+// quick little function that apparently is needed to make tinybutstrong work as intended
 if($error != 'none')
 {
     $iserror = true;

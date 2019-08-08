@@ -9,7 +9,7 @@ $title = "Yapper. Speak, Shake, Fetch.";
 $font = "Play&display=swap";
 $error = "none";
 
-
+// script that I don't want to use
 session_unset();
 session_destroy();
 header("location: index");
