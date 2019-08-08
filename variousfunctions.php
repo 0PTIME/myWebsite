@@ -26,7 +26,7 @@ function checkEmail($email) {
     }
 }
 function getTags($tweet){
-    if(strpos($tweet, '#') != false) { return null; }
+    if(strpos($tweet, '#') === false) { return null; }
     else{
         $tags = "";
         $words = explode(' ', $tweet);
@@ -43,7 +43,7 @@ function getTags($tweet){
     }
 }
 function getAts($tweet){
-    if(strpos($tweet, '@') != false) { return null; }
+    if(strpos($tweet, '@') === false) { return null; }
     else{
         $tags = "";
         $words = explode(' ', $tweet);
