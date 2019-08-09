@@ -29,36 +29,66 @@ function checkEmail($email) {
 }
 // function to take a tweet and return a string of hashtags formatted in a standardized fashion
 function getTags($tweet){
-    if(strpos($tweet, '#') === false) { return ""; } // does a quick check to see if # is a part of the tweet
+    $tags = array();
+    if(strpos($tweet, '#') === false) { return ""; exit(); } // does a quick check to see if # is a part of the tweet
     else{
-        $tags = "";
         $words = explode(' ', $tweet); // turns the tweet into an array of words
-        $len = count($words);    
-        for($i = 0; $i < $len; $i++){ // loops through all the words in the tweet
-            $char = str_split($words[$i]);
-            if($char[0] == '#'){ // checks the first character and tests if its a #
-                $tag = $words[$i];
-                $tag = preg_replace("/[^a-zA-Z0-9]+/", "", $tag); // removes all special characters from the word and saves it
-                $tags = $tags . $tag . "."; // adds on to the current string of hastags
+        if(count($words) > 1){
+            foreach($words as $word){ // loops through all the words in the tweet
+                $char = str_split($word);
+                if($char[0] == '#'){ // checks the first character and tests if its a #
+                    unset($char[0]);
+                    $tag = implode("", $char);
+                    $tags[count($tags)] = $tag;
+                    
+                }
             }
+            foreach($tags as $value){
+                $tagCheck = preg_replace("/[^a-zA-Z0-9]+/", "", $value);
+                if($value != $tagCheck){
+                    return "";
+                    exit();
+                }
+            }
+            $tags = implode(".", $tags);
         }
-        return $tags; // returns the formatted string of hashtags
+        elseif(count($words) == 1){
+            $charArray = str_split($tweet);
+            unset($charArray[0]);
+            $tags = implode("", $charArray);
+        }
+        return $tags; // returns the formatted string of mentions
     }
 }
 // function to take a tweet and return a string of mentions formatted in a standardized fassion
 function getAts($tweet){
+    $tags = array();
     if(strpos($tweet, '@') === false) { return ""; } // does a quick check to see if @ is a part of the tweet
     else{
-        $tags = "";
         $words = explode(' ', $tweet); // turns the tweet into an array of words
-        $len = count($words);   
-        for($i = 0; $i < $len; $i++){ // loops through all the words in the tweet
-            $char = str_split($words[$i]);
-            if($char[0] == '@'){ // checks the first character and tests if its a @
-                $tag = $words[$i];
-                $tag = preg_replace("/[^a-zA-Z0-9]+/", "", $tag); // removes all special characters from the word and saves it
-                $tags = $tags . $tag . "."; // adds on to the current string of hashtags
+        if(count($words) > 1){
+            foreach($words as $word){ // loops through all the words in the tweet
+                $char = str_split($word);
+                if($char[0] == '@'){ // checks the first character and tests if its a @
+                    unset($char[0]);
+                    $tag = implode("", $char);
+                    $tags[count($tags)] = $tag;
+                    
+                }
             }
+            foreach($tags as $value){
+                $tagCheck = preg_replace("/[^a-zA-Z0-9]+/", "", $value);
+                if($value != $tagCheck){
+                    return "";
+                    exit();
+                }
+            }
+            $tags = implode(".", $tags);
+        }
+        elseif(count($words) == 1){
+            $charArray = str_split($tweet);
+            unset($charArray[0]);
+            $tags = implode("", $charArray);
         }
         return $tags; // returns the formatted string of mentions
     }
@@ -116,7 +146,13 @@ function notifyMentions($ats, $identifier){
                 $queryAddNotification = "UPDATE users SET notifications='" . $newNotifications . "' WHERE title='" . $mention . "'"; // query to update the table with the new notifications
                 mysqli_query($mysqli, $queryAddNotification); // executes the update
             }
+            else{
+                $newNotifications = $identifier;
+                $queryAddNotification = "UPDATE users SET notifications='" . $newNotifications . "' WHERE title='" . $mention . "'"; // query to update the table with the new notifications
+                mysqli_query($mysqli, $queryAddNotification); // executes the update
+            }
         }
+        echo $newNotifications;
     }
 }
 // function that takes a user and returns their current list of notifications, returns false if the user dosen't exist
