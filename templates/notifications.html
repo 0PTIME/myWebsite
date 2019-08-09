@@ -24,11 +24,23 @@
     </div>
     <div class="feed">
         <div class="header">
-            <h1 style="text-align: center; border-bottom: 2px solid black">NOTIFICATIONS</h1>
-            
-            
-            
+            <h1 style="text-align: center; border-bottom: 2px solid black">NOTIFICATIONS</h1>            
         </div>
+        [onshow;block=begin; when [var.tweetsExist] == 1;]
+        <div class="tweetContent">
+
+            <h1>[blk1.title;block=div;]</h1>
+
+            <div class="tweetBody">
+                [blk1.content;] 
+
+            </div>
+
+            <div class="tweetFooter">
+
+            </div>        
+        </div>
+        [onshow;block=end;]
         
         
     </div>

@@ -41,6 +41,21 @@
                 <form action="follow" method="GET"><input type="submit" name="keyword" value="[onshow.searchedUser]"></button></form>
             
             </div>
+                [onshow;block=begin; when [var.tweetsExist] == 1;]
+                <div class="tweetContent">
+
+                    <h1>[blk1.title;block=div;]</h1>
+
+                <div class="tweetBody">
+                    [blk1.content;] 
+
+                </div>
+
+                <div class="tweetFooter">
+
+                </div>        
+                </div>
+                [onshow; block=end;]
             [onshow; block=end;]
             [onshow; block=begin; when [var.searchisuser] == 0]
             <div class="searchedUser">
