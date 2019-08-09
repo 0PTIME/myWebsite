@@ -42,7 +42,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
         if(mysqli_num_rows($result) == 0)
         {
             $hash = password_hash($pwd, PASSWORD_DEFAULT);        
-            $sql = "INSERT INTO users (title, email, pwd, followers) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "', '0');";
+            $sql = "INSERT INTO users (title, email, pwd, follows, followers) VALUES ('" . $usr . "', '" . $email . "', '" . $hash . "', '" . $usr . "', '0');";
             mysqli_query($mysqli, $sql);
             $errors['success'] = "You are now Registered, please sign in :)";
             $_SESSION['username'] = $usr;

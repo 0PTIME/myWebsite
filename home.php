@@ -59,26 +59,18 @@ if (!$mysqli) {
 }
 $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
 $queryResults = mysqli_query($sqlConnection, $queryTweets);
-$tweet = mysqli_fetch_assoc($queryResults);
-
 $i = 0;
-while($tweet = mysqli_fetch_assoc($queryResults))
-{
-    $tweet_block[$i]['title'] = $tweet['ID'];
-    $tweet_block[$i]['content'] = $tweet['content'];
-    $i++;
+if(mysqli_num_rows($queryResults) > 0){
+    $tweetsExist = true;
+    while($tweet = mysqli_fetch_assoc($queryResults)){
+        $tweet_block[$i]['title'] = $tweet['ID'];
+        $tweet_block[$i]['content'] = $tweet['content'];
+        $i++;
+    }
+    $tbs->MergeBlock('blk1', $tweet_block);
 }
-$tbs->MergeBlock('blk1', $tweet_block);
-// if(mysqli_num_rows($queryResults) > 0){
-//     while($tweet = mysqli_fetch_assoc($queryResults)){
-//     }
-// }
-
-
-
-$tweetOne = true;
-$oneUser = "me";
-$oneContent = "testing";    
+else { $tweetsExist = false; }
+   
 
 
 
