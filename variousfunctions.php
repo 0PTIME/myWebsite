@@ -152,7 +152,6 @@ function notifyMentions($ats, $identifier){
                 mysqli_query($mysqli, $queryAddNotification); // executes the update
             }
         }
-        echo $newNotifications;
     }
 }
 // function that takes a user and returns their current list of notifications, returns false if the user dosen't exist

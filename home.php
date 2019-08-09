@@ -53,14 +53,24 @@ $myFollows = explode('.', $myFollows);
 $queryFollows = implode("', '", $myFollows);
 $now = date('Y-m-d G:i:s');
 $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+$sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+if (!$mysqli) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
-$queryResults = mysqli_query($mysqli, $queryTweets);
+$queryResults = mysqli_query($sqlConnection, $queryTweets);
 $tweet = mysqli_fetch_assoc($queryResults);
 
+$i = 0;
+while($tweet = mysqli_fetch_assoc($queryResults))
+{
+    $tweet_block[$i]['title'] = $tweet['ID'];
+    $tweet_block[$i]['content'] = $tweet['content'];
+    $i++;
+}
+$tbs->MergeBlock('blk1', $tweet_block);
 // if(mysqli_num_rows($queryResults) > 0){
 //     while($tweet = mysqli_fetch_assoc($queryResults)){
-//         // $tbs->MergeBlock('blk1', $tweet);
-//         print_r($tweet);
 //     }
 // }
 
