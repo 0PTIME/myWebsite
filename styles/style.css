@@ -106,6 +106,9 @@ div{
     border-radius: 4px;
     background-color: #1a1e2e;
 }
+.tweetContent:hover {
+    background-color: #21263b;
+}
 .yapContent {
     color: white;
     margin: 2%;
@@ -144,6 +147,10 @@ div{
 
 
 
+#userLink{
+    color: white;
+    text-decoration: none;
+}
 #error{
     opacity: 1;
 }
