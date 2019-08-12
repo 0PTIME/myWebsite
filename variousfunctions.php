@@ -170,6 +170,38 @@ function getNotifications($user){
     }
     else { return false; } // returns if the user doesn't exist
 }
+//  function that will take a mysql timestamp and make it look more user friendly
+function getTimespan($time){
+    if(isset($time)){
+        $ts = new DateTime();
+        $ts->setTimestamp($time);
+        $cur = new DateTime();
+        $difference = $cur->diff($ts);
+        if ($difference->format("%a") == 0){
+            $out = "tweeted " . $difference->format("%h hours %i minutes") . " ago";
+        }
+        elseif ($difference->format("%a") < 7){
+            $out = "tweeted " . $difference->format("%a days") . " ago";
+        }
+        elseif ($difference->format("%m") == 0) {
+            $days = $difference->format("%a");
+            $out = "tweeted " . sprintf("%d weeks %d days", floor($days / 7), $days % 7) . " ago";
+        }
+        elseif ($difference->format("%y") == 0){
+           $out = "tweeted " . $difference->format("%m months") . " ago";
+        }
+        else{
+            $default = $time;
+            $default = date('m-d-Y', strtotime($default));
+            $out = "tweeted on ". $default;
+        }
+        
+        return $out;
+    }
+    else{
+        return false;
+    }
+}
 
 
 

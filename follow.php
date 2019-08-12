@@ -13,7 +13,7 @@ if(!isset($_SESSION['username']))
 }
 $username = $_SESSION['username'];
 
-// this is the double check feature to make sure that they are following an acctual something
+// this is the double check feature to make sure that they are following an actual something
 if(isset($_GET['keyword'])){
     $search = $_GET['keyword'];
     // makes sure they aren't trying to follow themselves

@@ -34,7 +34,9 @@ else {
         $_SESSION['description'] = $data['description'];
         if($description == NULL){ $description = ":)"; }
         $_SESSION['followers'] = $data['followers'];
-        $_SESSION['datecreated'] = $data['date_added'];
+        $default = $data['date_added'];
+        $default = date('m/d/Y', strtotime($default));
+        $_SESSION['datecreated'] = $default;
         $_SESSION['myFollows'] = $data['follows'];
         $_SESSION['myNotifications'] = $data['notifications'];
         
@@ -57,14 +59,19 @@ $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // D
 if (!$mysqli) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "' ORDER BY time DESC";
 $queryResults = mysqli_query($sqlConnection, $queryTweets);
 $i = 0;
 if(mysqli_num_rows($queryResults) > 0){
     $tweetsExist = true;
     while($tweet = mysqli_fetch_assoc($queryResults)){
+        $tweet_block[$i]['mentions'] = $tweet['ats'];
+        $tweet_block[$i]['tags'] = $tweet['tags'];
+        $tweet_block[$i]['likes'] = $tweet['likes'];
+        $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];
+        if($tweet_block[$i]['timestamp'] = getTimespan($tweet['time']));        
         $i++;
     }
     $tbs->MergeBlock('blk1', $tweet_block);
