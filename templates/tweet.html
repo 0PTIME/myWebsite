@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>[onshow.title]</title>
+    <link rel="icon" href="[onshow.icon]">
+    <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
+    <script type="text/javascript" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="feedLeft">
+        <form action="logout.php"><button>LOGOUT</button></form>
+        <form action="notifications.php"><button>NOTIFICATIONS</button></form>
+        <form action="home"><button>HOME</button></form>
+        <button onclick="darkMode()">LIGHTSWITCH</button>
+    
+        <h1>HEY, [onshow.username] ツ</h1>
+        <p class="info">[onshow.description]</p>
+        <p class="info">Account Creation: [onshow.dateAdded]</p>
+        <p class="info">followers [onshow.followers]</p>
+
+    </div>
+    <div class="feed">
+        <div class="tweetContent"">
+            <h1><a id="userLink" href="search?keyword=[onshow.tweetUsername]">[onshow.tweetUsername]</a></h1>
+            <p>[onshow.timestamp]</p>
+            <div class="tweetBody">
+                [onshow.content;] 
+            </div>
+            <div class="tweetFooter">
+
+            </div>        
+        </div>
+        <div class="makeYap">
+                <form action="yap" method="POST">
+                    <input type="text" class="yapContent" name="reply" autocomplete="off" required>
+                    <input type="hidden" name="tweetId" value="[onshow.tweetId]">
+                    <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
+                </form>            
+            </div>
+        [onshow;block=begin; when [var.replyExist] == 1;]
+        <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
+
+            <h1><a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;block=div;]</a></h1>
+            <p>[blk1.timestamp]</p>
+
+            <div class="tweetBody">
+                [blk1.content;] 
+
+            </div>
+
+            <div class="tweetFooter">
+
+            </div>        
+        </div>
+        [onshow;block=end;]
+        
+    </div>
+    <div class="feedRight">
+        <div class="homesearch">
+            <form action="search" method="GET">
+                <input type="text" class="searchBar" name="keyword" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

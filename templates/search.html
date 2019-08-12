@@ -38,7 +38,7 @@
                 <p class="info">[onshow.searchedDescription]</p>
                 <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
                 <p class="info">followers [onshow.searchedFollowers]</p>
-                <form action="follow" method="GET"><input type="submit" name="keyword" value="[onshow.searchedUser]"></button></form>
+                <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
             
             </div>
                 [onshow;block=begin; when [var.tweetsExist] == 1;]

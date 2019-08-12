@@ -60,7 +60,7 @@ if(isset($_GET['keyword'])){
             if (!$mysqli) {
                 die("Connection failed: " . mysqli_connect_error());
             }
-            $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $searchedUser . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+            $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $searchedUser . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "'  ORDER BY time DESC";
             $queryResults = mysqli_query($sqlConnection, $queryTweets);
             $i = 0;
             if(mysqli_num_rows($queryResults) > 0){

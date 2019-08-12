@@ -36,7 +36,7 @@ if (!$mysqli) {
 }
 $myNotifications = explode(' ', $myNotifications);
 $queryNotification = implode("', '", $myNotifications);
-$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $queryNotification . "')";
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $queryNotification . "') ORDER BY time DESC";
 $queryResults = mysqli_query($mysqli, $queryTweets);
 $i = 0;
 if(mysqli_num_rows($queryResults) > 0){
