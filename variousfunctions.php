@@ -121,7 +121,7 @@ function checkFollows($currentFollows, $check){
         $currentFollows = trim($currentFollows);
         $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
         foreach($arrayFollows as $follow){
-            if($check == trim($follow)){
+            if($check == trim($follow)){ // checks each follow to see if it matches the one your are trying to add
                 return true;
             }
         }
@@ -180,22 +180,22 @@ function getTimespan($time){
         $cur = new DateTime();
         $difference = $cur->diff($ts);
         if ($difference->format("%a") == 0){
-            $out = "tweeted " . $difference->format("%h hours %i minutes") . " ago";
+            $out = $difference->format("%h hours %i minutes") . " ago";
         }
         elseif ($difference->format("%a") < 7){
-            $out = "tweeted " . $difference->format("%a days") . " ago";
+            $out = $difference->format("%a days") . " ago";
         }
         elseif ($difference->format("%m") == 0) {
             $days = $difference->format("%a");
-            $out = "tweeted " . sprintf("%d weeks %d days", floor($days / 7), $days % 7) . " ago";
+            $out = sprintf("%d weeks %d days", floor($days / 7), $days % 7) . " ago";
         }
         elseif ($difference->format("%y") == 0){
-           $out = "tweeted " . $difference->format("%m months") . " ago";
+           $out = $difference->format("%m months") . " ago";
         }
         else{
             $default = $time;
             $default = date('m-d-Y', strtotime($default));
-            $out = "tweeted on ". $default;
+            $out = " on ". $default;
         }
         
         return $out;

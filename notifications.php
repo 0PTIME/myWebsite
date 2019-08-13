@@ -59,34 +59,43 @@ $queryReplies = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid F
 $queryTweetResults = mysqli_query($mysqli, $queryTweets);
 $queryReplyResults = mysqli_query($mysqli, $queryReplies);
 $i = 0;
-if(mysqli_num_rows($queryTweetResults) > 0){
+if(mysqli_num_rows($queryReplyResults) > 0 || mysqli_num_rows($queryTweetResults) > 0){
     $tweetsExist = true;
     while($tweet = mysqli_fetch_assoc($queryTweetResults)){
+        while($reply = mysqli_fetch_assoc($queryReplyResults)){
+            $tweet_block[$i]['torr'] = true;
+            $tweet_block[$i]['mentions'] = $reply['ats'];
+            $tweet_block[$i]['tags'] = $reply['tags'];
+            $tweet_block[$i]['likes'] = $reply['likes'];
+            $tweet_block[$i]['identifier'] = $reply['uniqueid'];
+            $tweet_block[$i]['tweetId'] = $reply['TweetID'];
+            $tweet_block[$i]['title'] = $reply['ID'];
+            $tweet_block[$i]['content'] = $reply['content'];
+            $tweet_block[$i]['fullTimestamp'] = $reply['time'];
+            if($tweet_block[$i]['timestamp'] = "replied " . getTimespan($reply['time']));
+            $i++;
+        }
+        $tweet_block[$i]['torr'] = false;
         $tweet_block[$i]['mentions'] = $tweet['ats'];
         $tweet_block[$i]['tags'] = $tweet['tags'];
         $tweet_block[$i]['likes'] = $tweet['likes'];
         $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];
-        if($tweet_block[$i]['timestamp'] = getTimespan($tweet['time']));
+        $tweet_block[$i]['fullTimestamp'] = $tweet['time'];
+        if($tweet_block[$i]['timestamp'] = "tweeted " . getTimespan($tweet['time']));
         $i++;
     }
+    usort($tweet_block, function($item1, $item2) {
+        $ts1 = strtotime($item1['fullTimestamp']);
+        $ts2 = strtotime($item2['fullTimestamp']);
+        return $ts2 - $ts1;
+    });
+
     $tbs->MergeBlock('blk1', $tweet_block);
 }
-else { $tweetsExist = false; }
-if(mysqli_num_rows($queryReplyResults) > 0){
-    while($reply = mysqli_fetch_assoc($queryReplyResults)){
-        $tweet_block[$i]['mentions'] = $reply['ats'];
-        $tweet_block[$i]['tags'] = $reply['tags'];
-        $tweet_block[$i]['likes'] = $reply['likes'];
-        $tweet_block[$i]['identifier'] = $reply['uniqueid'];
-        $tweet_block[$i]['tweetId'] = $reply['TweetID'];
-        $tweet_block[$i]['title'] = $reply['ID'];
-        $tweet_block[$i]['content'] = $reply['content'];
-        if($tweet_block[$i]['timestamp'] = getTimespan($reply['time']));
-        $i++;
-    }
-    $tbs->MergeBlock('blk1', $tweet_block);
-}
+else{ $tweetsExist = false;}
+
+
 
 $tbs->Show();
