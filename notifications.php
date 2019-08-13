@@ -31,8 +31,6 @@ $myNotifications = trim($_SESSION['myNotifications']);
 
 
 /****** logic for pulling your twitter notifications and displaying multiple tweets *******/
-$charReply = "reply";
-$charTweet = "tweet";
 $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER");
 if (!$mysqli) {
     die("Connection failed: " . mysqli_connect_error());
@@ -61,20 +59,20 @@ $queryReplyResults = mysqli_query($mysqli, $queryReplies);
 $i = 0;
 if(mysqli_num_rows($queryReplyResults) > 0 || mysqli_num_rows($queryTweetResults) > 0){
     $tweetsExist = true;
+    while($reply = mysqli_fetch_assoc($queryReplyResults)){
+        $tweet_block[$i]['torr'] = true;
+        $tweet_block[$i]['mentions'] = $reply['ats'];
+        $tweet_block[$i]['tags'] = $reply['tags'];
+        $tweet_block[$i]['likes'] = $reply['likes'];
+        $tweet_block[$i]['identifier'] = $reply['uniqueid'];
+        $tweet_block[$i]['tweetId'] = $reply['TweetID'];
+        $tweet_block[$i]['title'] = $reply['ID'];
+        $tweet_block[$i]['content'] = $reply['content'];
+        $tweet_block[$i]['fullTimestamp'] = $reply['time'];
+        if($tweet_block[$i]['timestamp'] = "replied " . getTimespan($reply['time']));
+        $i++;
+    }
     while($tweet = mysqli_fetch_assoc($queryTweetResults)){
-        while($reply = mysqli_fetch_assoc($queryReplyResults)){
-            $tweet_block[$i]['torr'] = true;
-            $tweet_block[$i]['mentions'] = $reply['ats'];
-            $tweet_block[$i]['tags'] = $reply['tags'];
-            $tweet_block[$i]['likes'] = $reply['likes'];
-            $tweet_block[$i]['identifier'] = $reply['uniqueid'];
-            $tweet_block[$i]['tweetId'] = $reply['TweetID'];
-            $tweet_block[$i]['title'] = $reply['ID'];
-            $tweet_block[$i]['content'] = $reply['content'];
-            $tweet_block[$i]['fullTimestamp'] = $reply['time'];
-            if($tweet_block[$i]['timestamp'] = "replied " . getTimespan($reply['time']));
-            $i++;
-        }
         $tweet_block[$i]['torr'] = false;
         $tweet_block[$i]['mentions'] = $tweet['ats'];
         $tweet_block[$i]['tags'] = $tweet['tags'];

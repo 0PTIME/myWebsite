@@ -28,7 +28,7 @@ if(isset($_POST['usrReg']) && isset($_POST['pwd']) && isset($_POST['usrEmail']) 
     $pwdTwo = $_POST['pwdTwo'];
     $email = $_POST['usrEmail'];
     // first checks if the passwords match before proceeding
-    if($pwd == $pwdTwo)
+    if($pwd === $pwdTwo)
     {
         // connect to the database and fail if connection fails
         $mysqli = mysqli_connect("localhost", "website", "data", "website_users");

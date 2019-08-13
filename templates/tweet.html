@@ -12,8 +12,8 @@
 </head>
 <body>
     <div class="feedLeft">
-        <form action="logout.php"><button>LOGOUT</button></form>
-        <form action="notifications.php"><button>NOTIFICATIONS</button></form>
+        <form action="logout"><button>LOGOUT</button></form>
+        <form action="notifications"><button>NOTIFICATIONS</button></form>
         <form action="home"><button>HOME</button></form>
         <button onclick="darkMode()">LIGHTSWITCH</button>
     
@@ -24,24 +24,56 @@
 
     </div>
     <div class="feed">
-        <div class="tweetContent"">
-            <h1><a id="userLink" href="search?keyword=[onshow.tweetUsername]">[onshow.tweetUsername]</a></h1>
-            <p>[onshow.timestamp]</p>
-            <div class="tweetBody">
-                [onshow.content] 
+        [onshow;block=begin; when [var.tweetComment] != 1;]
+            <div class="tweetContent"">
+                <h1><a id="userLink" href="search?keyword=[onshow.tweetUsername]">[onshow.tweetUsername]</a></h1>
+                <p>[onshow.tweetTimestamp]</p>
+                <div class="tweetBody">
+                    [onshow.tweetContent] 
+                </div>
+                <div class="tweetFooter">
+    
+                </div>        
             </div>
-            <div class="tweetFooter">
-
-            </div>        
-        </div>
-        <div class="makeYap">
-                <form action="yap" method="POST">
-                    <input type="text" class="yapContent" name="reply" autocomplete="off" required>
-                    <input type="hidden" name="tweetId" value="[onshow.tweetId]">
-                    <input type="hidden" name="tweetOwner" value="[onshow.tweetUsername]">
-                    <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
-                </form>            
+            <div class="makeYap">
+                    <form action="yap" method="POST">
+                        <input type="text" class="yapContent" name="reply" autocomplete="off" required>
+                        <input type="hidden" name="tweetId" value="[onshow.tweetId]">
+                        <input type="hidden" name="tweetOwner" value="[onshow.tweetUsername]">
+                        <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
+                    </form>            
             </div>
+        [onshow;block=end;]
+        [onshow;block=begin; when [var.tweetComment] == 1;]
+            <div class="tweetContent"">
+                <h1><a id="userLink" href="search?keyword=[onshow.tweetUsername]">[onshow.tweetUsername]</a></h1>
+                <p>[onshow.tweetTimestamp]</p>
+                <div class="tweetBody">
+                    [onshow.tweetContent] 
+                </div>
+                <div class="tweetFooter">
+    
+                </div>        
+            </div>
+            <div class="tweetContent"">
+                <h1><a id="userLink" href="search?keyword=[onshow.replyUsername]">[onshow.replyUsername]</a></h1>
+                <p>[onshow.replyTimestamp]</p>
+                <div class="tweetBody">
+                    [onshow.replyContent] 
+                </div>
+                
+                <div class="tweetFooter">
+                </div>        
+            </div>
+            <div class="makeYap">
+                    <form action="yap" method="POST">
+                        <input type="text" class="yapContent" name="reply" autocomplete="off" required>
+                        <input type="hidden" name="tweetId" value="[onshow.tweetId]">
+                        <input type="hidden" name="tweetOwner" value="[onshow.replyUsername]">
+                        <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
+                    </form>            
+            </div>
+        [onshow;block=end;]
         [onshow;block=begin; when [var.replyExist] == 1;]
         <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
 

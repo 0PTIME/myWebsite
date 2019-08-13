@@ -179,7 +179,13 @@ function getTimespan($time){
         $ts->setTimestamp(strtotime($time));
         $cur = new DateTime();
         $difference = $cur->diff($ts);
-        if ($difference->format("%a") == 0){
+        if ($difference->format("%i") == 0){
+            $out = $difference->format("less than a minute") . " ago";
+        }
+        elseif ($difference->format("%h") == 0){
+            $out = $difference->format("%i minutes") . " ago";
+        }
+        elseif ($difference->format("%a") == 0){
             $out = $difference->format("%h hours %i minutes") . " ago";
         }
         elseif ($difference->format("%a") < 7){
@@ -193,8 +199,7 @@ function getTimespan($time){
            $out = $difference->format("%m months") . " ago";
         }
         else{
-            $default = $time;
-            $default = date('m-d-Y', strtotime($default));
+            $default = date('m/d/Y', strtotime($time));
             $out = "on ". $default;
         }
         
@@ -203,6 +208,14 @@ function getTimespan($time){
     else{
         return false;
     }
+}
+function checkPrefix($id){
+    $newCheck ="";
+    $checkifTweet = str_split($id);
+    for($i = 0; $i < 5; $i++){
+        $newCheck = trim($newCheck . $checkifTweet[$i]);
+    }
+    return $newCheck;
 }
 
 
