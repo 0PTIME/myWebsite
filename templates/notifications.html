@@ -27,9 +27,10 @@
             <h1 style="text-align: center; border-bottom: 2px solid black">NOTIFICATIONS</h1>            
         </div>
         [onshow;block=begin; when [var.tweetsExist] == 1;]
-        <div class="tweetContent">
+        <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
 
-            <h1>[blk1.title;block=div;]</h1>
+            <h1><a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;block=div;]</a></h1>
+            <p></p>
 
             <div class="tweetBody">
                 [blk1.content;] 

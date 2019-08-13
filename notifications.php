@@ -29,25 +29,64 @@ $dateAdded = $_SESSION['datecreated'];
 $myFollows = trim($_SESSION['myFollows']);
 $myNotifications = trim($_SESSION['myNotifications']);
 
+
 /****** logic for pulling your twitter notifications and displaying multiple tweets *******/
-$mysqli = mysqli_connect("localhost", "website", "data", "YAPPER");
+$charReply = "reply";
+$charTweet = "tweet";
+$mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER");
 if (!$mysqli) {
     die("Connection failed: " . mysqli_connect_error());
 }
 $myNotifications = explode(' ', $myNotifications);
-$queryNotification = implode("', '", $myNotifications);
-$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $queryNotification . "') ORDER BY time DESC";
-$queryResults = mysqli_query($mysqli, $queryTweets);
+foreach($myNotifications as $checkNotify){
+    $newCheck = "";
+    $checkifTweet = str_split($checkNotify);
+    for($i = 0; $i < 5; $i++){
+        $newCheck = trim($newCheck . $checkifTweet[$i]);
+    }
+    if($newCheck == "tweet"){
+        $myTweetNotifications[count($myTweetNotifications)] = $checkNotify;
+    }
+    if($newCheck == "reply"){
+        $myReplyNotifications[count($myReplyNotifications)] = $checkNotify;
+    }
+}
+
+$queryNotificationTweet = implode("', '", $myTweetNotifications);
+$queryNotificationReply = implode("', '", $myReplyNotifications);
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $queryNotificationTweet . "') ORDER BY time DESC";
+$queryReplies = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueid IN ('" . $queryNotificationReply . "') ORDER BY time DESC";
+$queryTweetResults = mysqli_query($mysqli, $queryTweets);
+$queryReplyResults = mysqli_query($mysqli, $queryReplies);
 $i = 0;
-if(mysqli_num_rows($queryResults) > 0){
+if(mysqli_num_rows($queryTweetResults) > 0){
     $tweetsExist = true;
-    while($tweet = mysqli_fetch_assoc($queryResults)){
+    while($tweet = mysqli_fetch_assoc($queryTweetResults)){
+        $tweet_block[$i]['mentions'] = $tweet['ats'];
+        $tweet_block[$i]['tags'] = $tweet['tags'];
+        $tweet_block[$i]['likes'] = $tweet['likes'];
+        $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];
+        if($tweet_block[$i]['timestamp'] = getTimespan($tweet['time']));
         $i++;
     }
     $tbs->MergeBlock('blk1', $tweet_block);
 }
 else { $tweetsExist = false; }
+if(mysqli_num_rows($queryReplyResults) > 0){
+    while($reply = mysqli_fetch_assoc($queryReplyResults)){
+        $tweet_block[$i]['mentions'] = $reply['ats'];
+        $tweet_block[$i]['tags'] = $reply['tags'];
+        $tweet_block[$i]['likes'] = $reply['likes'];
+        $tweet_block[$i]['identifier'] = $reply['uniqueid'];
+        $tweet_block[$i]['tweetId'] = $reply['TweetID'];
+        $tweet_block[$i]['title'] = $reply['ID'];
+        $tweet_block[$i]['content'] = $reply['content'];
+        if($tweet_block[$i]['timestamp'] = getTimespan($reply['time']));
+        $i++;
+    }
+    $tbs->MergeBlock('blk1', $tweet_block);
+}
 
 $tbs->Show();

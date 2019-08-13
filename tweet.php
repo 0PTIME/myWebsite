@@ -64,6 +64,7 @@ if(isset($_GET['id'])){
         $tweetUsername = $tweetInfo['ID'];
         if($timestamp = getTimespan($tweetInfo['time'])); 
         $content = $tweetInfo['content'];
+        
     }
     
 

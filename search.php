@@ -66,8 +66,13 @@ if(isset($_GET['keyword'])){
             if(mysqli_num_rows($queryResults) > 0){
                 $tweetsExist = true;
                 while($tweet = mysqli_fetch_assoc($queryResults)){
+                    $tweet_block[$i]['mentions'] = $tweet['ats'];
+                    $tweet_block[$i]['tags'] = $tweet['tags'];
+                    $tweet_block[$i]['likes'] = $tweet['likes'];
+                    $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
                     $tweet_block[$i]['title'] = $tweet['ID'];
                     $tweet_block[$i]['content'] = $tweet['content'];
+                    if($tweet_block[$i]['timestamp'] = getTimespan($tweet['time']));
                     $i++;
                 }
                 $tbs->MergeBlock('blk1', $tweet_block);

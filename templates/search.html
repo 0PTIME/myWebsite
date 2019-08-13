@@ -24,12 +24,6 @@
 
     </div>
     <div class="feed">
-        <div class="homesearch">
-            <form action="search" method="GET">
-                <input type="text" class="searchBar" name="keyword" autocomplete="off">
-                <input type="submit" value="Search">
-            </form>
-        </div>
         <div class="searchedFor">
             <p>'[onshow.search]'</p>
             [onshow; block=begin; when [var.searchisuser] == 1]
@@ -39,34 +33,41 @@
                 <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
                 <p class="info">followers [onshow.searchedFollowers]</p>
                 <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
-            
+                
             </div>
-                [onshow;block=begin; when [var.tweetsExist] == 1;]
-                <div class="tweetContent">
-
+            [onshow;block=begin; when [var.tweetsExist] == 1;]
+            <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
+                    
                     <h1>[blk1.title;block=div;]</h1>
-
-                <div class="tweetBody">
-                    [blk1.content;] 
-
+                    <p>[blk1.timestamp]</p>
+                    
+                    <div class="tweetBody">
+                        [blk1.content;] 
+                        
                 </div>
-
+                
                 <div class="tweetFooter">
-
+                    
                 </div>        
-                </div>
-                [onshow; block=end;]
+            </div>
+            [onshow; block=end;]
             [onshow; block=end;]
             [onshow; block=begin; when [var.searchisuser] == 0]
             <div class="searchedUser">
-                    <p class="info">I haven't built anything other than user searches yet :)</p>
-            
+                <p class="info">I haven't built anything other than user searches yet :)</p>
+                
             </div>
             [onshow; block=end;]
         </div>
-
+        
     </div>
     <div class="feedRight">
+        <div class="homesearch">
+            <form action="search" method="GET">
+                <input type="text" class="searchBar" name="keyword" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
     </div>
     
 </body>

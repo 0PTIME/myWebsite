@@ -28,7 +28,7 @@
             <h1><a id="userLink" href="search?keyword=[onshow.tweetUsername]">[onshow.tweetUsername]</a></h1>
             <p>[onshow.timestamp]</p>
             <div class="tweetBody">
-                [onshow.content;] 
+                [onshow.content] 
             </div>
             <div class="tweetFooter">
 
@@ -38,6 +38,7 @@
                 <form action="yap" method="POST">
                     <input type="text" class="yapContent" name="reply" autocomplete="off" required>
                     <input type="hidden" name="tweetId" value="[onshow.tweetId]">
+                    <input type="hidden" name="tweetOwner" value="[onshow.tweetUsername]">
                     <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
                 </form>            
             </div>

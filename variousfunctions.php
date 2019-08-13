@@ -94,36 +94,38 @@ function getAts($tweet){
     }
 }
 // function that takes your current follows and someone you are trying to add and adds it then returns the current follows list
+// these functions rely on the checkFollows function to determine which one is called
 function addFollow($currentFollows, $adding){
-    if(strpos($currentFollows, $adding) === false) { // double check to make sure that the person is a part of your follows
-        if($currentFollows == "" || !isset($currentFollows)){ $newFollows = $adding;}
-        else{
-            $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
-            $arrayFollows[count($arrayFollows)] = $adding; // adds the new person to the array
-            $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
-        }
-        echo $newFollows;
+    if($currentFollows == "" || !isset($currentFollows)){ $newFollows = $adding;}
+    else{
+        $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
+        $arrayFollows[count($arrayFollows)] = $adding; // adds the new person to the array
+        $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
     }
     if($newFollows != $currentFollows && isset($newFollows)){ return $newFollows; } // quick little test to make sure that the person was added
     else { return $currentFollows; }
 }
 // function that takes your current follows and someone you are trying to remove and removes them from the list then returns the current list of follows
 function remFollow($currentFollows, $remmoving){
-    if(strpos($currentFollows, $remmoving) !== false) { // double check to make sure that the person is a part of your follows
-        $currentFollows = trim($currentFollows);
-        $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
-        $dump = array_search($remmoving, $arrayFollows); // finds the index of the person you are trying to follow
-        unset($arrayFollows[$dump]); // drops out the person out of the array
-        $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
-    }
+    $currentFollows = trim($currentFollows);
+    $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
+    $dump = array_search($remmoving, $arrayFollows); // finds the index of the person you are trying to follow
+    unset($arrayFollows[$dump]); // drops out the person out of the array
+    $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
     if($newFollows != $currentFollows && isset($newFollows)){ return $newFollows; } // quick little test to make sure that the person was added
     else { return $currentFollows; }
 }
-// function that returns true if the person you are trying to add is not part of your current follows list
+// function that returns true if the person you are trying to add is a part of your current follows list
 function checkFollows($currentFollows, $check){
-    if(isset($currentFollows)){
-        if(strpos($currentFollows, $check) === false){ return false; }
-        else { return true; }
+    if(isset($currentFollows) && isset($check)){
+        $currentFollows = trim($currentFollows);
+        $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
+        foreach($arrayFollows as $follow){
+            if($check == trim($follow)){
+                return true;
+            }
+        }
+        return false;
     }
     else { return false; }
     

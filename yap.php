@@ -27,10 +27,11 @@ if(isset($_POST['tweetId'])){
     if(isset($_POST['reply'])){
         // sets variables used for storing the tweet
         $tweetId = $_POST['tweetId'];
+        $tweetOwner = $_POST['tweetOwner'];
         $usr = $_SESSION['username'];
         $tweet = $_POST['reply'];
         $tags = getTags($tweet); // calls the function that returns all the tags in were in the tweet
-        $ats = getAts($tweet); // calls the function that returns all the people that were mentioned in the tweet
+        $ats = getAts($tweet . " @" . trim($tweetOwner)); // calls the function that returns all the people that were mentioned in the tweet and mentions the person that was replied to
         $identifier = uniqid("reply", true); // creates a unique id based on the the current time in microseconds with the option to make it even more unique turned on
         $likes = 0;
         $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
