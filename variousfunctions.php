@@ -176,7 +176,7 @@ function getNotifications($user){
 function getTimespan($time){
     if(isset($time)){
         $ts = new DateTime();
-        $ts->setTimestamp($time);
+        $ts->setTimestamp(strtotime($time));
         $cur = new DateTime();
         $difference = $cur->diff($ts);
         if ($difference->format("%a") == 0){
@@ -195,7 +195,7 @@ function getTimespan($time){
         else{
             $default = $time;
             $default = date('m-d-Y', strtotime($default));
-            $out = " on ". $default;
+            $out = "on ". $default;
         }
         
         return $out;
