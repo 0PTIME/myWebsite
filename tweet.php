@@ -51,11 +51,11 @@ $myFollows = trim($_SESSION['myFollows']);
 $myNotifications = trim($_SESSION['myNotifications']);
 
 /****** logic for pulling your twitter feed and displaying multiple tweets *******/
-if(isset($_GET['id'])){
+if(isset($_GET['id'])){ // makes sure that the get request is set
     $tweetId = $_GET['id'];
     $tweetComment = false;
-    $newCheck = trim(checkPrefix($tweetId));
-    if($newCheck == "tweet"){
+    $newCheck = trim(getPrefix($tweetId)); // calls the checkPrefix function to determine what kind of tweet to display
+    if($newCheck == "tweet"){ // if the id's prefix is tweet does the stuff to display a tweet
         $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
@@ -88,15 +88,15 @@ if(isset($_GET['id'])){
         }
         else { $replyExist = false; }        
     }
-    elseif($newCheck == "reply"){
+    elseif($newCheck == "reply"){ // if the prefix is reply does the stuff to display a reply
         $breakLoop = true;
         $tweetComment = true;
-        $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+        $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
         $newId = $tweetId;
-        // loops until testCase is set to hold an array of values of the base tweet
+        // loops until testCase is set to hold an array of values of the root tweet
         while($breakLoop){
             $findQuery = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueid='" . $newId . "'";
             $findResults = mysqli_query($sqlConnection, $findQuery);
@@ -115,10 +115,12 @@ if(isset($_GET['id'])){
             }
             else { $breakLoop = false; }
         }
+        // holds the values to display the root tweets information
         $tweetUsername = $testCase['ID'];
         if($tweetTimestamp = "tweeted " . getTimespan($testCase['time'])); 
         $tweetContent = $testCase['content'];
 
+        // gets the informations to display the tweet that they clicked on
         $queryReply = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueid='" . $tweetId . "'";
         $replyResults = mysqli_query($sqlConnection, $queryReply);
         if(mysqli_num_rows($replyResults) == 1){
@@ -128,7 +130,8 @@ if(isset($_GET['id'])){
             $replyContent = $replyInfo['content'];
             
         }
-    
+        
+        // takes all the comments for the tweet that they clicked on and displays them if any
         $queryReplies = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM replies WHERE tweetID='" . $tweetId . "' ORDER BY time DESC";
         $repliesResults = mysqli_query($sqlConnection, $queryReplies);
         $i = 0;
@@ -146,22 +149,12 @@ if(isset($_GET['id'])){
             }
             $tbs->MergeBlock('blk1', $tweet_block);
         }
-        else { $replyExist = false; }
-        
-    }
-
-
-
-    
+        else { $replyExist = false; }        
+    }    
 }
 else{
     header("location: home");
     exit();
 }
-   
-
-
-
-
 $tbs->Show();
 ?>

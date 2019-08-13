@@ -201,15 +201,15 @@ function getTimespan($time){
         else{
             $default = date('m/d/Y', strtotime($time));
             $out = "on ". $default;
-        }
-        
+        }        
         return $out;
     }
     else{
         return false;
     }
 }
-function checkPrefix($id){
+// little function that takes the 
+function getPrefix($id){
     $newCheck ="";
     $checkifTweet = str_split($id);
     for($i = 0; $i < 5; $i++){
