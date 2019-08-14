@@ -1,4 +1,4 @@
-/*general*/
+/* GENERAL */
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +18,12 @@ div{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+h1{
+    font-size: 25px;
+}
 
+
+/* CLASSES */
 .loginDiv{
     width: 50%;
     height: 100%;
@@ -132,7 +137,9 @@ div{
     padding-right: 2%;
     padding-left: 2%;
     width: 94%;
-    height: 55%;
+    height: 47%;
+    border: 2px solid #1a1e2e;
+    border-radius: 4px;
 }
 .tweetFooter{
     margin: 2%;
@@ -141,12 +148,36 @@ div{
     width: 92%;
     height: 15%;
 }
+.timestamp{
+    font-size: 11px;
+    opacity: .6;
+    margin-left: 1%;
+}
+.tweetButton{
+    width: 80px;
+    height: 20px;
+    background-color: #1a1e2e;
+    border: 2px solid #21263b;
+    border-radius: 23px;
+}
+.tweetButton:hover{
+    animation-name: wub;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+.stopButtons{
+    display: inline-block;
+    margin: 0;
+    width: 25%;
+    height: 100%;
+}
 
 
 
 
 
 
+/* ID */
 #userLink{
     color: white;
     text-decoration: none;
@@ -168,4 +199,19 @@ div{
 }
 #buttons{
     display: block;
+}
+
+
+
+
+/* ANIMATIONS */
+@keyframes wub{
+    0% {width: 80px;}
+    25% {width: 84px;}
+    0% {height: 20px;}
+    25% {height: 24px;}
+    40% {width: 84px;}
+    100% {width: 80px;}
+    40% {height: 24px;}
+    100% {height: 20px;}
 }

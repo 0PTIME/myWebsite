@@ -1,4 +1,4 @@
-ErrorDocument 404 /errors/bad_urls.html
+ErrorDocument 404 /localdev/mywebsite/errors/bad_urls.html
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -29,6 +29,7 @@ if(isset($_POST['tweetId'])){
         $tweetId = $_POST['tweetId'];
         $tweetOwner = $_POST['tweetOwner'];
         $sourceTweet = $_POST['sourceTweet'];
+        if(!isset($sourceTweet)) { $sourceTweet = $tweetId; }
         $usr = $_SESSION['username'];
         $tweet = $_POST['reply'];
         $tags = getTags($tweet); // calls the function that returns all the tags in were in the tweet

@@ -32,19 +32,27 @@
             </form>            
         </div>
         [onshow;block=begin; when [var.tweetsExist] == 1;]
-        <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
+        <div class="tweetContent">
 
             <h1><a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;block=div;]</a></h1>
-            <p>[blk1.timestamp]</p>
+            <p class="timestamp">[blk1.timestamp]</p>
 
-            <div class="tweetBody">
+            <div class="tweetBody" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
                 [blk1.content;] 
 
             </div>
-
             <div class="tweetFooter">
-
+                <div class="stopButtons">
+                    <button class="tweetButton" >LIKE [blk1.likes]</button>
+                </div>
+                <div class="stopButtons">
+                    <button class="tweetButton">RETWEET</button>
+                </div>
+                <div class="stopButtons">
+                    <button onclick="location.href = 'tweet?id=[blk1.identifier;]'" class="tweetButton">REPLY [blk1.comments]</button>
+                </div>
             </div>        
+
         </div>
         [onshow;block=end;]
         

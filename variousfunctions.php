@@ -155,6 +155,7 @@ function notifyMentions($ats, $identifier){
             }
         }
     }
+    mysqli_close($mysqli);
 }
 // function that takes a user and returns their current list of notifications, returns false if the user dosen't exist
 function getNotifications($user){
@@ -164,6 +165,7 @@ function getNotifications($user){
     }
     $sqlqueryNotify = "SELECT title, notifications  FROM users WHERE title='" . $user . "'"; // query the user
     $result = mysqli_query($mysqli, $sqlqueryNotify);
+    mysqli_close($mysqli);
     if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the notifications
         $data = mysqli_fetch_assoc($result);
         $notifications = $data['notifications'];
@@ -216,6 +218,17 @@ function getPrefix($id){
         $newCheck = trim($newCheck . $checkifTweet[$i]);
     }
     return $newCheck;
+}
+// takes the tweet ID and returns how many replies that tweet has
+function getNumComments($tweetId){
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
+    if (!$sqlConnection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $queryReply = "SELECT tweetID FROM replies WHERE tweetID='" . $tweetId . "'";
+    $replyResults = mysqli_query($sqlConnection, $queryReply);
+    mysqli_close($sqlConnection);
+    return mysqli_num_rows($replyResults);
 }
 
 

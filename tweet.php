@@ -55,7 +55,7 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
     $tweetId = $_GET['id'];
     $tweetComment = false;
     $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
-    if (!$mysqli) {
+    if (!$sqlConnection) {
         die("Connection failed: " . mysqli_connect_error());
     }
     $queryReply = "SELECT tweetID, sourceID, uniqueid FROM replies WHERE uniqueid='" . $tweetId . "'";
@@ -69,7 +69,7 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
     $newCheck = trim(getPrefix($tweetId)); // calls the checkPrefix function to determine what kind of tweet to display
     if($newCheck == "tweet"){ // if the id's prefix is tweet does the stuff to display a tweet
         $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
-        if (!$mysqli) {
+        if (!$sqlConnection) {
             die("Connection failed: " . mysqli_connect_error());
         }
         $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid='" . $tweetId . "'";
@@ -104,7 +104,7 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
         $breakLoop = true;
         $tweetComment = true;
         $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
-        if (!$mysqli) {
+        if (!$sqlConnection) {
             die("Connection failed: " . mysqli_connect_error());
         }
         $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid='" . $sourceTweet . "'";

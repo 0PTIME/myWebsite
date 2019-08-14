@@ -69,6 +69,7 @@ if(mysqli_num_rows($queryResults) > 0){
         $tweet_block[$i]['tags'] = $tweet['tags'];
         $tweet_block[$i]['likes'] = $tweet['likes'];
         $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
+        $tweet_block[$i]['comments'] = getNumComments($tweet['uniqueid']);
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];
         if($tweet_block[$i]['timestamp'] = "tweeted " . getTimespan($tweet['time']));
