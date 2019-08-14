@@ -28,6 +28,7 @@ if(isset($_POST['tweetId'])){
         // sets variables used for storing the tweet
         $tweetId = $_POST['tweetId'];
         $tweetOwner = $_POST['tweetOwner'];
+        $sourceTweet = $_POST['sourceTweet'];
         $usr = $_SESSION['username'];
         $tweet = $_POST['reply'];
         $tags = getTags($tweet); // calls the function that returns all the tags in were in the tweet
@@ -39,7 +40,7 @@ if(isset($_POST['tweetId'])){
             die("Connection failed: " . mysqli_connect_error());
         }
         // creates a mysql query that is used to insert a new row with the information created when the user submits the tweet
-        $sql = "INSERT INTO replies (ID, tweetID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweetId . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
+        $sql = "INSERT INTO replies (ID, tweetID, sourceID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $sourceTweet . "', '" . $tweetId . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
         mysqli_query($mysqli, $sql); // executes the query
         if($ats != ""){ // if the get tweets function didn't return a string without any values in it calls the notifyMentions function and passes the tweet id
             notifyMentions($ats, $identifier);

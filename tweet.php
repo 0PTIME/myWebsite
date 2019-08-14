@@ -54,6 +54,18 @@ $myNotifications = trim($_SESSION['myNotifications']);
 if(isset($_GET['id'])){ // makes sure that the get request is set
     $tweetId = $_GET['id'];
     $tweetComment = false;
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $queryReply = "SELECT tweetID, sourceID, uniqueid FROM replies WHERE uniqueid='" . $tweetId . "'";
+    $replyResults = mysqli_query($sqlConnection, $queryReply);
+    if(mysqli_num_rows($replyResults) == 1){
+        $replyInfo = mysqli_fetch_assoc($replyResults);
+        $sourceId = $replyInfo['sourceID'];  
+        $sourceTweet = $replyInfo['tweetID'];
+    }
+
     $newCheck = trim(getPrefix($tweetId)); // calls the checkPrefix function to determine what kind of tweet to display
     if($newCheck == "tweet"){ // if the id's prefix is tweet does the stuff to display a tweet
         $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
@@ -61,15 +73,15 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
             die("Connection failed: " . mysqli_connect_error());
         }
         $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid='" . $tweetId . "'";
-        $queryResults = mysqli_query($sqlConnection, $queryTweets);
-        if(mysqli_num_rows($queryResults) == 1){
-            $tweetInfo = mysqli_fetch_assoc($queryResults);
+        $queryTweetResults = mysqli_query($sqlConnection, $queryTweets);
+        if(mysqli_num_rows($queryTweetResults) == 1){
+            $tweetInfo = mysqli_fetch_assoc($queryTweetResults);
             $tweetUsername = $tweetInfo['ID'];
             if($tweetTimestamp = "tweeted " . getTimespan($tweetInfo['time'])); 
             $tweetContent = $tweetInfo['content'];            
         } 
     
-        $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM replies WHERE tweetID='" . $tweetId . "' ORDER BY time DESC";
+        $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM replies WHERE sourceID='" . $tweetId . "' ORDER BY time DESC";
         $queryResults = mysqli_query($sqlConnection, $queryTweets);
         $i = 0;
         if(mysqli_num_rows($queryResults) > 0){
@@ -95,33 +107,17 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
-        $newId = $tweetId;
-        // loops until testCase is set to hold an array of values of the root tweet
-        while($breakLoop){
-            $findQuery = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueid='" . $newId . "'";
-            $findResults = mysqli_query($sqlConnection, $findQuery);
-            if(mysqli_num_rows($findResults) == 1){
-                $testCase = mysqli_fetch_assoc($findResults);
-                if(checkPrefix($testCase['tweetID']) == "tweet"){
-                    $breakLoop = false;
-                    $newId = $testCase['tweetID'];
-                    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid='" . $newId . "'";
-                    $tweetResults = mysqli_query($sqlConnection, $queryTweets);
-                    $testCase = mysqli_fetch_assoc($tweetResults);
-                }
-                else{
-                    $newId = $testCase['tweetID'];
-                }                
-            }
-            else { $breakLoop = false; }
+        $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid='" . $sourceTweet . "'";
+        $queryResults = mysqli_query($sqlConnection, $queryTweets);
+        if(mysqli_num_rows($queryResults) == 1){
+            $tweetInfo = mysqli_fetch_assoc($queryResults);
+            $tweetUsername = $tweetInfo['ID'];
+            if($tweetTimestamp = "tweeted " . getTimespan($tweetInfo['time'])); 
+            $tweetContent = $tweetInfo['content'];            
         }
-        // holds the values to display the root tweets information
-        $tweetUsername = $testCase['ID'];
-        if($tweetTimestamp = "tweeted " . getTimespan($testCase['time'])); 
-        $tweetContent = $testCase['content'];
 
         // gets the informations to display the tweet that they clicked on
-        $queryReply = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueid='" . $tweetId . "'";
+        $queryReply = "SELECT ID, tweetID, content, tags, ats, time, likes, uniqueid FROM replies WHERE uniqueID='" . $tweetId . "'";
         $replyResults = mysqli_query($sqlConnection, $queryReply);
         if(mysqli_num_rows($replyResults) == 1){
             $replyInfo = mysqli_fetch_assoc($replyResults);
@@ -132,7 +128,7 @@ if(isset($_GET['id'])){ // makes sure that the get request is set
         }
         
         // takes all the comments for the tweet that they clicked on and displays them if any
-        $queryReplies = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM replies WHERE tweetID='" . $tweetId . "' ORDER BY time DESC";
+        $queryReplies = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM replies WHERE sourceID='" . $tweetId . "' ORDER BY time DESC";
         $repliesResults = mysqli_query($sqlConnection, $queryReplies);
         $i = 0;
         if(mysqli_num_rows($repliesResults) > 0){

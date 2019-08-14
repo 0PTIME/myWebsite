@@ -208,7 +208,7 @@ function getTimespan($time){
         return false;
     }
 }
-// little function that takes the 
+// little function that takes a string and returns a string of the first 5 characters
 function getPrefix($id){
     $newCheck ="";
     $checkifTweet = str_split($id);
