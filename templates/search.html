@@ -14,13 +14,16 @@
     <div class="feedLeft">
         <form action="logout"><button>LOGOUT</button></form>
         <form action="home"><button>HOME</button></form>
+        <form action="notifications"><button>NOTIFICATIONS</button></form>
         <button onclick="darkMode()">LIGHTSWITCH</button>
     
         <h1>HEY, [onshow.username] ツ</h1>
         <p class="info">[onshow.description]</p>
         <p class="info">Account Creation: [onshow.dateAdded]</p>
         <p class="info">followers [onshow.followers]</p>
-        <form action="notifications"><button>NOTIFICATIONS</button></form>
+
+        <button onclick="location.href = 'search?submit=myfollows'">MY FOLLOWS</button>
+        <button onclick="location.href = 'search?submit=followers'">FOLLOWERS</button>
 
     </div>
     <div class="feed">

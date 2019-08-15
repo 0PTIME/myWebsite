@@ -21,6 +21,8 @@
         <p class="info">[onshow.description]</p>
         <p class="info">Account Creation: [onshow.dateAdded]</p>
         <p class="info">followers [onshow.followers]</p>
+        <button onclick="location.href = 'search?submit=myfollows'">MY FOLLOWS</button>
+        <button onclick="location.href = 'search?submit=followers'">FOLLOWERS</button>
 
     </div>
     <div class="feed">
@@ -36,8 +38,8 @@
                 </div>        
             </div>
             <div class="makeYap">
-                    <form action="yap" method="POST">
-                        <input type="text" class="yapContent" name="reply" autocomplete="off" required>
+                    <form action="yap" method="POST" id="yapform">
+                        <textarea class="yapContent" name="reply" form="yapform" required></textarea> 
                         <input type="hidden" name="tweetId" value="[onshow.tweetId]">
                         <input type="hidden" name="tweetOwner" value="[onshow.tweetUsername]">
                         <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
@@ -66,8 +68,8 @@
                 </div>        
             </div>
             <div class="makeYap">
-                    <form action="yap" method="POST">
-                        <input type="text" class="yapContent" name="reply" autocomplete="off" required>
+                    <form action="yap" method="POST" id="yapform">
+                        <textarea class="yapContent" name="reply" form="yapform" required></textarea> 
                         <input type="hidden" name="tweetId" value="[onshow.tweetId]">
                         <input type="hidden" name="tweetOwner" value="[onshow.replyUsername]">
                         <input type="hidden" name="sourceTweet" value="[onshow.sourceTweet]">                        

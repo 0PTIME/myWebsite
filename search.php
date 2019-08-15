@@ -31,6 +31,11 @@ if(isset($_GET['keyword'])){
     // tests if the user is searching for a hashtag
     if($char[0] == '#'){
         $searchisuser = false;
+        unset($char[0]);
+        $searchedTag = implode("", $char);
+        $tweetsWithTag = getTweetsWithTag($searchedTag);
+        $repliesWithTag = getRepliesWithTag($searchedTag);
+
         $search = "I haven't added the functionality of searching for tags";
     }
     // currently is then assumes that you are searching for a user and tries to do that function
@@ -85,14 +90,15 @@ if(isset($_GET['keyword'])){
         
     }
 }
-elseif(isset($_GET['follow'])){
+elseif(isset($_GET['submit'])){
     $searchisuser = false;
     $searchon = true;
-    $search = $_GET['follow'];
+    $search = $_GET['submit'];
     if($search == "myfollows"){
         if($follows = getFollows($username)){
             $header = "THE PEOPLE YOU FOLLOW";
             $follows = explode('.', $follows);
+            unset($follows[0]);
             $i = 0;
             foreach($follows as $person){
                 $data = getProfile($person);           

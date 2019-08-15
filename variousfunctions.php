@@ -279,14 +279,13 @@ function getTimespan($time){
             $out = $difference->format("%i minutes") . " ago";
         }
         elseif ($difference->format("%a") == 0){
-            $out = $difference->format("%h hours %i minutes") . " ago";
+            $out = $difference->format("%h hours") . " ago";
         }
-        elseif ($difference->format("%a") < 7){
+        elseif ($difference->format("%a") < 25){
             $out = $difference->format("%a days") . " ago";
         }
-        elseif ($difference->format("%m") == 0) {
-            $days = $difference->format("%a");
-            $out = sprintf("%d weeks %d days", floor($days / 7), $days % 7) . " ago";
+        elseif ($difference->format("%a") < 35) {
+            $out = "about a month ago";
         }
         elseif ($difference->format("%y") == 0){
            $out = $difference->format("%m months") . " ago";
@@ -346,6 +345,25 @@ function getProfile($user){
     }
     else { return false; } // returns if the user doesn't exist
 }
+function getTweetsWithTag($tag){
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
+    if (!$sqlConnection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $now = date('Y-m-d G:i:s');
+    $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+    $queryTweetsWithTag = "SELECT tags, time, uniqueid FROM tweets AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+}
+function getRepliesWithTag($tag){
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
+    if (!$sqlConnection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $now = date('Y-m-d G:i:s');
+    $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+    $queryTweetsWithTag = "SELECT tags, time, uniqueid FROM replies AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+}
+
 
 
 

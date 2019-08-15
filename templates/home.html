@@ -13,8 +13,8 @@
 <body>
     <div class="feedLeft">
         <form action="logout"><button>LOGOUT</button></form>
-        <form action="notifications"><button>NOTIFICATIONS</button></form>
         <form action="home"><button>HOME</button></form>
+        <form action="notifications"><button>NOTIFICATIONS</button></form>
         <button onclick="darkMode()">LIGHTSWITCH</button>
     
         <h1>HEY, [onshow.username] ツ</h1>
@@ -22,24 +22,25 @@
         <p class="info">Account Creation: [onshow.dateAdded]</p>
         <p class="info">followers [onshow.followers]</p>
 
-        <button onclick="location.href = 'search?follow=myfollows'">MY FOLLOWS</button>
-        <button onclick="location.href = 'search?follow=followers'">FOLLOWERS</button>
+        <button onclick="location.href = 'search?submit=myfollows'">MY FOLLOWS</button>
+        <button onclick="location.href = 'search?submit=followers'">FOLLOWERS</button>
 
     </div>
     <div class="feed">
         <div class="makeYap">
-            <form action="yap" method="POST">
+            <form action="yap" method="POST" id="yapform">
                 <p style="text-align: center;">Tweet something!</p>
-                <input type="text" class="yapContent" name="yap" autocomplete="off" required>
+                <textarea class="yapContent" name="yap" form="yapform" required></textarea>         
                 <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
-            </form>            
+            </form>
         </div>
         [onshow;block=begin; when [var.tweetsExist] == 1;]
         <div class="tweetContent">
-
-            <h1><a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;block=div;]</a></h1>
-            <p class="timestamp">[blk1.timestamp]</p>
-
+                [blk1;block=div;]
+            <div class="tweetHeader">
+                <a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;]</a>
+                <p class="timestamp">[blk1.timestamp]</p>
+            </div>
             <div class="tweetBody" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
                 [blk1.content;] 
 

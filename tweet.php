@@ -23,24 +23,24 @@ if(!isset($_SESSION['username']))
 else {
     // sets the username and sets a bunch of their information to the session variable
     $username = $_SESSION['username'];
-    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
-    if (!$mysqli) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    $sqlquery = "SELECT title, date_added, description, follows, followers, notifications FROM users WHERE title='" . $username . "'";
-    $result = mysqli_query($mysqli, $sqlquery);
-    if(mysqli_num_rows($result) == 1){
-        $data = mysqli_fetch_assoc($result);
-        $_SESSION['description'] = $data['description'];
-        if($description == NULL){ $description = ":)"; }
-        $_SESSION['followers'] = $data['followers'];
-        $default = $data['date_added'];
-        $default = date('m/d/Y', strtotime($default));
-        $_SESSION['datecreated'] = $default;
-        $_SESSION['myFollows'] = $data['follows'];
-        $_SESSION['myNotifications'] = $data['notifications'];
+    // $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    // if (!$mysqli) {
+    //     die("Connection failed: " . mysqli_connect_error());
+    // }
+    // $sqlquery = "SELECT title, date_added, description, follows, followers, notifications FROM users WHERE title='" . $username . "'";
+    // $result = mysqli_query($mysqli, $sqlquery);
+    // if(mysqli_num_rows($result) == 1){
+    //     $data = mysqli_fetch_assoc($result);
+    //     $_SESSION['description'] = $data['description'];
+    //     if($description == NULL){ $description = ":)"; }
+    //     $_SESSION['followers'] = $data['followers'];
+    //     $default = $data['date_added'];
+    //     $default = date('m/d/Y', strtotime($default));
+    //     $_SESSION['datecreated'] = $default;
+    //     $_SESSION['myFollows'] = $data['follows'];
+    //     $_SESSION['myNotifications'] = $data['notifications'];
         
-    }
+    // }
 }
 // bunch of variables that tbs uses to display your information wherever you go
 $description = $_SESSION['description'];
