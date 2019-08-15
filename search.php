@@ -31,12 +31,49 @@ if(isset($_GET['keyword'])){
     // tests if the user is searching for a hashtag
     if($char[0] == '#'){
         $searchisuser = false;
+        $searchistag = true;
         unset($char[0]);
         $searchedTag = implode("", $char);
+        $search = "#" . $searchedTag;
         $tweetsWithTag = getTweetsWithTag($searchedTag);
         $repliesWithTag = getRepliesWithTag($searchedTag);
+        $i = 0;
+        if($tweetsWithTag){
+            if($repliesWithTag){
+                foreach($repliesWithTag as $repli){
+                    $data = getTweet($repli);
+                    $tweetBlock[$i]['mentions'] = $data['mentions'];
+                    $tweetBlock[$i]['tags'] = $data['tags'];
+                    $tweetBlock[$i]['likes'] = $data['likes'];
+                    $tweetBlock[$i]['identifier'] = $twit;
+                    $tweetBlock[$i]['title'] = $data['title'];
+                    $tweetBlock[$i]['content'] = $data['content'];
+                    $tweetBlock[$i]['fullTimestamp'] = $tweet['time'];
+                    if($tweetBlock[$i]['timestamp'] = getTimespan($data['time']));
+                    $i++;
+                }                
+            }
+            foreach($tweetsWithTag as $twit){
+                $data = getTweet($twit);
+                $tweetBlock[$i]['comments'] = getNumComments($twit);
+                $tweetBlock[$i]['mentions'] = $data['mentions'];
+                $tweetBlock[$i]['tags'] = $data['tags'];
+                $tweetBlock[$i]['likes'] = $data['likes'];
+                $tweetBlock[$i]['identifier'] = $twit;
+                $tweetBlock[$i]['title'] = $data['title'];
+                $tweetBlock[$i]['content'] = $data['content'];
+                $tweetBlock[$i]['fullTimestamp'] = $tweet['time'];
+                if($tweetBlock[$i]['timestamp'] = getTimespan($data['time']));
+                $i++;
+            }
+        }
+        usort($tweetBlock, function($item1, $item2) { // sorts the array tweetBlock by time in decending order
+            $ts1 = strtotime($item1['fullTimestamp']);
+            $ts2 = strtotime($item2['fullTimestamp']);
+            return $ts2 - $ts1;
+        });
+        $tbs->MergeBlock('blk3', $tweetBlock);
 
-        $search = "I haven't added the functionality of searching for tags";
     }
     // currently is then assumes that you are searching for a user and tries to do that function
     else {
@@ -59,7 +96,6 @@ if(isset($_GET['keyword'])){
             $searchedFollowers = $data['numfollowers'];
             $searchedDateAdded = $data['date_added'];
 
-
             $now = date('Y-m-d G:i:s');
             $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
             $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
@@ -71,6 +107,7 @@ if(isset($_GET['keyword'])){
             $i = 0;
             if(mysqli_num_rows($queryResults) > 0){
                 $tweetsExist = true;
+                $searchistag = false;
                 while($tweet = mysqli_fetch_assoc($queryResults)){
                     $tweet_block[$i]['mentions'] = $tweet['ats'];
                     $tweet_block[$i]['tags'] = $tweet['tags'];
@@ -86,7 +123,11 @@ if(isset($_GET['keyword'])){
             else { $tweetsExist = false; }
         }
         // if there was more than one result sets the search to not display a user and tells them that we didn't find anything
-        else{ $searchisuser = false; $search = "Your search '" . $search . "' didn't bring anything back"; }
+        else{ 
+        $searchisuser = false; 
+        $searchistag = false;
+        $search = "Your search '" . $search . "' didn't bring anything back";
+    }
         
     }
 }

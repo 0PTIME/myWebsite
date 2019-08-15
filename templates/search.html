@@ -30,6 +30,31 @@
         [onshow;block=begin; when [var.searchon] != 1]
         <div class="searchedFor">
             <p>'[onshow.search]'</p>
+            [onshow;block=begin; when [var.searchistag] == 1]
+                <div class="tweetContent">
+                        [blk3;block=div;]
+                    <div class="tweetHeader">
+                        <a id="userLink" href="search?keyword=[blk3.title;]">[blk3.title;]</a>
+                        <p class="timestamp">[blk3.timestamp]</p>
+                    </div>
+                    <div class="tweetBody" onclick="location.href = 'tweet?id=[blk3.identifier;]'">
+                        [blk3.content;] 
+        
+                    </div>
+                    <div class="tweetFooter">
+                        <div class="stopButtons">
+                            <button class="tweetButton" >LIKE [blk3.likes]</button>
+                        </div>
+                        <div class="stopButtons">
+                            <button class="tweetButton">RETWEET</button>
+                        </div>
+                        <div class="stopButtons">
+                            <button onclick="location.href = 'tweet?id=[blk3.identifier;]'" class="tweetButton">REPLY [blk3.comments]</button>
+                        </div>
+                    </div>        
+        
+                </div>
+            [onshow;block=end;]
             [onshow; block=begin; when [var.searchisuser] == 1]
                 <div class="searchedUser">
                     <p class="info">[onshow.searchedUser]</p>

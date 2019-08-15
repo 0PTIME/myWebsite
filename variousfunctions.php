@@ -345,23 +345,78 @@ function getProfile($user){
     }
     else { return false; } // returns if the user doesn't exist
 }
+// takes a tag as a string does a database query and returns all the unique ids in an array
 function getTweetsWithTag($tag){
+    $myArray = array();
     $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
     if (!$sqlConnection) {
         die("Connection failed: " . mysqli_connect_error());
     }
     $now = date('Y-m-d G:i:s');
     $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
-    $queryTweetsWithTag = "SELECT tags, time, uniqueid FROM tweets AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+    $queryTweetsWithTag = "SELECT tags, time, uniqueid FROM tweets WHERE time BETWEEN '" . $monthago . "' AND '" . $now . "' AND tags <> \"\" ORDER BY time DESC";
+    $result = mysqli_query($sqlConnection, $queryTweetsWithTag);
+    mysqli_close($sqlConnection);
+    if(mysqli_num_rows($result) > 0){
+        while($data = mysqli_fetch_assoc($result)){
+            $arrayTags = explode('.', $data['tags']);
+            foreach($arrayTags as $checkTag){
+                if($checkTag == $tag){
+                    $myArray[count($myArray)] = $data['uniqueid'];
+                }
+            }
+        }
+        return $myArray;
+    }
+    else{ return null; }
 }
+// takes a tag as a string does a database query and returns all the unique ids in an array
 function getRepliesWithTag($tag){
+    $myArray = array();
     $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
     if (!$sqlConnection) {
         die("Connection failed: " . mysqli_connect_error());
     }
     $now = date('Y-m-d G:i:s');
     $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
-    $queryTweetsWithTag = "SELECT tags, time, uniqueid FROM replies AND time BETWEEN '" . $monthago . "' AND '" . $now . "'";
+    $queryRepliesWithTag = "SELECT tags, time, uniqueid FROM replies WHERE time BETWEEN '" . $monthago . "' AND '" . $now . "' AND tags <> \"\" ORDER BY time DESC";
+    $result = mysqli_query($sqlConnection, $queryRepliesWithTag);
+    mysqli_close($sqlConnection);
+    if(mysqli_num_rows($result) > 0){
+        while($data = mysqli_fetch_assoc($result)){
+            $arrayTags = explode('.', $data['tags']);
+            foreach($arrayTags as $checkTag){
+                if($checkTag == $tag){
+                    $myArray[count($myArray)] = $data['uniqueid'];
+                }
+            }
+        }
+        return $myArray;
+    }
+    else{ return null; }
+}
+// function that takes a tweets unique ID and returns all the information for that tweet
+function getTweet($tweetId){
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
+    if (!$sqlConnection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $tweetId . "')";
+    $result = mysqli_query($sqlConnection, $queryTweets);
+    mysqli_close($sqlConnection);
+    if(mysqli_num_rows($result) == 1){
+        $data = mysqli_fetch_assoc($result);
+        $myArray['title'] = $data['ID'];
+        $myArray['content'] = $data['content'];
+        $myArray['tags'] = $data['tags'];
+        $myArray['mentions'] = $data['ats'];
+        $myArray['time'] = $data['time'];
+        $myArray['likes'] = $data['likes'];
+        $myArray['tweetId'] = $data['uniqueid'];
+        return $myArray;
+    }
+    else{ return null; }
+
 }
 
 
