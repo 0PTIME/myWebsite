@@ -25,7 +25,7 @@ $username = $_SESSION['username'];
 /******* MAIN LOGIC FOR HOW TO HANDLE A SEARCH **************/
 //  makes sure that the keyword is set
 if(isset($_GET['keyword'])){
-    $searchisfollow = false;
+    $searchon = false;
     $search = $_GET['keyword'];
     $char = str_split($search);
     // tests if the user is searching for a hashtag
@@ -87,13 +87,50 @@ if(isset($_GET['keyword'])){
 }
 elseif(isset($_GET['follow'])){
     $searchisuser = false;
-    $searchisfollow = true;
+    $searchon = true;
     $search = $_GET['follow'];
-    if($search == "follow"){
-        
+    if($search == "myfollows"){
+        if($follows = getFollows($username)){
+            $header = "THE PEOPLE YOU FOLLOW";
+            $follows = explode('.', $follows);
+            $i = 0;
+            foreach($follows as $person){
+                $data = getProfile($person);           
+                $profileBlock[$i]['title'] = $data['title'];
+                $profileBlock[$i]['dateCreated'] = $data['dateCreated'];
+                $profileBlock[$i]['description'] = $data['description'];
+                $profileBlock[$i]['follows'] = $data['follows'];
+                $profileBlock[$i]['followers'] = $data['followers'];
+                $profileBlock[$i]['numFollowers'] = $data['numFollowers'];
+                $i++;
+            }
+            $tbs->MergeBlock('blk2', $profileBlock);
+        }
+        else{
+            $header = "NONE :)";
+        }
     }
-    if($search == "myfollowers"){
-
+    if($search == "followers"){
+        if($followers = getFollowers($username)){
+            $header = "YOUR FOLLOWERS";
+            $followers = getFollowers($username);
+            $followers = explode('.', $followers);
+            $i = 0;
+            foreach($followers as $person){
+                $data = getProfile($person);
+                $profileBlock[$i]['title'] = $data['title'];
+                $profileBlock[$i]['dateCreated'] = $data['dateCreated'];
+                $profileBlock[$i]['description'] = $data['description'];
+                $profileBlock[$i]['follows'] = $data['follows'];
+                $profileBlock[$i]['followers'] = $data['followers'];
+                $profileBlock[$i]['numFollowers'] = $data['numFollowers'];
+                $i++;
+            }
+            $tbs->MergeBlock('blk2', $profileBlock);
+        }
+        else{
+            $header = "NONE :)";
+        }
     }
 
 }
@@ -101,7 +138,7 @@ elseif(isset($_GET['follow'])){
 else{
     $search = "you didn't search anything";
     $searchisuser = false;
-    $searchisfollow = false;
+    $searchon = false;
 
 }
 // variables containing the logged in users information

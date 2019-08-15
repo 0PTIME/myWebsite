@@ -321,6 +321,31 @@ function getNumComments($tweetId){
     mysqli_close($sqlConnection);
     return mysqli_num_rows($replyResults);
 }
+function getProfile($user){
+    if(isset($user)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlquery = "SELECT title, date_added, description, follows, followers, numfollowers FROM users WHERE title='" . $user . "'"; // query the user
+        $result = mysqli_query($mysqli, $sqlquery);
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the Followers
+            $data = mysqli_fetch_assoc($result);
+            $myArray['title'] = $data['title'];
+            $myArray['dateCreated'] = getTimespan($data['date_added']);
+            if($data['description'] == null){ $myArray['description'] = ":)"; }
+            else{ $myArray['description'] = $data['description']; }
+            $myArray['follows'] = $data['follows'];
+            $myArray['followers'] = $data['followers'];
+            $myArray['numFollowers'] = $data['numfollowers'];
+            
+        }
+        else { return false; } // returns if the user doesn't exist
+        return $myArray;
+    }
+    else { return false; } // returns if the user doesn't exist
+}
 
 
 

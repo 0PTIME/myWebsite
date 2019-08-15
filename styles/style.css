@@ -170,6 +170,10 @@ h1{
     width: 25%;
     height: 100%;
 }
+.header{
+    text-align: center; 
+    border-bottom: 2px solid black;
+}
 
 
 

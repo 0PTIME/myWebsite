@@ -24,41 +24,56 @@
 
     </div>
     <div class="feed">
+        [onshow;block=begin; when [var.searchon] != 1]
         <div class="searchedFor">
             <p>'[onshow.search]'</p>
             [onshow; block=begin; when [var.searchisuser] == 1]
-            <div class="searchedUser">
-                <p class="info">[onshow.searchedUser]</p>
-                <p class="info">[onshow.searchedDescription]</p>
-                <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
-                <p class="info">followers [onshow.searchedFollowers]</p>
-                <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
-                
-            </div>
-            [onshow;block=begin; when [var.tweetsExist] == 1;]
-            <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
+                <div class="searchedUser">
+                    <p class="info">[onshow.searchedUser]</p>
+                    <p class="info">[onshow.searchedDescription]</p>
+                    <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
+                    <p class="info">followers [onshow.searchedFollowers]</p>
+                    <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
                     
-                    <h1>[blk1.title;block=div;]</h1>
-                    <p>[blk1.timestamp]</p>
-                    
-                    <div class="tweetBody">
-                        [blk1.content;] 
-                        
                 </div>
-                
-                <div class="tweetFooter">
+            [onshow;block=begin; when [var.tweetsExist] == 1;]
+                <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
+                        
+                        <h1>[blk1.title;block=div;]</h1>
+                        <p>[blk1.timestamp]</p>
+                        
+                        <div class="tweetBody">
+                            [blk1.content;] 
+                            
+                    </div>
                     
-                </div>        
-            </div>
+                    <div class="tweetFooter">
+                        
+                    </div>        
+                </div>
             [onshow; block=end;]
             [onshow; block=end;]
             [onshow; block=begin; when [var.searchisuser] == 0]
-            <div class="searchedUser">
-                <p class="info">I haven't built anything other than user searches yet :)</p>
-                
-            </div>
+                <div class="searchedUser">
+                    <p class="info">I haven't built anything other than user searches yet :)</p>
+                    
+                </div>
             [onshow; block=end;]
         </div>
+        [onshow; block=end;]
+        [onshow;block=begin; when [var.searchon] == 1]
+            <div class="header">
+                <h1>[onshow.header]</h1>
+            </div>
+            <div class="pfdiv">
+                    <p class="info">[blk2.title;block=div;]</p>
+                    <p class="info">[blk2.description]</p>
+                    <p class="info">Account Creation: [blk2.dateCreated]</p>
+                    <p class="info">followers [blk2.numFollowers]</p>
+                    <form action="follow" method="GET"><input type="hidden" name="keyword" value="[blk2.title]"><input type="submit" value="follow toggle"></form>
+                    <br><br>
+            </div>
+        [onshow; block=end;]
         
     </div>
     <div class="feedRight">
