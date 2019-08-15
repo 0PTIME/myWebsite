@@ -25,7 +25,7 @@ if(isset($_GET['keyword'])){
         }
         // defines 2 queries that get the people that the person logged in follows and gets the count of the person you are following
         $sqlqueryaddFollow = "SELECT follows FROM users WHERE title='" . $username . "'";
-        $sqlqueryupdateCount = "SELECT followers FROM users WHERE title='" . $search . "'";
+        $sqlqueryupdateCount = "SELECT numfollowers FROM users WHERE title='" . $search . "'";
         $resultFollow = mysqli_query($mysqli, $sqlqueryaddFollow);
         $resultUpdate = mysqli_query($mysqli, $sqlqueryupdateCount);
         // makes sure we only got one result for both queries
@@ -36,24 +36,24 @@ if(isset($_GET['keyword'])){
             $dataTwo = mysqli_fetch_assoc($resultUpdate);  
             // sets local variables to the values that are needed for this function      
             $currentFollows = $data['follows'];
-            $currentFollowerCount = $dataTwo['followers'];
+            $currentFollowerCount = $dataTwo['numfollowers'];
             // calls a function that returns true if it finds that the person you are trying to follow, you already follow and vice versa
-            if(checkFollows($currentFollows, $search)){
+            if(checkFollows($search)){
                 // calls the remove follow function which removes a given follow from a list of follows and decrements their follower count
-                $currentFollows = remFollow($currentFollows, $search);
+                $currentFollows = remFollow($search);
                 $currentFollowerCount -= 1;
             }
             else{
                 // calls a function to add the person you are trying to follow to your follows list and increments their follower count by one
-                $currentFollows = addFollow($currentFollows, $search);
+                $currentFollows = addFollow($search);
                 $currentFollowerCount += 1;
             }
             // queries to push the changes to the database
             $queryFollow = "UPDATE users SET follows='" . $currentFollows . "' WHERE title='" . $username . "'";
-            $queryUpdate = "UPDATE users SET followers='" . $currentFollowerCount . "' WHERE title='" . $search . "'";
+            $queryUpdate = "UPDATE users SET numfollowers='" . $currentFollowerCount . "' WHERE title='" . $search . "'";
             mysqli_query($mysqli, $queryFollow);
             mysqli_query($mysqli, $queryUpdate);
-        }       
+        } 
         header("location: search?keyword=" . $search); // redirects you back to where you should have come from
         exit();
     }

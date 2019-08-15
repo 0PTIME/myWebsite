@@ -95,29 +95,80 @@ function getAts($tweet){
 }
 // function that takes your current follows and someone you are trying to add and adds it then returns the current follows list
 // these functions rely on the checkFollows function to determine which one is called
-function addFollow($currentFollows, $adding){
+function addFollow($adding){
+    $currentFollows = trim(getFollows($_SESSION['username']));
     if($currentFollows == "" || !isset($currentFollows)){ $newFollows = $adding;}
     else{
         $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
         $arrayFollows[count($arrayFollows)] = $adding; // adds the new person to the array
         $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
     }
-    if($newFollows != $currentFollows && isset($newFollows)){ return $newFollows; } // quick little test to make sure that the person was added
+    if($newFollows != $currentFollows && isset($newFollows) && getFollowers($adding) !== null){
+        addFollower($adding);
+        return $newFollows; 
+    } // quick little test to make sure that the person was added
     else { return $currentFollows; }
 }
 // function that takes your current follows and someone you are trying to remove and removes them from the list then returns the current list of follows
-function remFollow($currentFollows, $remmoving){
+function remFollow($remmoving){
+    $currentFollows = trim(getFollows($_SESSION['username']));
     $currentFollows = trim($currentFollows);
     $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
     $dump = array_search($remmoving, $arrayFollows); // finds the index of the person you are trying to follow
     unset($arrayFollows[$dump]); // drops out the person out of the array
     $newFollows = implode('.', $arrayFollows); // remakes the string based on the same array of followers now without the person you are trying to add
-    if($newFollows != $currentFollows && isset($newFollows)){ return $newFollows; } // quick little test to make sure that the person was added
+    if($newFollows != $currentFollows && isset($newFollows) && getFollowers($remmoving) !== null){ 
+        remFollower($remmoving);
+        return $newFollows; 
+    } // quick little test to make sure that the person was added
     else { return $currentFollows; }
 }
+// functions to remove current logged in person from a list of someone elses followers
+function remFollower($otp){
+    $theirFollowers = trim(getFollowers($otp));// a string of the formatted followers
+    $currentUser = $_SESSION['username']; // current logged in user
+    if($currentUser == $theirFollowers){
+        setFollowers("", $otp);
+    }
+    else{
+        $arrayFollowers = explode('.', $theirFollowers); // stores all of your follows in an array
+        $dump = array_search($currentUser, $arrayFollowers); // finds the index of the person you are trying to follow
+        unset($arrayFollowers[$dump]); // drops out the person out of the array
+        $newFollowers = implode('.', $arrayFollowers); // remakes the string based on the same array of followers now without the person you are trying to add
+
+        if($newFollowers != $theirFollowers && isset($newFollowers)){
+            echo $newFollowers;
+            setFollowers($newFollowers, $otp); 
+        } // quick little test to make sure that the person was added
+    else{ setFollowers($theirFollowers, $otp); }
+    }
+}
+// function to add a follower to a list of followers
+function addFollower($otp){
+    $theirFollowers = trim(getFollowers($otp));// a string of the formatted followers
+    $currentUser = $_SESSION['username']; // current logged in user
+    if($theirFollowers == "" || !isset($theirFollowers)){ $newFollowers = $currentUser;}
+    else{
+        $arrayFollowers = explode('.', $theirFollowers); // stores all of your follows in an array
+        $arrayFollowers[count($arrayFollowers)] = $currentUser;
+        $newFollowers = implode('.', $arrayFollowers); // remakes the string based on the same array of followers now without the person you are trying to add
+    }
+    setFollowers($newFollowers, $otp);
+}
+// takes a list of followers and a user and updates the database
+function setFollowers($updatedFollowers, $user){    
+    $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $queryUpdateFollowers = "UPDATE users SET followers='" . $updatedFollowers . "' WHERE title='" . $user . "'"; // query to update the table with the new notifications
+    echo $queryUpdateFollowers;
+    mysqli_query($mysqli, $queryUpdateFollowers); // executes the update
+}
 // function that returns true if the person you are trying to add is a part of your current follows list
-function checkFollows($currentFollows, $check){
-    if(isset($currentFollows) && isset($check)){
+function checkFollows($check){
+    $currentFollows = trim(getFollows($_SESSION['username']));
+    if($currentFollows !== null && isset($check)){
         $currentFollows = trim($currentFollows);
         $arrayFollows = explode('.', $currentFollows); // stores all of your follows in an array
         foreach($arrayFollows as $follow){
@@ -171,6 +222,46 @@ function getNotifications($user){
         $notifications = $data['notifications'];
         if($notifications == NULL){ $notifications = ""; }
         return $notifications;
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+// function that takes a user and returns their current list of Follows, returns false if the user dosen't exist
+function getFollows($user){
+    if(isset($user)){
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryFollows = "SELECT title, follows  FROM users WHERE title='" . $user . "'"; // query the user
+        $result = mysqli_query($mysqli, $sqlqueryFollows);
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the Follows
+            $data = mysqli_fetch_assoc($result);
+            $follows = $data['follows'];
+            if($follows == NULL){ $follows = ""; }
+            return $follows;
+        }
+        else { return false; } // returns if the user doesn't exist
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+// function that takes a user and returns their current list of Followers, returns false if the user dosen't exist
+function getFollowers($user){
+    if(isset($user)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryFollowers = "SELECT title, followers  FROM users WHERE title='" . $user . "'"; // query the user
+        $result = mysqli_query($mysqli, $sqlqueryFollowers);
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the Followers
+            $data = mysqli_fetch_assoc($result);
+            $followers = $data['followers'];
+            if($followers == NULL){ $followers = ""; }
+            return $followers;
+        }
+        else { return false; } // returns if the user doesn't exist
     }
     else { return false; } // returns if the user doesn't exist
 }

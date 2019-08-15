@@ -25,6 +25,7 @@ $username = $_SESSION['username'];
 /******* MAIN LOGIC FOR HOW TO HANDLE A SEARCH **************/
 //  makes sure that the keyword is set
 if(isset($_GET['keyword'])){
+    $searchisfollow = false;
     $search = $_GET['keyword'];
     $char = str_split($search);
     // tests if the user is searching for a hashtag
@@ -40,7 +41,7 @@ if(isset($_GET['keyword'])){
             die("Connection failed: " . mysqli_connect_error());
         }
         // creates a query that searches the database for users matching what was searched
-        $sqlquery = "SELECT title, date_added, description, followers FROM users WHERE title='" . $search . "'";
+        $sqlquery = "SELECT title, date_added, description, numfollowers FROM users WHERE title='" . $search . "'";
         $result = mysqli_query($mysqli, $sqlquery);
         // if there is only one result display the users information
         if(mysqli_num_rows($result) == 1)
@@ -50,7 +51,7 @@ if(isset($_GET['keyword'])){
             $searchedUser = $data['title'];
             $searchedDescription = $data['description'];
             if($searchedDescription == NULL){ $searchedDescription = ":)"; }
-            $searchedFollowers = $data['followers'];
+            $searchedFollowers = $data['numfollowers'];
             $searchedDateAdded = $data['date_added'];
 
 
@@ -84,10 +85,24 @@ if(isset($_GET['keyword'])){
         
     }
 }
+elseif(isset($_GET['follow'])){
+    $searchisuser = false;
+    $searchisfollow = true;
+    $search = $_GET['follow'];
+    if($search == "follow"){
+        
+    }
+    if($search == "myfollowers"){
+
+    }
+
+}
 // message for is they didn't enter a value into the search bar
 else{
     $search = "you didn't search anything";
     $searchisuser = false;
+    $searchisfollow = false;
+
 }
 // variables containing the logged in users information
 $description = $_SESSION['description'];
