@@ -266,7 +266,7 @@ function getFollowers($user){
     else { return false; } // returns if the user doesn't exist
 }
 //  function that will take a mysql timestamp and make it look more user friendly
-function getTimespan($time){
+function getTimespan($time){ // I found this online btw
     if(isset($time)){
         $ts = new DateTime();
         $ts->setTimestamp(strtotime($time));
@@ -301,7 +301,7 @@ function getTimespan($time){
     }
 }
 // little function that takes a string and returns a string of the first 5 characters
-function getPrefix($id){
+function getPrefix($id){ // used to check what an identifier is referencing 
     $newCheck ="";
     $checkifTweet = str_split($id);
     for($i = 0; $i < 5; $i++){
@@ -326,7 +326,7 @@ function getProfile($user){
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
-        $sqlquery = "SELECT title, date_added, description, follows, followers, numfollowers FROM users WHERE title='" . $user . "'"; // query the user
+        $sqlquery = "SELECT title, date_added, description, follows, followers, numfollowers, likes FROM users WHERE title='" . $user . "'"; // query the user
         $result = mysqli_query($mysqli, $sqlquery);
         mysqli_close($mysqli);
         if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the Followers
@@ -338,6 +338,7 @@ function getProfile($user){
             $myArray['follows'] = $data['follows'];
             $myArray['followers'] = $data['followers'];
             $myArray['numFollowers'] = $data['numfollowers'];
+            $myArray['likes'] = $data['likes'];
             
         }
         else { return false; } // returns if the user doesn't exist
@@ -417,6 +418,85 @@ function getTweet($tweetId){
     }
     else{ return null; }
 
+}
+// functions that returns all the likes for a user
+function getLikes($user){
+    if(isset($user)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryLikes = "SELECT title, likes  FROM users WHERE title='" . $user . "'"; // query the user
+        $result = mysqli_query($mysqli, $sqlqueryLikes);
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the likes
+            $data = mysqli_fetch_assoc($result);
+            $likes = $data['likes'];
+            if($likes == NULL){ $likes = ""; }
+            return $likes;
+        }
+        else { return false; } // returns if the user doesn't exist
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+function setLikes($user, $likes){
+    if(isset($user) && isset($likes)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryLikes = "UPDATE users SET likes='" . $likes . "' WHERE title='" . $user ."'"; // query for update
+        mysqli_query($mysqli, $sqlqueryLikes);
+        mysqli_close($mysqli);
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+// returns true if the like is not part of the like list
+function checkLikes($needle, $haystack){
+    if($haystack === null){ $haystack = ""; }
+    if($haystack == ""){
+        return true;
+    }
+    else{
+        $arrayLikes = explode(" ", $haystack);
+        foreach($arrayLikes as $like){
+            if($needle == trim($like)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+// takes two strings and removes one from the other
+function addLike($like, $currLikes){
+    if($currLikes == "" || !isset($currLikes)){
+        $newlikes = trim($like);
+    }
+    else{
+        $arrayLikes = explode(" ", $currLikes);
+        $arrayLikes[count($arrayLikes)] = trim($like);
+        $newlikes = implode(" ", $arrayLikes);
+    }
+    return $newlikes;
+}
+function remLike($like, $currLikes){
+    $arrayLikes = explode(" ", $currLikes);
+    $dump = array_search($like, $arrayLikes);
+    unset($arrayLikes[$dump]);
+    $newlikes = implode(" ", $arrayLikes);
+    return $newlikes;
+}
+function updateLikes($tweetId, $num){
+    if(isset($tweetId) && isset($num)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryLikes = "UPDATE tweets SET likes='" . $num . "' WHERE uniqueid='" . $tweetId ."'"; // query for update
+        mysqli_query($mysqli, $sqlqueryLikes);
+        mysqli_close($mysqli);
+    }
+    else { return false; } // returns if the user doesn't exist
 }
 
 

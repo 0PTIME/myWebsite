@@ -41,25 +41,9 @@ function fadeTarget(target){
         }
     }, 20);
 }
-// function that is not working or in use
-function checkerror(error){
-    if(error == "")
-    {
-        var errorpwd = document.getElementById("error");
-        errorpwd.style.display = "none";
-    }
-    if(error != ""){
-        errorpwd.style.display = "block";
-    }
-}
-// non functioning function that should determine if the background is light or dark and then flip it
-function darkMode(){
-    if(document.body.style.backgroundColor == "#1da1f2"){
-        document.body.style.background = "#1a1e2e";
-        document.body.style.color = "#c7d2ff";
-    }
-    if(document.body.style.backgroundColor == "#1a1e2e"){
-        document.body.style.background = "#1da1f2";
-        document.body.style.color = "black";
-    }
+function like(tweetId){
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "like.php?tweetId=" + tweetId, true);
+    xhttp.send();
+    document.getElementById(tweetId).innerHTML = this.responseText;
 }

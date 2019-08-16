@@ -20,7 +20,7 @@ if(!isset($_SESSION['username']))
     header("location: index");
     exit();
 }
-else {
+else{
     // sets the username and sets a bunch of their information to the session variable
     $username = $_SESSION['username'];
     $mysqli = mysqli_connect("localhost", "website", "data", "website_users");
@@ -67,8 +67,8 @@ if(mysqli_num_rows($queryResults) > 0){
     while($tweet = mysqli_fetch_assoc($queryResults)){
         $tweet_block[$i]['mentions'] = $tweet['ats'];
         $tweet_block[$i]['tags'] = $tweet['tags'];
-        $tweet_block[$i]['likes'] = $tweet['likes'];
         $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
+        $tweet_block[$i]['likes'] = $tweet['likes'];
         $tweet_block[$i]['comments'] = getNumComments($tweet['uniqueid']);
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];

@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="styles/[onshow.style]" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=[onshow.font]" type="text/css">
     <script type="text/javascript" src="js/scripts.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
 </head>
 <body>
     <div class="feedLeft">
         <form action="logout"><button>LOGOUT</button></form>
         <form action="home"><button>HOME</button></form>
         <form action="notifications"><button>NOTIFICATIONS</button></form>
-        <button onclick="darkMode()">LIGHTSWITCH</button>
     
         <h1>HEY, [onshow.username] ツ</h1>
         <p class="info">[onshow.description]</p>
@@ -27,9 +27,11 @@
 
     </div>
     <div class="feed">
+        <div class="header">
+            <h1>HOME</h1>
+        </div>
         <div class="makeYap">
             <form action="yap" method="POST" id="yapform">
-                <p style="text-align: center;">Tweet something!</p>
                 <textarea class="yapContent" name="yap" form="yapform" required></textarea>         
                 <input type="submit" value="Yap" style="text-align: center; padding-right: 5%;">
             </form>
@@ -47,7 +49,7 @@
             </div>
             <div class="tweetFooter">
                 <div class="stopButtons">
-                    <button class="tweetButton" >LIKE [blk1.likes]</button>
+                    <button class="tweetButton" onclick="like('[blk1.identifier]')">LIKE </button> <span id="[blk1.identifier]"></span>
                 </div>
                 <div class="stopButtons">
                     <button class="tweetButton">RETWEET</button>
