@@ -42,8 +42,13 @@ function fadeTarget(target){
     }, 20);
 }
 function like(tweetId){
+
     var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+           document.getElementById(tweetId).innerHTML = xhttp.responseText;
+        }
+     }
     xhttp.open("GET", "like.php?tweetId=" + tweetId, true);
     xhttp.send();
-    document.getElementById(tweetId).innerHTML = this.responseText;
 }

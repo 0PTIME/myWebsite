@@ -34,7 +34,8 @@ if(isset($_GET['tweetId'])){
     }
     $currLikes = getLikes($_SESSION['username']);
     updateLikes($tweetId, $numLikes);
-    echo $numLikes;
+    echo "LIKE " . $numLikes;
+    exit();
 }
 
 

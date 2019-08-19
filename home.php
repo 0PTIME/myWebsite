@@ -34,6 +34,7 @@ else{
         $_SESSION['description'] = $data['description'];
         if($description == NULL){ $description = ":)"; }
         $_SESSION['followers'] = $data['numfollowers'];
+        if($_SESSION['followers'] == NULL) { $_SESSION['followers'] = 0; }
         $default = $data['date_added'];
         $default = date('m/d/Y', strtotime($default));
         $_SESSION['datecreated'] = $default;
