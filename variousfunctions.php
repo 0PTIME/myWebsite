@@ -4,7 +4,6 @@
 
 
 
-
 // function to unset and destroy the session effectivly loggin out the user
 function logout(){
     session_unset();
@@ -367,9 +366,8 @@ function getTweetsWithTag($tag){
                 }
             }
         }
-        return $myArray;
     }
-    else{ return null; }
+    return $myArray;
 }
 // takes a tag as a string does a database query and returns all the unique ids in an array
 function getRepliesWithTag($tag){
@@ -392,9 +390,32 @@ function getRepliesWithTag($tag){
                 }
             }
         }
-        return $myArray;
     }
-    else{ return null; }
+    return $myArray;
+}
+// takes a tag and returns an array of identifiers referencing all the retweets that has that tag
+function getRetweetsWithTag($tag){
+    $myArray = array();
+    $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection to 
+    if (!$sqlConnection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $now = date('Y-m-d G:i:s');
+    $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));
+    $queryRetweetsWithTag = "SELECT tags, time, uniqueid FROM retweets WHERE time BETWEEN '" . $monthago . "' AND '" . $now . "' AND tags <> \"\" ORDER BY time DESC";
+    $result = mysqli_query($sqlConnection, $queryRetweetsWithTag);
+    mysqli_close($sqlConnection);
+    if(mysqli_num_rows($result) > 0){
+        while($data = mysqli_fetch_assoc($result)){
+            $arrayTags = explode('.', $data['tags']);
+            foreach($arrayTags as $checkTag){
+                if($checkTag == $tag){
+                    $myArray[count($myArray)] = $data['uniqueid'];
+                }
+            }
+        }
+    }
+    return $myArray;
 }
 // function that takes a tweets unique ID and returns all the information for that tweet
 function getTweet($tweetId){
@@ -402,7 +423,7 @@ function getTweet($tweetId){
     if (!$sqlConnection) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE uniqueid IN ('" . $tweetId . "')";
+    $queryTweets = "SELECT ID, content, tags, ats, time, likes, numretweets, uniqueid FROM tweets WHERE uniqueid IN ('" . $tweetId . "')";
     $result = mysqli_query($sqlConnection, $queryTweets);
     mysqli_close($sqlConnection);
     if(mysqli_num_rows($result) == 1){
@@ -414,6 +435,7 @@ function getTweet($tweetId){
         $myArray['time'] = $data['time'];
         $myArray['likes'] = $data['likes'];
         $myArray['tweetId'] = $data['uniqueid'];
+        $myArray['numRetweets'] = $data['numretweets'];
         return $myArray;
     }
     else{ return null; }
@@ -452,7 +474,7 @@ function setLikes($user, $likes){
     else { return false; } // returns if the user doesn't exist
 }
 // returns true if the like is not part of the like list
-function checkLikes($needle, $haystack){
+function checkWStandard($needle, $haystack){
     if($haystack === null){ $haystack = ""; }
     if($haystack == ""){
         return true;
@@ -495,6 +517,156 @@ function updateLikes($tweetId, $num){
         $sqlqueryLikes = "UPDATE tweets SET likes='" . $num . "' WHERE uniqueid='" . $tweetId ."'"; // query for update
         mysqli_query($mysqli, $sqlqueryLikes);
         mysqli_close($mysqli);
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+function updateRetweets($tweetId, $num){
+    if(isset($tweetId) && isset($num)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryLikes = "UPDATE tweets SET numretweets='" . $num . "' WHERE uniqueid='" . $tweetId ."'"; // query for update
+        mysqli_query($mysqli, $sqlqueryLikes);
+        mysqli_close($mysqli);
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+function setRetweets($user, $retweets){
+    if(isset($user) && isset($retweets)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryRetweets = "UPDATE users SET retweets='" . $retweets . "' WHERE title='" . $user ."'"; // query for update
+        mysqli_query($mysqli, $sqlqueryRetweets);
+        mysqli_close($mysqli);
+    }
+    else { return false; } // returns if the user doesn't exist
+}
+// takes two strings and adds one to the other
+function addRetweet($retweet, $currRetweet){
+    if($currRetweet == "" || !isset($currLikes)){
+        $newRetweets = trim($retweet);
+    }
+    else{
+        $arrayRetweet = explode(" ", $currRetweet);
+        $arrayRetweet[count($arrayRetweet)] = trim($retweet);
+        $newRetweets = implode(" ", $arrayRetweet);
+    }
+    return $newRetweets;
+}
+function remRetweet($retweet, $currRetweet){
+    $arrayRetweet = explode(" ", $currRetweet);
+    $dump = array_search($retweet, $arrayRetweet);
+    unset($arrayRetweet[$dump]);
+    $newRetweets = implode(" ", $arrayRetweet);
+    return $newRetweets;
+}
+// takes an Identifier and determines what you are liking and sends out the like
+function likeTweet($tweetId){
+    if(isset($tweetId)){
+        $prefix = getPrefix($tweetId);
+        if($prefix == "tweet"){
+            $currLikes = getLikes($_SESSION['username']);
+            $tweet = getTweet($tweetId);
+            if(checkWStandard($tweetId, $currLikes)){
+                $newLikes = addLike($tweetId, $currLikes);
+                setLikes($_SESSION['username'], $newLikes);
+                $numLikes = $tweet['likes'] + 1;
+            }
+            else{
+                $newLikes = remLike($tweetId, $currLikes);
+                setLikes($_SESSION['username'], $newLikes);
+                $numLikes = $tweet['likes'] - 1;
+            }
+            updateLikes($tweetId, $numLikes);
+            return $numLikes;
+        }
+        if($prefix == "reply"){
+
+        }
+        if($prefix == "retwt"){
+
+        }
+    }
+}
+// $tweetId is the identifier of the tweet being retweeted and content is what they data they are attaching
+function makeRetweet($tweetId, $content){
+    $usr = $_SESSION['username'];
+    $tags = getTags($content); // calls the function that returns all the tags in were in the tweet
+    $ats = getAts($content); // calls the function that returns all the people that were mentioned in the tweet
+    $identifier = uniqid("retwt", true); // creates a unique id based on the the current time in microseconds with the option to make it even more unique turned on
+    $likes = 0;
+    $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    // creates a mysql query that is used to insert a new row with the information created when the user submits the tweet
+    $sql = "INSERT INTO retweets (ID, tweetID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweetId . "', '" . $content . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
+    mysqli_query($mysqli, $sql); // executes the query
+    mysqli_close($mysqli);
+    if($ats != ""){ // if the get tweets function didn't return a string without any values in it calls the notifyMentions function and passes the tweet id
+        notifyMentions($ats, $identifier);
+    }
+    return $identifier;
+}
+function delRetweet($identifier){
+    $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+    if (!$mysqli) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    // deletes a retweet
+    $sql = "DELETE FROM retweets where uniqueid='" . $identifier . "'";
+    mysqli_query($mysqli, $sql); // executes the query
+}
+// handles all the logic for making a tweet
+function retweetTweet($tweetId, $content){
+    if(isset($tweetId) && isset($content)){
+        $user = $_SESSION['username'];
+        $currRetweets = getRetweets($_SESSION['username']);
+        $tweet = getTweet($tweetId);
+        echo $tweet['numretweets'];
+        $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sql = "SELECT ID, tweetID, uniqueid FROM retweets WHERE ID='" . $user . "' AND tweetID='" . $tweetId . "'";
+        $retweetResults = mysqli_query($mysqli, $sql); // executes the query
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($retweetResults) == 1){
+            $data = mysqli_fetch_assoc($retweetResults);
+            delRetweet($data['uniqueid']);
+            $newRetweets = remRetweet($data['uniqueid'], $currRetweets);
+            setRetweets($_SESSION['username'], $newRetweets);
+            $numRetweets = $tweet['numRetweets'] - 1;
+        }
+        if(mysqli_num_rows($retweetResults) == 0){
+            $identifier = makeRetweet($tweetId, $content);
+            $newRetweets = addRetweet($identifier, $currRetweets);
+            setRetweets($_SESSION['username'], $newRetweets);
+            $numRetweets = $tweet['numRetweets'] + 1;
+        }
+        updateRetweets($tweetId, $numRetweets);
+        return $numRetweets;
+    }
+}
+function getRetweets($user){
+    if(isset($user)){ // makes sure that the they passed value, returns false if not
+        $mysqli = mysqli_connect("localhost", "website", "data", "website_users"); // connect to the users db
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sqlqueryRetweets = "SELECT title, retweets  FROM users WHERE title='" . $user . "'"; // query the user
+        $result = mysqli_query($mysqli, $sqlqueryRetweets);
+        mysqli_close($mysqli);
+        if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the likes
+            $data = mysqli_fetch_assoc($result);
+            $retweets = $data['retweets'];
+            if($retweets == NULL){ $retweets = ""; }
+            return $retweets;
+        }
+        else { return false; } // returns if the user doesn't exist
     }
     else { return false; } // returns if the user doesn't exist
 }

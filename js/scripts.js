@@ -1,3 +1,24 @@
+window.onclick = function(event) {
+    if (!event.target.matches('.stopButtons')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 // function to show the buttons and hide the login and register forms
 function showButtons(){
     var buttons = document.getElementById("buttons");
@@ -46,9 +67,35 @@ function like(tweetId){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-           document.getElementById(tweetId).innerHTML = xhttp.responseText;
+           document.getElementById("like"+tweetId).innerHTML = xhttp.responseText;
         }
      }
-    xhttp.open("GET", "like.php?tweetId=" + tweetId, true);
+    xhttp.open("GET", "yap.php?likeTweet=" + tweetId, true);
     xhttp.send();
 }
+function retweet(tweetId, retweetContent){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+           document.getElementById("retwt"+tweetId).innerHTML = xhttp.responseText;
+        }
+    }
+    if(retweetContent == null){
+        retweetContent = "";
+    }
+    xhttp.open("POST", "yap.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("tweetId="+tweetId+"&retweet="+retweetContent);
+}
+function retweetLogic(tweetId){
+    var promptText = prompt("Send a message with your retweet: ");
+    if(promptText === ""){
+        retweet(tweetId, promptText);
+    }
+    else if(promptText){
+        retweet(tweetId, promptText);
+    }
+}
+function showDropdown(id) {
+    document.getElementById(id).classList.toggle("show");
+  }

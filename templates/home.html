@@ -49,10 +49,14 @@
             </div>
             <div class="tweetFooter">
                 <div class="stopButtons">
-                    <button class="tweetButton" onclick="like('[blk1.identifier]')"><span id="[blk1.identifier]">LIKE [blk1.likes]</span></button>
+                    <button class="tweetButton" onclick="like('[blk1.identifier]')"><span id="like[blk1.identifier]">LIKE [blk1.likes]</span></button>
                 </div>
                 <div class="stopButtons">
-                    <button class="tweetButton">RETWEET</button>
+                    <button onclick="showDropdown('[blk1.identifier]')" class="tweetButton"><span id="retwt[blk1.identifier]">RETWEET [blk1.numRetweets]</span></button>
+                    <div id="[blk1.identifier]" class="dropdown-content">
+                        <p>hello</p>
+                        <button class="tweetButton" onclick="retweetLogic('[blk1.identifier]')"></button>
+                    </div>
                 </div>
                 <div class="stopButtons">
                     <button onclick="location.href = 'tweet?id=[blk1.identifier;]'" class="tweetButton">REPLY [blk1.comments]</button>

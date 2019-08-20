@@ -60,7 +60,7 @@ $sqlConnection = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // D
 if (!$mysqli) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$queryTweets = "SELECT ID, content, tags, ats, time, likes, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "' ORDER BY time DESC";
+$queryTweets = "SELECT ID, content, tags, ats, time, likes, numretweets, uniqueid FROM tweets WHERE ID IN ('" . $queryFollows . "') AND time BETWEEN '" . $monthago . "' AND '" . $now . "' ORDER BY time DESC";
 $queryResults = mysqli_query($sqlConnection, $queryTweets);
 $i = 0;
 if(mysqli_num_rows($queryResults) > 0){
@@ -70,6 +70,7 @@ if(mysqli_num_rows($queryResults) > 0){
         $tweet_block[$i]['tags'] = $tweet['tags'];
         $tweet_block[$i]['identifier'] = $tweet['uniqueid'];
         $tweet_block[$i]['likes'] = $tweet['likes'];
+        $tweet_block[$i]['numRetweets'] = $tweet['numretweets'];
         $tweet_block[$i]['comments'] = getNumComments($tweet['uniqueid']);
         $tweet_block[$i]['title'] = $tweet['ID'];
         $tweet_block[$i]['content'] = $tweet['content'];

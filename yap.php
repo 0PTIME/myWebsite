@@ -23,6 +23,12 @@ $username = $_SESSION['username'];
 /******** MAIN LOGIC FOR POSTING A TWEET ****************/
 // makes sure that the field was filled out
 // part that checks if you are trying to submit a reply or a tweet
+if(isset($_GET['likeTweet'])){
+    $tweetId = $_GET['likeTweet'];
+    $response = likeTweet($tweetId);
+    echo "LIKE " . $response;
+    exit();
+}
 if(isset($_POST['tweetId'])){
     if(isset($_POST['reply'])){
         // sets variables used for storing the tweet
@@ -47,6 +53,13 @@ if(isset($_POST['tweetId'])){
             notifyMentions($ats, $identifier);
         }
         header("location: tweet?id=" . $tweetId);
+        exit();
+    }
+    if(isset($_POST['retweet'])){
+        $tweetId = $_POST['tweetId'];
+        $tweet = $_POST['retweet'];
+        $response = retweetTweet($tweetId, $tweet);
+        echo "RETWEET " . $response;
         exit();
     }
 }
