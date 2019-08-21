@@ -38,13 +38,24 @@
         </div>
         [onshow;block=begin; when [var.tweetsExist] == 1;]
         <div class="tweetContent">
-                [blk1;block=div;]
+            [blk1;block=div;]
             <div class="tweetHeader">
-                <a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;]</a>
-                <p class="timestamp">[blk1.timestamp]</p>
+                <div class="headerTitle">
+                    <a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;]</a>
+                    <p class="timestamp">[blk1.timestamp]</p>
+                </div>
+                <div class="downArr">
+                    <img onclick="showDropdown('arr[blk1.identifier]')" src="media/downarr.png" class="arrImg temp">
+                    <div id="arr[blk1.identifier]" class="dropdown-content" class="show">
+                        <p>hello</p>
+                        <button class="tweetButton">testing</button>
+                    </div>
+                </div>
             </div>
             <div class="tweetBody" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
-                [blk1.content;] 
+                <p id="content[blk1.identifier;]">[blk1.content;]</p>
+                <script>tagsAts('content[blk1.identifier;]', '[blk1.mentions;]', '[blk1.tags]');</script>
+                 
 
             </div>
             <div class="tweetFooter">
@@ -52,10 +63,10 @@
                     <button class="tweetButton" onclick="like('[blk1.identifier]')"><span id="like[blk1.identifier]">LIKE [blk1.likes]</span></button>
                 </div>
                 <div class="stopButtons">
-                    <button onclick="showDropdown('[blk1.identifier]')" class="tweetButton"><span id="retwt[blk1.identifier]">RETWEET [blk1.numRetweets]</span></button>
-                    <div id="[blk1.identifier]" class="dropdown-content">
-                        <p>hello</p>
-                        <button class="tweetButton" onclick="retweetLogic('[blk1.identifier]')"></button>
+                    <button onclick="showDropdown('[blk1.identifier]')" class="tweetButton"><span class="temp" id="retwt[blk1.identifier]">RETWEET [blk1.numRetweets]</span></button>
+                    <div id="[blk1.identifier]" class="dropdown-content" class="show">
+                        <button onclick="retweet('[blk1.identifier]', '')">RETWEET WITHOUT TWEET</button>
+                        <button onclick="retweetLogic('[blk1.identifier]')">RETWEET WITH TWEET</button>
                     </div>
                 </div>
                 <div class="stopButtons">

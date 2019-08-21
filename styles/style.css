@@ -133,9 +133,8 @@ h1{
 .tweetHeader{
     font-size: 25px;
     margin: .5%;
-    padding-right: 2%;
     padding-left: 2%;
-    width: 92%;
+    width: 97%;
     height: 20%;
 }
 .tweetBody{
@@ -170,6 +169,7 @@ h1{
     background-color: #1a1e2e;
     border: 2px solid #21263b;
     border-radius: 23px;
+    position: relative;
 }
 .tweetButton:hover{
     animation-name: wub;
@@ -177,7 +177,6 @@ h1{
 }
 .stopButtons{
     display: inline-block;
-    position: relative;
     margin: 0;
     width: 25%;
     height: 100%;
@@ -191,15 +190,36 @@ h1{
 .dropdown-content{
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
     min-width: 160px;
-    height: 50px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.dropdown a:hover {background-color: #ddd;}
 .show {display: block;}
+.downArr{
+    padding: 7px;
+    opacity: .8;
+    float: right;
+    width: 1.8vw;
+    height: 1.8vw;
+    margin: 3px;
+}
+.downArr:hover{
+    background-color: #1a1e2e;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.arrImg{
+    width: 100%;
+    height: 100%;
+}
+.headerTitle{
+    float: left;
+}
+.tweetLink{
+    color: rgb(44, 44, 184);
+    text-decoration: none;
+}
 
 
 

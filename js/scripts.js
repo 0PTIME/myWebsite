@@ -1,11 +1,15 @@
 window.onclick = function(event) {
-    if (!event.target.matches('.stopButtons')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
+    var classes = event.toElement.classList;
+    console.log(classes);
+    if (!event.toElement.classList.contains('tweetButton')) {
+        if(!event.toElement.classList.contains('temp')){
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
             }
         }
     }
@@ -75,13 +79,11 @@ function like(tweetId){
 }
 function retweet(tweetId, retweetContent){
     var xhttp = new XMLHttpRequest();
+    
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
            document.getElementById("retwt"+tweetId).innerHTML = xhttp.responseText;
         }
-    }
-    if(retweetContent == null){
-        retweetContent = "";
     }
     xhttp.open("POST", "yap.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -98,4 +100,68 @@ function retweetLogic(tweetId){
 }
 function showDropdown(id) {
     document.getElementById(id).classList.toggle("show");
-  }
+}
+function tagsAts(id, mentions, tags){
+    if(mentions.search('.') != -1){
+        var arrMentions = mentions.split('.');
+        var menLen = arrMentions.length;
+        for(var i = 0; i < menLen; i++){
+            var doc = document.getElementById(id).innerHTML;
+            var rep = doc.replace("@"+arrMentions[i], "<a href=\"search?keyword="+arrMentions[i]+"\" class=\"tweetLink\">@"+arrMentions[i]+"</a>");
+            document.getElementById(id).innerHTML = rep;
+        }
+        
+    }
+    if(tags.search('.') != -1){
+        var arrTags = tags.split('.');
+        var tagLen = arrTags.length;
+        for(var j = 0; j < tagLen; j++){
+            var doc = document.getElementById(id).innerHTML;
+            var rep = doc.replace("#"+arrTags[j], "<a href=\"search?keyword=%23"+arrTags[j]+"\" class=\"tweetLink\">#"+arrTags[j]+"</a>");
+            document.getElementById(id).innerHTML = rep;
+        }
+        
+
+    }
+
+
+
+
+
+
+
+
+
+
+    // console.log("tweet");
+    // if(content.search(" ") == -1){
+
+    // }
+    // else{
+    //     console.log("has words");
+    //     var arrayWords = content.split(" ");
+    //     var len = arrayWords.length;
+    //     var arrayReplace = [];
+    //     var word;
+    //     var char;
+    //     if(len > 0){
+    //         for(var i = 0; i < len; i++){
+    //             word = arrayWords[i].trim();
+    //             char = word.split();
+    //             if(char[0] == '#' || char[0] == '@'){
+    //                 console.log("tag or at:"+char.join(""));
+    //                 word = char.shift().join("");
+    //                 console.log(word);
+    //                 arrayReplace[arrayReplace.length] = word;
+    //             }
+    //         }
+    //     }
+    //     len = arrayReplace.length;
+    //     if(len > 0){
+    //         for(var j = 0; j < len; j++){
+    //             content = content.replace(arrayReplace[j], "<a href=\"search?keyword="+arrayReplace[j]+"\" class=\"tweetLink\">")
+    //         }
+    //     }
+    // }
+    // document.getElementById(id).innerHTML.replace(oldContent, content);
+}

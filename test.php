@@ -10,4 +10,10 @@ session_start();
 // echo $response;
 
 
+$response = getAts("testing @kappa
+
+still testing @enoch @testing
+wow");
+echo $response;
+
 ?>

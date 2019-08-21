@@ -31,6 +31,7 @@ function getTags($tweet){
     $tags = array();
     if(strpos($tweet, '#') === false) { return ""; exit(); } // does a quick check to see if # is a part of the tweet
     else{
+        $tweet = remNewlines($tweet);
         $words = explode(' ', $tweet); // turns the tweet into an array of words
         if(count($words) > 1){
             foreach($words as $word){ // loops through all the words in the tweet
@@ -64,6 +65,7 @@ function getAts($tweet){
     $tags = array();
     if(strpos($tweet, '@') === false) { return ""; } // does a quick check to see if @ is a part of the tweet
     else{
+        $tweet = remNewlines($tweet);
         $words = explode(' ', $tweet); // turns the tweet into an array of words
         if(count($words) > 1){
             foreach($words as $word){ // loops through all the words in the tweet
@@ -669,6 +671,10 @@ function getRetweets($user){
         else { return false; } // returns if the user doesn't exist
     }
     else { return false; } // returns if the user doesn't exist
+}
+function remNewlines($string){
+    $string = trim(preg_replace('/\s+/', ' ', $string));
+    return $string;
 }
 
 

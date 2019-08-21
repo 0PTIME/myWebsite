@@ -89,6 +89,7 @@ if(isset($_GET['keyword'])){
         if(mysqli_num_rows($result) == 1)
         {
             $searchisuser = true;
+            $searchistag = false;
             $data = mysqli_fetch_assoc($result);
             $searchedUser = $data['title'];
             $searchedDescription = $data['description'];
