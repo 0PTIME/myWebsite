@@ -438,6 +438,7 @@ function getTweet($tweetId){
         $myArray['likes'] = $data['likes'];
         $myArray['tweetId'] = $data['uniqueid'];
         $myArray['numRetweets'] = $data['numretweets'];
+        if($data['title'] == $_SESSION['username']){ $myArray['owner'] = true; } else { $myArray['owner'] = false;}
         return $myArray;
     }
     else{ return null; }
@@ -604,8 +605,9 @@ function makeRetweet($tweetId, $content){
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
+    $tweetContent = mysqli_real_escape_string($mysqli, $content);
     // creates a mysql query that is used to insert a new row with the information created when the user submits the tweet
-    $sql = "INSERT INTO retweets (ID, tweetID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweetId . "', '" . $content . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
+    $sql = "INSERT INTO retweets (ID, tweetID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $tweetId . "', '" . $tweetContent . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
     mysqli_query($mysqli, $sql); // executes the query
     mysqli_close($mysqli);
     if($ats != ""){ // if the get tweets function didn't return a string without any values in it calls the notifyMentions function and passes the tweet id

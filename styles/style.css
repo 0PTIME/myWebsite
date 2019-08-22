@@ -190,18 +190,18 @@ h1{
 .dropdown-content{
     display: none;
     position: absolute;
-    min-width: 160px;
     overflow: auto;
     box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    width: 150px;
+    border-radius: 10px;
 }
 .show {display: block;}
 .downArr{
     padding: 7px;
-    opacity: .8;
     float: right;
-    width: 1.8vw;
-    height: 1.8vw;
+    width: 20px;
+    height: 20px;
     margin: 3px;
 }
 .downArr:hover{
@@ -212,6 +212,7 @@ h1{
 .arrImg{
     width: 100%;
     height: 100%;
+    opacity: .6;
 }
 .headerTitle{
     float: left;
@@ -219,6 +220,19 @@ h1{
 .tweetLink{
     color: rgb(44, 44, 184);
     text-decoration: none;
+}
+.retweetButton{
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    width: 150px;
+    height: 40px;
+    background-color: #1a1e2e;
+}
+.retweetButton:hover{
+    background-color: #21263b;
+    cursor: pointer;
 }
 
 

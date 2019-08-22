@@ -46,9 +46,21 @@
                 </div>
                 <div class="downArr">
                     <img onclick="showDropdown('arr[blk1.identifier]')" src="media/downarr.png" class="arrImg temp">
-                    <div id="arr[blk1.identifier]" class="dropdown-content" class="show">
-                        <p>hello</p>
-                        <button class="tweetButton">testing</button>
+                    <div id="arr[blk1.identifier]" class="dropdown-content">
+                        [blk1;block=begin; when [blk1.owner] == 1]
+                        <button class="retweetButton">Delete</button>
+                        <button class="retweetButton">Pin to your profile</button>
+                        <button class="retweetButton">Embed Tweet</button>
+                        <button class="retweetButton">View Tweet activity</button>
+                        [blk1;block=end]
+                        [blk1;block=begin when [blk1.owner] != 1]
+                        <button class="retweetButton">Show less often</button>
+                        <button class="retweetButton">Embed Tweet</button>
+                        <button class="retweetButton">Follow @[blk1.title]</button>
+                        <button class="retweetButton">Mute @[blk1.title]</button>
+                        <button class="retweetButton">Block @[blk1.title]</button>
+                        <button class="retweetButton">Report Tweet</button>
+                        [blk1;block=end]
                     </div>
                 </div>
             </div>
@@ -65,8 +77,8 @@
                 <div class="stopButtons">
                     <button onclick="showDropdown('[blk1.identifier]')" class="tweetButton"><span class="temp" id="retwt[blk1.identifier]">RETWEET [blk1.numRetweets]</span></button>
                     <div id="[blk1.identifier]" class="dropdown-content" class="show">
-                        <button onclick="retweet('[blk1.identifier]', '')">RETWEET WITHOUT TWEET</button>
-                        <button onclick="retweetLogic('[blk1.identifier]')">RETWEET WITH TWEET</button>
+                        <button onclick="retweet('[blk1.identifier]', '')" class="retweetButton">RETWEET WITHOUT TWEET</button>
+                        <button onclick="retweetLogic('[blk1.identifier]')" class="retweetButton">RETWEET WITH TWEET</button>
                     </div>
                 </div>
                 <div class="stopButtons">
