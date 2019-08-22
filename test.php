@@ -10,10 +10,13 @@ session_start();
 // echo $response;
 
 
-$response = getAts("testing @kappa
+// $response = getAts("testing @kappa
 
-still testing @enoch @testing
-wow");
-echo $response;
+// still testing @enoch @testing
+// wow");
+// echo $response;
+
+
+$response = delTweet("tweet5d4b2b73d51aa5.88215472");
 
 ?>

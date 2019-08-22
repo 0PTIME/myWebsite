@@ -46,7 +46,7 @@ if(isset($_POST['tweetId'])){
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
-        $tweet = mysql_real_escape_string($mysqli, $_POST['reply']);
+        $tweet = mysql_real_escape_string($mysqli, $tweet);
         // creates a mysql query that is used to insert a new row with the information created when the user submits the tweet
         $sql = "INSERT INTO replies (ID, tweetID, sourceID, content, tags, ats, likes, uniqueid) VALUES ('" . $usr . "', '" . $sourceTweet . "', '" . $tweetId . "', '" . $tweet . "', '" . $tags . "', '" . $ats . "', '" . $likes . "', '" . $identifier . "');";
         mysqli_query($mysqli, $sql); // executes the query
@@ -61,6 +61,19 @@ if(isset($_POST['tweetId'])){
         $tweet = $_POST['retweet'];
         $response = retweetTweet($tweetId, $tweet);
         echo "RETWEET " . $response;
+        exit();
+    }
+    if(isset($_POST['delTweet'])){
+        $tweetId = $_POST['tweetId'];
+        $tweet = getTweet($tweetId);
+        if($tweet['title'] == $_SESSION['username']){
+            $response = delTweet($tweetId);
+            if($response == true){
+                echo "<p class=\"delTweet\">This content is no longer available</p>";
+            }
+            else { echo "wow"; }
+        }
+        else{ echo "wow"; }
         exit();
     }
 }

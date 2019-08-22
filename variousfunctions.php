@@ -425,11 +425,12 @@ function getTweet($tweetId){
     if (!$sqlConnection) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $queryTweets = "SELECT ID, content, tags, ats, time, likes, numretweets, uniqueid FROM tweets WHERE uniqueid IN ('" . $tweetId . "')";
+    $queryTweets = "SELECT ID, content, tags, ats, time, likes, numretweets, uniqueid, del FROM tweets WHERE uniqueid IN ('" . $tweetId . "')";
     $result = mysqli_query($sqlConnection, $queryTweets);
     mysqli_close($sqlConnection);
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
+        $myArray['tweetDel'] = $data['del'];
         $myArray['title'] = $data['ID'];
         $myArray['content'] = $data['content'];
         $myArray['tags'] = $data['tags'];
@@ -438,6 +439,7 @@ function getTweet($tweetId){
         $myArray['likes'] = $data['likes'];
         $myArray['tweetId'] = $data['uniqueid'];
         $myArray['numRetweets'] = $data['numretweets'];
+        if($data['del'] == true){ $myArray['content'] = "<p class=\"delTweet\">This content is no longer available</p>"; }
         if($data['title'] == $_SESSION['username']){ $myArray['owner'] = true; } else { $myArray['owner'] = false;}
         return $myArray;
     }
@@ -677,6 +679,31 @@ function getRetweets($user){
 function remNewlines($string){
     $string = trim(preg_replace('/\s+/', ' ', $string));
     return $string;
+}
+function delTweet($id){
+    if(isset($id)){
+        $mysqli = mysqli_connect("localhost", "tweets", "tweets", "YAPPER"); // DB connection
+        if (!$mysqli) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        $sql = "SELECT uniqueid, del FROM tweets WHERE uniqueid='" . $id . "'";
+        $results = mysqli_query($mysqli, $sql); // executes the query
+        if(mysqli_num_rows($results) == 1){
+            $data = mysqli_fetch_assoc($results);
+            $sqlUpdate = "";
+            if($data['del'] == false){
+                $sqlUpdate = "UPDATE tweets SET del=true WHERE uniqueid='" . $id . "'";
+                mysqli_query($mysqli, $sqlUpdate);
+                return true;
+            }
+            if($data['del'] == true){
+                $sqlUpdate = "UPDATE tweets SET del=false WHERE uniqueid='" . $id . "'";
+                mysqli_query($mysqli, $sqlUpdate);
+                return false;
+            }
+        }
+        mysqli_close($mysqli);
+    }
 }
 
 

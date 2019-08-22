@@ -48,7 +48,7 @@
                     <img onclick="showDropdown('arr[blk1.identifier]')" src="media/downarr.png" class="arrImg temp">
                     <div id="arr[blk1.identifier]" class="dropdown-content">
                         [blk1;block=begin; when [blk1.owner] == 1]
-                        <button class="retweetButton">Delete</button>
+                        <button class="retweetButton" onclick="delTweet('[blk1.identifier]'); tagsAts('content[blk1.identifier;]', '[blk1.mentions;]', '[blk1.tags]');">Delete</button>
                         <button class="retweetButton">Pin to your profile</button>
                         <button class="retweetButton">Embed Tweet</button>
                         <button class="retweetButton">View Tweet activity</button>
@@ -67,8 +67,6 @@
             <div class="tweetBody" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
                 <p id="content[blk1.identifier;]">[blk1.content;]</p>
                 <script>tagsAts('content[blk1.identifier;]', '[blk1.mentions;]', '[blk1.tags]');</script>
-                 
-
             </div>
             <div class="tweetFooter">
                 <div class="stopButtons">

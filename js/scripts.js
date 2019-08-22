@@ -103,14 +103,14 @@ function showDropdown(id) {
 }
 function tagsAts(id, mentions, tags){
     if(mentions.search('.') != -1){
+        console.log("hello");
         var arrMentions = mentions.split('.');
         var menLen = arrMentions.length;
         for(var i = 0; i < menLen; i++){
             var doc = document.getElementById(id).innerHTML;
             var rep = doc.replace("@"+arrMentions[i], "<a href=\"search?keyword="+arrMentions[i]+"\" class=\"tweetLink\">@"+arrMentions[i]+"</a>");
             document.getElementById(id).innerHTML = rep;
-        }
-        
+        }        
     }
     if(tags.search('.') != -1){
         var arrTags = tags.split('.');
@@ -119,49 +119,23 @@ function tagsAts(id, mentions, tags){
             var doc = document.getElementById(id).innerHTML;
             var rep = doc.replace("#"+arrTags[j], "<a href=\"search?keyword=%23"+arrTags[j]+"\" class=\"tweetLink\">#"+arrTags[j]+"</a>");
             document.getElementById(id).innerHTML = rep;
-        }
-        
-
+        }        
     }
-
-
-
-
-
-
-
-
-
-
-    // console.log("tweet");
-    // if(content.search(" ") == -1){
-
-    // }
-    // else{
-    //     console.log("has words");
-    //     var arrayWords = content.split(" ");
-    //     var len = arrayWords.length;
-    //     var arrayReplace = [];
-    //     var word;
-    //     var char;
-    //     if(len > 0){
-    //         for(var i = 0; i < len; i++){
-    //             word = arrayWords[i].trim();
-    //             char = word.split();
-    //             if(char[0] == '#' || char[0] == '@'){
-    //                 console.log("tag or at:"+char.join(""));
-    //                 word = char.shift().join("");
-    //                 console.log(word);
-    //                 arrayReplace[arrayReplace.length] = word;
-    //             }
-    //         }
-    //     }
-    //     len = arrayReplace.length;
-    //     if(len > 0){
-    //         for(var j = 0; j < len; j++){
-    //             content = content.replace(arrayReplace[j], "<a href=\"search?keyword="+arrayReplace[j]+"\" class=\"tweetLink\">")
-    //         }
-    //     }
-    // }
-    // document.getElementById(id).innerHTML.replace(oldContent, content);
+}
+function delTweet(id){
+    var xhttp = new XMLHttpRequest();    
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            if(response == "wow"){
+                location.reload(true);
+            }
+            else{
+                document.getElementById("content"+id).innerHTML = response;
+            }
+        }
+    }
+    xhttp.open("POST", "yap.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("tweetId="+id+"&delTweet=true");
 }
