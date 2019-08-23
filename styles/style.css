@@ -126,6 +126,7 @@ h1{
     background-color: #1a1e2e;
 }
 .makeYap{
+    padding-top: 50px;
     border-right: 1px solid rgba(169, 180, 184, 0.2);
     border-left: 1px solid rgba(169, 180, 184, 0.2);
     border-bottom: 6px solid rgba(169, 180, 184, 0.2);
@@ -183,6 +184,10 @@ h1{
 }
 .header{
     padding: 5px; 
+    position: relative;
+    width: 588px;
+    height: 40px;
+    background-color: #1a1e2e;
     border-bottom: 1px solid rgba(169, 180, 184, 0.2);
     border-right: 1px solid rgba(169, 180, 184, 0.2);
     border-left: 1px solid rgba(169, 180, 184, 0.2);
@@ -191,7 +196,7 @@ h1{
     display: none;
     position: absolute;
     overflow: auto;
-    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 5px 8px 0px rgba(187, 184, 184, 0.4);
     z-index: 1;
     width: 150px;
     border-radius: 10px;
@@ -238,6 +243,22 @@ h1{
     font-size: 13px;
     opacity: .7;
     color: gray;
+}
+.userProfile{
+    width: 598px;
+    height: 410px;
+    border-bottom: 1px solid rgba(169, 180, 184, 0.2);
+    border-right: 1px solid rgba(169, 180, 184, 0.2);
+    border-left: 1px solid rgba(169, 180, 184, 0.2);
+}
+.headerPic{
+    width: 598px;
+    height: 200px;
+    background-color: rgb(55, 73, 94);
+}
+.profileContent{
+    width: 598px;
+    height: 200px;
 }
 
 

@@ -27,10 +27,11 @@ else{
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $sqlquery = "SELECT title, date_added, description, follows, numfollowers, notifications FROM users WHERE title='" . $username . "'";
+    $sqlquery = "SELECT id, title, date_added, description, follows, numfollowers, notifications FROM users WHERE title='" . $username . "'";
     $result = mysqli_query($mysqli, $sqlquery);
     if(mysqli_num_rows($result) == 1){
         $data = mysqli_fetch_assoc($result);
+        $_SESSION['userId'] = $data['id'];
         $_SESSION['description'] = $data['description'];
         if($description == NULL){ $description = ":)"; }
         $_SESSION['followers'] = $data['numfollowers'];

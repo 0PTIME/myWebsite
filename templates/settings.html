@@ -12,7 +12,12 @@
     <script src="js/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-    <div class="feedLeft">
+
+
+
+
+    
+    <!-- <div class="feedLeft">
         <form action="logout"><button>LOGOUT</button></form>
         <form action="home"><button>HOME</button></form>
         <form action="notifications"><button>NOTIFICATIONS</button></form>
@@ -29,10 +34,8 @@
 
     </div>
     <div class="feed">
-        <div style="position: fixed;">
         <div class="header">
             <h1>HOME</h1>
-        </div>
         </div>
         <div class="makeYap">
             <form action="yap" method="POST" id="yapform">
@@ -44,13 +47,10 @@
         <div class="tweetContent">
             [blk1;block=div;]
             <div class="tweetHeader">
-                
-                    <div class="headerTitle">
-                        <a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;]</a>
-                        <p class="timestamp">[blk1.timestamp]</p>
-                    </div>
-
-                
+                <div class="headerTitle">
+                    <a id="userLink" href="search?keyword=[blk1.title;]">[blk1.title;]</a>
+                    <p class="timestamp">[blk1.timestamp]</p>
+                </div>
                 <div class="downArr">
                     <img onclick="showDropdown('arr[blk1.identifier]')" src="media/downarr.png" class="arrImg temp">
                     <div id="arr[blk1.identifier]" class="dropdown-content">
@@ -103,6 +103,6 @@
             </form>
         </div>
     </div>
-    
+     -->
 </body>
 </html>

@@ -29,8 +29,8 @@
     <div class="feed">
         [onshow;block=begin; when [var.searchon] != 1]
         <div class="searchedFor">
-            <p>'[onshow.search]'</p>
             [onshow;block=begin; when [var.searchistag] == 1]
+                <p>'[onshow.search]'</p>
                 <div class="tweetContent">
                         [blk3;block=div;]
                     <div class="tweetHeader">
@@ -56,14 +56,48 @@
                 </div>
             [onshow;block=end;]
             [onshow; block=begin; when [var.searchisuser] == 1]
-                <div class="searchedUser">
-                    <p class="info">[onshow.searchedUser]</p>
-                    <p class="info">[onshow.searchedDescription]</p>
-                    <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
-                    <p class="info">followers [onshow.searchedFollowers]</p>
-                    <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
-                    
-                </div>
+                [onshow;block=begin; when [var.itsYou] == 1]
+                    <div class="header">
+                        <h1>[onshow.searchedUser]</h1>
+                    </div>
+                    <div class="userProfile">
+                        <div class="headerPic">
+
+                        </div>
+                        <div class="profileContent">
+                            <div class="followBar">
+                                <form action="yap" method="POST">
+                                    <input type="file" class="followButton" name="imgTP" accept=".jpg, .jpeg, .png, .gif">
+                                    <input type="submit">
+                                </form>
+                            </div>
+                            <div class="pfMainContent">
+                                <div class="headerTitle">
+
+                                </div>
+                                <div class="pfDescription">
+
+                                </div>
+                                <div class="pfInfo">
+
+                                </div>
+                                <div class="followButtons">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                [onshow;block=end;]
+                [onshow;block=begin; when [var.itsYou] != 1]
+                    <div class="searchedUser">
+                        <p class="info">[onshow.searchedUser]</p>
+                        <p class="info">[onshow.searchedDescription]</p>
+                        <p class="info">Account Creation: [onshow.searchedDateAdded]</p>
+                        <p class="info">followers [onshow.searchedFollowers]</p>
+                        <form action="follow" method="GET"><input type="hidden" name="keyword" value="[onshow.searchedUser]"><input type="submit" value="follow toggle"></form>
+                        
+                    </div>
+                [onshow;block=end;]
             [onshow;block=begin; when [var.tweetsExist] == 1;]
                 <div class="tweetContent" onclick="location.href = 'tweet?id=[blk1.identifier;]'">
                         

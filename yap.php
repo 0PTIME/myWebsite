@@ -29,6 +29,13 @@ if(isset($_GET['likeTweet'])){
     echo "LIKE " . $response;
     exit();
 }
+if(isset($_POST['imgTP'])){
+    $user = getProfile($_SESSION['username']);
+    $uploadDir = '/var/www/html/localdev/mywebsite/media/userspf/' . $user['userId'] . $user['title'];
+    echo $uploadDir;
+    if(move_uploaded_file($_FILES['imgTP'], $uploadDir));
+    exit();
+}
 if(isset($_POST['tweetId'])){
     if(isset($_POST['reply'])){
         // sets variables used for storing the tweet

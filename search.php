@@ -90,12 +90,16 @@ if(isset($_GET['keyword'])){
         {
             $searchisuser = true;
             $searchistag = false;
+            $itsYou = false;
             $data = mysqli_fetch_assoc($result);
             $searchedUser = $data['title'];
             $searchedDescription = $data['description'];
             if($searchedDescription == NULL){ $searchedDescription = ":)"; }
             $searchedFollowers = $data['numfollowers'];
             $searchedDateAdded = $data['date_added'];
+            if($searchedUser == $_SESSION['username']){
+                $itsYou = true;
+            }
 
             $now = date('Y-m-d G:i:s');
             $monthago = date('Y-m-d G:i:s', strtotime("-1 months"));

@@ -327,7 +327,7 @@ function getProfile($user){
         if (!$mysqli) {
             die("Connection failed: " . mysqli_connect_error());
         }
-        $sqlquery = "SELECT title, date_added, description, follows, followers, numfollowers, likes FROM users WHERE title='" . $user . "'"; // query the user
+        $sqlquery = "SELECT id, title, date_added, description, follows, followers, numfollowers, likes FROM users WHERE title='" . $user . "'"; // query the user
         $result = mysqli_query($mysqli, $sqlquery);
         mysqli_close($mysqli);
         if(mysqli_num_rows($result) == 1){ // if the search for the user only brought back one result then return the Followers
@@ -340,7 +340,7 @@ function getProfile($user){
             $myArray['followers'] = $data['followers'];
             $myArray['numFollowers'] = $data['numfollowers'];
             $myArray['likes'] = $data['likes'];
-            
+            $myArray['userId'] = $data['id'];
         }
         else { return false; } // returns if the user doesn't exist
         return $myArray;
@@ -444,7 +444,6 @@ function getTweet($tweetId){
         return $myArray;
     }
     else{ return null; }
-
 }
 // functions that returns all the likes for a user
 function getLikes($user){
@@ -705,7 +704,55 @@ function delTweet($id){
         mysqli_close($mysqli);
     }
 }
+function image_resize($src, $dst, $width, $height, $crop=0){
 
+    if(!list($w, $h) = getimagesize($src)) return "Unsupported picture type!";
+  
+    $type = strtolower(substr(strrchr($src,"."),1));
+    if($type == 'jpeg') $type = 'jpg';
+    switch($type){
+      case 'bmp': $img = imagecreatefromwbmp($src); break;
+      case 'gif': $img = imagecreatefromgif($src); break;
+      case 'jpg': $img = imagecreatefromjpeg($src); break;
+      case 'png': $img = imagecreatefrompng($src); break;
+      default : return "Unsupported picture type!";
+    }
+  
+    // resize
+    if($crop){
+      if($w < $width or $h < $height) return "Picture is too small!";
+      $ratio = max($width/$w, $height/$h);
+      $h = $height / $ratio;
+      $x = ($w - $width / $ratio) / 2;
+      $w = $width / $ratio;
+    }
+    else{
+      if($w < $width and $h < $height) return "Picture is too small!";
+      $ratio = min($width/$w, $height/$h);
+      $width = $w * $ratio;
+      $height = $h * $ratio;
+      $x = 0;
+    }
+  
+    $new = imagecreatetruecolor($width, $height);
+  
+    // preserve transparency
+    if($type == "gif" or $type == "png"){
+      imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
+      imagealphablending($new, false);
+      imagesavealpha($new, true);
+    }
+  
+    imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
+  
+    switch($type){
+      case 'bmp': imagewbmp($new, $dst); break;
+      case 'gif': imagegif($new, $dst); break;
+      case 'jpg': imagejpeg($new, $dst); break;
+      case 'png': imagepng($new, $dst); break;
+    }
+    return true;
+  }
 
 
 

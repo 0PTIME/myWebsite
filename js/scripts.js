@@ -64,7 +64,7 @@ function fadeTarget(target){
         } else {
             clearInterval(fadeEffect);
         }
-    }, 20);
+    }, 50);
 }
 function like(tweetId){
 
@@ -103,7 +103,6 @@ function showDropdown(id) {
 }
 function tagsAts(id, mentions, tags){
     if(mentions.search('.') != -1){
-        console.log("hello");
         var arrMentions = mentions.split('.');
         var menLen = arrMentions.length;
         for(var i = 0; i < menLen; i++){
